@@ -55,6 +55,9 @@
             <HintPath>$(VALHEIM_INSTALL)\BepInEx\plugins\Jotunn\Jotunn.dll</HintPath>
             <HintPath>$(R2MODMAN_INSTALL)\BepInEx\plugins\ValheimModding-Jotunn\Jotunn.dll</HintPath>
         </Reference>
+        <Reference Include="MultiUserChest, Culture=neutral, PublicKeyToken=null">
+            <HintPath>$(R2MODMAN_INSTALL)\BepInEx\plugins\MultiUserChest\MultiUserChest.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>$(VALHEIM_INSTALL)\unstripped_corlib\UnityEngine.dll</HintPath>
         </Reference>
@@ -101,6 +104,7 @@
     <ItemGroup>
         <Content Include=".gitignore" />
         <Content Include="Patches\.gitkeep" />
+        <EmbeddedResource Include="ValheimHopper_AssetBundle" />
         <EmbeddedResource Include="Localization\English.json" />
     </ItemGroup>
     <ItemGroup>

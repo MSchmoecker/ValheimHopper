@@ -34,6 +34,16 @@ namespace ValheimHopper {
             string englishJson = AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly());
             localization.AddJsonFile("English", englishJson);
             LocalizationManager.Instance.AddLocalization(localization);
+
+            GameObject hopper = AssetBundle.LoadAsset<GameObject>("Hopper");
+            CustomPiece hopperPiece = new CustomPiece(hopper, true, new PieceConfig {
+                Icon = RenderManager.Instance.Render(hopper, RenderManager.IsometricRotation),
+                Requirements = new[] {
+                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true }
+                },
+                PieceTable = "Hammer"
+            });
+            PieceManager.Instance.AddPiece(hopperPiece);
         }
     }
 }
