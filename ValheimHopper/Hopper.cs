@@ -33,8 +33,13 @@ namespace ValheimHopper {
                 Container from = chestsFrom[0];
 
                 IterateInventory(from.GetInventory(), firstItem => {
-                    Vector2i gridPos = firstItem.m_gridPos;
-                    ContainerHandler.RemoveItemFromChest(from, selfContainer, gridPos, new Vector2i(-1, -1));
+                    if (selfContainer.GetInventory().CanAddItem(firstItem, 1)) {
+                        Vector2i gridPos = firstItem.m_gridPos;
+                        from.RemoveItemFromChest(selfContainer, gridPos, new Vector2i(-1, -1));
+                        return true;
+                    }
+
+                    return false;
                 });
             }
 
@@ -42,15 +47,15 @@ namespace ValheimHopper {
                 Container to = chestsTo[0];
 
                 IterateInventory(selfContainer.GetInventory(), firstItem => {
-                    Vector2i gridPos = firstItem.m_gridPos;
-                    ContainerHandler.AddItemToChest(to, selfContainer, gridPos, new Vector2i(-1, -1));
+                    if (to.GetInventory().CanAddItem(firstItem, 1)) {
+                        Vector2i gridPos = firstItem.m_gridPos;
+                        to.AddItemToChest(selfContainer, gridPos, new Vector2i(-1, -1));
+                        return true;
+                    }
+
+                    return false;
                 });
             }
-
-            //ContainerHandler.AddItemToChest(to, from.GetInventory(), from.m_nview.GetZDO().m_uid, new Vector2i(x, y), new Vector2i(-1, -1), 1, false);
-            // if (item == null || !to.CanAddItem(item, 1)) {
-            //     continue;
-            // }
         }
 
         private List<Container> FindContainer(Vector3 relativePos, bool allowHopper) {
@@ -74,7 +79,7 @@ namespace ValheimHopper {
             return chests;
         }
 
-        private static void IterateInventory(Inventory target, Action<ItemDrop.ItemData> firstItem) {
+        private static void IterateInventory(Inventory target, Func<ItemDrop.ItemData, bool> firstItem) {
             for (int y = 0; y < target.m_height; y++) {
                 for (int x = 0; x < target.m_width; x++) {
                     ItemDrop.ItemData item = target.GetItemAt(x, y);
@@ -83,8 +88,11 @@ namespace ValheimHopper {
                         continue;
                     }
 
-                    firstItem(item);
-                    return;
+                    bool used = firstItem(item);
+
+                    if (used) {
+                        return;
+                    }
                 }
             }
         }
