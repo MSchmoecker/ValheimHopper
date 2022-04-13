@@ -26,8 +26,8 @@ namespace ValheimHopper {
                 return;
             }
 
-            List<Container> chestsFrom = FindContainer(new Vector3(0, 0.25f * 1.5f, 0));
-            List<Container> chestsTo = FindContainer(new Vector3(0, -0.25f * 1.5f, 0));
+            List<Container> chestsFrom = FindContainer(new Vector3(0, 0.25f * 1.5f, 0), true);
+            List<Container> chestsTo = FindContainer(new Vector3(0, -0.25f * 1.5f, 0), false);
 
             if (chestsFrom.Count > 0) {
                 Container from = chestsFrom[0];
@@ -53,16 +53,22 @@ namespace ValheimHopper {
             // }
         }
 
-        private List<Container> FindContainer(Vector3 relativePos) {
+        private List<Container> FindContainer(Vector3 relativePos, bool allowHopper) {
             int count = Physics.OverlapBoxNonAlloc(transform.position + relativePos, Vector3.one / 2f, tmpColliders);
             List<Container> chests = new List<Container>();
 
             for (int i = 0; i < count; i++) {
                 Container container = tmpColliders[i].gameObject.GetComponentInParent<Container>();
 
-                if (container && container.gameObject != gameObject) {
-                    chests.Add(container);
+                if (!container || container.gameObject == gameObject) {
+                    continue;
                 }
+
+                if (!allowHopper && container.GetComponent<Hopper>()) {
+                    continue;
+                }
+
+                chests.Add(container);
             }
 
             return chests;
