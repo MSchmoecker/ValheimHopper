@@ -10,6 +10,7 @@ namespace ValheimHopper {
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
         private static int pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
+        private static int itemMask = LayerMask.GetMask("item");
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
@@ -27,22 +28,17 @@ namespace ValheimHopper {
                 return;
             }
 
-            List<Container> chestsFrom = FindContainer(new Vector3(0, 0.25f * 1.5f, 0), true);
-            List<Container> chestsTo = FindContainer(new Vector3(0, -0.25f * 1.5f, 0), false);
+            bool drained = DrainItemsFromChests();
 
-            if (chestsFrom.Count > 0) {
-                Container from = chestsFrom[0];
-
-                IterateInventory(from.GetInventory(), firstItem => {
-                    if (selfContainer.GetInventory().CanAddItem(firstItem, 1)) {
-                        Vector2i gridPos = firstItem.m_gridPos;
-                        from.RemoveItemFromChest(selfContainer, gridPos, new Vector2i(-1, -1));
-                        return true;
-                    }
-
-                    return false;
-                });
+            if (!drained) {
+                PickupItems();
             }
+
+            PushItemsIntoChests();
+        }
+
+        private void PushItemsIntoChests() {
+            List<Container> chestsTo = FindContainer(new Vector3(0, -0.25f * 1.5f, 0), false);
 
             if (chestsTo.Count > 0) {
                 Container to = chestsTo[0];
@@ -57,6 +53,82 @@ namespace ValheimHopper {
                     return false;
                 });
             }
+        }
+
+        private bool DrainItemsFromChests() {
+            List<Container> chestsFrom = FindContainer(new Vector3(0, 0.25f * 1.5f, 0), true);
+
+            if (chestsFrom.Count == 0) {
+                return false;
+            }
+
+            Container from = chestsFrom[0];
+            bool movedItem = false;
+
+            IterateInventory(from.GetInventory(), firstItem => {
+                if (selfContainer.GetInventory().CanAddItem(firstItem, 1)) {
+                    Vector2i gridPos = firstItem.m_gridPos;
+                    from.RemoveItemFromChest(selfContainer, gridPos, new Vector2i(-1, -1));
+                    movedItem = true;
+                    return true;
+                }
+
+                return false;
+            });
+
+            return movedItem;
+        }
+
+        private List<ItemDrop> FindItemDrops(Vector3 relativePos) {
+            Vector3 center = transform.position + relativePos;
+            int count = Physics.OverlapBoxNonAlloc(center, Vector3.one / 2f, tmpColliders, Quaternion.identity, itemMask);
+
+            List<ItemDrop> items = new List<ItemDrop>();
+
+            for (int i = 0; i < count; i++) {
+                ItemDrop item = tmpColliders[i].gameObject.GetComponentInParent<ItemDrop>();
+
+                if (item) {
+                    items.Add(item);
+                }
+            }
+
+            return items;
+        }
+
+        private bool PickupItems() {
+            List<ItemDrop> items = FindItemDrops(new Vector3(0, 0.25f * 1.5f, 0));
+
+            foreach (ItemDrop item in items) {
+                if (!item.m_nview || !item.m_nview.IsValid()) {
+                    continue;
+                }
+
+                if (selfContainer.GetInventory().CanAddItem(item.m_itemData, 1)) {
+                    if (!item.m_nview.IsOwner()) {
+                        item.RequestOwn();
+                        continue;
+                    }
+
+                    bool pickuped = PickupItem(item);
+
+                    if (pickuped) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool PickupItem(ItemDrop item) {
+            if (selfContainer.GetInventory().CanAddItem(item.m_itemData.m_dropPrefab, 1)) {
+                selfContainer.GetInventory().AddItem(item.m_itemData.m_dropPrefab, 1);
+                item.RemoveOne();
+                return true;
+            }
+
+            return false;
         }
 
         private List<Container> FindContainer(Vector3 relativePos, bool allowHopper) {
