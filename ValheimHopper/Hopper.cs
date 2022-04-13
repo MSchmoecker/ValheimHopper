@@ -9,6 +9,7 @@ namespace ValheimHopper {
         private ZNetView zNetView;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
+        private static int pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
@@ -59,7 +60,8 @@ namespace ValheimHopper {
         }
 
         private List<Container> FindContainer(Vector3 relativePos, bool allowHopper) {
-            int count = Physics.OverlapBoxNonAlloc(transform.position + relativePos, Vector3.one / 2f, tmpColliders);
+            Vector3 center = transform.position + relativePos;
+            int count = Physics.OverlapBoxNonAlloc(center, Vector3.one / 2f, tmpColliders, Quaternion.identity, pieceMask);
             List<Container> chests = new List<Container>();
 
             for (int i = 0; i < count; i++) {
