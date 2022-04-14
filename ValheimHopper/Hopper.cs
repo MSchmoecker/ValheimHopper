@@ -34,16 +34,14 @@ namespace ValheimHopper {
                 PickupItems();
             }
 
-            PushItemsIntoChests();
+            bool pushed = PushItemsIntoChests();
         }
 
-        private void PushItemsIntoChests() {
+        private bool PushItemsIntoChests() {
             List<Container> chestsTo = FindContainer(new Vector3(0, -0.25f * 1.5f, 0), false);
 
-            if (chestsTo.Count > 0) {
-                Container to = chestsTo[0];
-
-                IterateInventory(selfContainer.GetInventory(), firstItem => {
+            foreach (Container to in chestsTo) {
+                bool pushed = IterateInventory(selfContainer.GetInventory(), firstItem => {
                     if (to.GetInventory().CanAddItem(firstItem, 1)) {
                         Vector2i gridPos = firstItem.m_gridPos;
                         to.AddItemToChest(selfContainer, gridPos, new Vector2i(-1, -1));
@@ -52,31 +50,35 @@ namespace ValheimHopper {
 
                     return false;
                 });
+
+                if (pushed) {
+                    return true;
+                }
             }
+
+            return false;
         }
 
         private bool DrainItemsFromChests() {
             List<Container> chestsFrom = FindContainer(new Vector3(0, 0.25f * 1.5f, 0), true);
 
-            if (chestsFrom.Count == 0) {
-                return false;
-            }
+            foreach (Container from in chestsFrom) {
+                bool movedItem = IterateInventory(from.GetInventory(), firstItem => {
+                    if (selfContainer.GetInventory().CanAddItem(firstItem, 1)) {
+                        Vector2i gridPos = firstItem.m_gridPos;
+                        from.RemoveItemFromChest(selfContainer, gridPos, new Vector2i(-1, -1));
+                        return true;
+                    }
 
-            Container from = chestsFrom[0];
-            bool movedItem = false;
+                    return false;
+                });
 
-            IterateInventory(from.GetInventory(), firstItem => {
-                if (selfContainer.GetInventory().CanAddItem(firstItem, 1)) {
-                    Vector2i gridPos = firstItem.m_gridPos;
-                    from.RemoveItemFromChest(selfContainer, gridPos, new Vector2i(-1, -1));
-                    movedItem = true;
+                if (movedItem) {
                     return true;
                 }
+            }
 
-                return false;
-            });
-
-            return movedItem;
+            return false;
         }
 
         private List<ItemDrop> FindItemDrops(Vector3 relativePos) {
@@ -153,7 +155,7 @@ namespace ValheimHopper {
             return chests;
         }
 
-        private static void IterateInventory(Inventory target, Func<ItemDrop.ItemData, bool> firstItem) {
+        private static bool IterateInventory(Inventory target, Func<ItemDrop.ItemData, bool> firstItem) {
             for (int y = 0; y < target.m_height; y++) {
                 for (int x = 0; x < target.m_width; x++) {
                     ItemDrop.ItemData item = target.GetItemAt(x, y);
@@ -165,10 +167,12 @@ namespace ValheimHopper {
                     bool used = firstItem(item);
 
                     if (used) {
-                        return;
+                        return true;
                     }
                 }
             }
+
+            return false;
         }
     }
 }
