@@ -12,6 +12,9 @@ namespace ValheimHopper {
         private static int pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
         private static int itemMask = LayerMask.GetMask("item");
 
+        private readonly Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
+        private readonly Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
+
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
             selfContainer = GetComponent<Container>();
@@ -42,7 +45,7 @@ namespace ValheimHopper {
         }
 
         private bool PushItemsIntoChests() {
-            List<Container> chestsTo = FindContainer(new Vector3(0, -0.25f * 1.5f, 0), false);
+            List<Container> chestsTo = FindContainer(outPos, false);
 
             foreach (Container to in chestsTo) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.GetInventory().CanAddItem(i, 1));
@@ -57,7 +60,7 @@ namespace ValheimHopper {
         }
 
         private bool DrainItemsFromChests() {
-            List<Container> chestsFrom = FindContainer(new Vector3(0, 0.25f * 1.5f, 0), true);
+            List<Container> chestsFrom = FindContainer(inPos, true);
 
             foreach (Container from in chestsFrom) {
                 ItemDrop.ItemData item = from.GetInventory().FindFirstItem(i => selfContainer.GetInventory().CanAddItem(i, 1));
@@ -72,14 +75,22 @@ namespace ValheimHopper {
         }
 
         private void PushItemsIntoSmelter() {
-            List<Smelter> smelters = FindSmelters(new Vector3(0, -0.25f * 1.5f, 0));
+            List<Smelter> smelters = FindSmelters(outPos);
 
             foreach (Smelter smelter in smelters) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
                     bool isAllowedOre = smelter.IsItemAllowed(i) && smelter.GetQueueSize() < smelter.m_maxOre;
-                    bool isFuelItem = smelter.m_fuelItem.m_itemData.m_shared.m_name == i.m_shared.m_name;
+                    bool isFuelItem = smelter.m_fuelItem != null && smelter.m_fuelItem.m_itemData.m_shared.m_name == i.m_shared.m_name;
                     bool isAllowedFuel = isFuelItem && smelter.GetFuel() < smelter.m_maxFuel - 1;
-                    return isAllowedOre || isAllowedFuel;
+
+                    Vector3 pos = transform.position + outPos;
+                    Switch oreSwitch = smelter.m_addOreSwitch;
+                    Switch fuelSwitch = smelter.m_addWoodSwitch;
+
+                    bool oreRange = oreSwitch == null || Vector3.Distance(oreSwitch.transform.position, pos) <= 1f;
+                    bool fuelRange = fuelSwitch == null || Vector3.Distance(fuelSwitch.transform.position, pos) <= 1f;
+
+                    return isAllowedOre && oreRange || isAllowedFuel && fuelRange;
                 });
 
                 if (item != null) {
@@ -97,7 +108,7 @@ namespace ValheimHopper {
         }
 
         private bool PickupItems() {
-            List<ItemDrop> items = FindItemDrops(new Vector3(0, 0.25f * 1.5f, 0));
+            List<ItemDrop> items = FindItemDrops(inPos);
 
             foreach (ItemDrop item in items) {
                 if (!item.m_nview || !item.m_nview.IsValid()) {
