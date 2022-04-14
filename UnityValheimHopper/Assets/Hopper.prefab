@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7454796899447436524}
   - component: {fileID: 2054012720020996933}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: From
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 1918240782294749267}
   - component: {fileID: 5885559171445341203}
   - component: {fileID: 5465079954981979746}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 3179475347997722852}
   - component: {fileID: 7716922225333180062}
   - component: {fileID: 7845860950219878820}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hopper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7550857685913209144}
   - component: {fileID: 1592573147124369405}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: To
   m_TagString: Untagged
   m_Icon: {fileID: 0}
