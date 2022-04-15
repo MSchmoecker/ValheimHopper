@@ -35,6 +35,12 @@ namespace ValheimHopper {
             localization.AddJsonFile("English", englishJson);
             LocalizationManager.Instance.AddLocalization(localization);
 
+            PrefabManager.OnVanillaPrefabsAvailable += OnVanillaPrefabsAvailable;
+        }
+
+        private void OnVanillaPrefabsAvailable() {
+            PrefabManager.OnVanillaPrefabsAvailable -= OnVanillaPrefabsAvailable;
+
             GameObject hopper = AssetBundle.LoadAsset<GameObject>("Hopper");
             CustomPiece hopperPiece = new CustomPiece(hopper, true, new PieceConfig {
                 Icon = RenderManager.Instance.Render(hopper, RenderManager.IsometricRotation),
@@ -44,6 +50,11 @@ namespace ValheimHopper {
                 PieceTable = "Hammer"
             });
             PieceManager.Instance.AddPiece(hopperPiece);
+
+            SnappointHelper.AddSnappoints("smelter", new[] {
+                new Vector3(-0.05f, 2f, -1.25f),
+                new Vector3(-0.05f, 2f, 1.2f),
+            });
         }
     }
 }
