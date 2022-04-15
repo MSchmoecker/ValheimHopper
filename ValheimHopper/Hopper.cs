@@ -9,8 +9,8 @@ namespace ValheimHopper {
         private ZNetView zNetView;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
-        private static int pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
-        private static int itemMask = LayerMask.GetMask("item");
+        private static int pieceMask;
+        private static int itemMask;
 
         private readonly Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
         private readonly Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
@@ -18,6 +18,9 @@ namespace ValheimHopper {
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
             selfContainer = GetComponent<Container>();
+
+            pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
+            itemMask = LayerMask.GetMask("item");
 
             if (!zNetView) {
                 return;
