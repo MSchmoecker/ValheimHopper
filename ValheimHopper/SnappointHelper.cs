@@ -8,7 +8,7 @@ namespace ValheimHopper {
             GameObject target = PrefabManager.Instance.GetPrefab(name);
 
             if (target == null) {
-                Logger.LogInfo($"{name} not found. Cannot add snappoints");
+                Logger.LogWarning($"{name} not found. Cannot add snappoints");
                 return;
             }
 
@@ -29,7 +29,7 @@ namespace ValheimHopper {
             GameObject target = PrefabManager.Instance.GetPrefab(name);
 
             if (target == null) {
-                Logger.LogInfo($"{name} not found. Cannot add fix piece");
+                Logger.LogWarning($"{name} not found. Cannot fix piece snappoints");
                 return;
             }
 

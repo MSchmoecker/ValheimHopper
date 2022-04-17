@@ -250,7 +250,27 @@ MonoBehaviour:
   m_allowRotatedOverlap: 0
   m_onlyInBiome: 0
   m_placeEffect:
-    m_effectPrefabs: []
+    m_effectPrefabs:
+    - m_prefab: {fileID: 4610182365458656253, guid: d4a165ff381e5ae43820f2724743db8a,
+        type: 3}
+      m_enabled: 1
+      m_variant: -1
+      m_attach: 0
+      m_inheritParentRotation: 0
+      m_inheritParentScale: 0
+      m_randomRotation: 0
+      m_scale: 0
+      m_childTransform: 
+    - m_prefab: {fileID: 1631390962698707243, guid: 6634f2f794215684ab307603d9b22c6c,
+        type: 3}
+      m_enabled: 1
+      m_variant: -1
+      m_attach: 0
+      m_inheritParentRotation: 0
+      m_inheritParentScale: 0
+      m_randomRotation: 0
+      m_scale: 0
+      m_childTransform: 
   m_dlc: 
   m_craftingStation: {fileID: 0}
   m_resources: []
@@ -291,9 +311,39 @@ MonoBehaviour:
   m_hitNoise: 0
   m_destroyNoise: 0
   m_destroyedEffect:
-    m_effectPrefabs: []
+    m_effectPrefabs:
+    - m_prefab: {fileID: 4857526854772028618, guid: ca25e0c64a977dc42954807142dd87b8,
+        type: 3}
+      m_enabled: 1
+      m_variant: -1
+      m_attach: 0
+      m_inheritParentRotation: 0
+      m_inheritParentScale: 0
+      m_randomRotation: 0
+      m_scale: 0
+      m_childTransform: 
   m_hitEffect:
-    m_effectPrefabs: []
+    m_effectPrefabs:
+    - m_prefab: {fileID: 7705130065454688591, guid: 00999056bbb6551439ec937344bdcdb7,
+        type: 3}
+      m_enabled: 1
+      m_variant: -1
+      m_attach: 0
+      m_inheritParentRotation: 0
+      m_inheritParentScale: 0
+      m_randomRotation: 0
+      m_scale: 0
+      m_childTransform: 
+    - m_prefab: {fileID: 798790229071110612, guid: 7d2e22e0dd0d54a47ba4dcc451f67b35,
+        type: 3}
+      m_enabled: 1
+      m_variant: -1
+      m_attach: 0
+      m_inheritParentRotation: 0
+      m_inheritParentScale: 0
+      m_randomRotation: 0
+      m_scale: 0
+      m_childTransform: 
   m_switchEffect:
     m_effectPrefabs: []
   m_autoCreateFragments: 1
