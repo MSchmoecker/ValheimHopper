@@ -54,7 +54,7 @@ namespace ValheimHopper {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.GetInventory().CanAddItem(i, 1));
 
                 if (item != null) {
-                    to.AddItemToChest(selfContainer, item.m_gridPos, new Vector2i(-1, -1));
+                    to.AddItemToChest(item, selfContainer, new Vector2i(-1, -1), 1);
                     return true;
                 }
             }
@@ -69,7 +69,7 @@ namespace ValheimHopper {
                 ItemDrop.ItemData item = from.GetInventory().FindFirstItem(i => selfContainer.GetInventory().CanAddItem(i, 1));
 
                 if (item != null) {
-                    from.RemoveItemFromChest(selfContainer, item.m_gridPos, new Vector2i(-1, -1));
+                    from.RemoveItemFromChest(item, selfContainer, new Vector2i(-1, -1), 1);
                     return true;
                 }
             }
