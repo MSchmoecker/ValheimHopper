@@ -51,13 +51,6 @@ cp "$VALHEIM_INSTALL/valheim_Data/Managed/assembly_sunshafts.dll" "$ModNameUnity
 cp "$VALHEIM_INSTALL/valheim_Data/Managed/assembly_guiutils.dll" "$ModNameUnity/Assets/Assemblies"
 cp "$VALHEIM_INSTALL/valheim_Data/Managed/assembly_steamworks.dll" "$ModNameUnity/Assets/Assemblies"
 cp "$VALHEIM_INSTALL/valheim_Data/Managed/assembly_googleanalytics.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_valheim.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_utils.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_postprocessing.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_sunshafts.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_guiutils.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_steamworks.dll" "$ModNameUnity/Assets/Assemblies"
-cp "$VALHEIM_INSTALL/BepInEx/plugins/MMHOOK/MMHOOK_assembly_googleanalytics.dll" "$ModNameUnity/Assets/Assemblies"
 echo Coping to: "$ModDir"
 
 # copy content
