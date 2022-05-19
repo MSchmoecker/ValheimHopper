@@ -115,7 +115,7 @@ namespace ValheimHopper {
                     bool isFuelItem = smelter.m_fuelItem != null && smelter.m_fuelItem.m_itemData.m_shared.m_name == i.m_shared.m_name;
                     bool isAllowedFuel = isFuelItem && smelter.GetFuel() < smelter.m_maxFuel - 1;
 
-                    Vector3 pos = transform.position + outPos;
+                    Vector3 pos = transform.TransformPoint(outPos);
                     Switch oreSwitch = smelter.m_addOreSwitch;
                     Switch fuelSwitch = smelter.m_addWoodSwitch;
 
