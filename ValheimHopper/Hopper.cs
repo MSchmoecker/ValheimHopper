@@ -17,27 +17,45 @@ namespace ValheimHopper {
         [SerializeField] private Vector3 inSize = new Vector3(1f, 1f, 1f);
         [SerializeField] private Vector3 outSize = new Vector3(1f, 1f, 1f);
 
-        private const float TransferInterval = 1f;
+        private List<Container> chestsTo = new List<Container>();
+        private List<Container> chestsFrom = new List<Container>();
+        private List<Smelter> smelters = new List<Smelter>();
+
+        private const float TransferInterval = 0.2f;
+        private const float ObjectSearchInterval = 3f;
 
         private float fixedDeltaTime;
         private int transferFrames;
+        private int objectSearchFrames;
         private int instanceId;
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
             selfContainer = GetComponent<Container>();
 
-            pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
-            itemMask = LayerMask.GetMask("item");
+            if (pieceMask == 0) {
+                pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
+            }
 
-            transferFrames = Mathf.RoundToInt((1f / Time.fixedDeltaTime) * TransferInterval);
-            instanceId = GetInstanceID();
+            if (itemMask == 0) {
+                itemMask = LayerMask.GetMask("item");
+            }
+
             fixedDeltaTime = Time.fixedDeltaTime;
+            transferFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * TransferInterval);
+            objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
+            instanceId = GetInstanceID();
         }
 
         private void FixedUpdate() {
             if ((FixedFrameCount() + instanceId) % transferFrames == 0) {
                 TransferItems();
+            }
+
+            if ((FixedFrameCount() + instanceId + 1) % objectSearchFrames == 0) {
+                chestsTo = FindContainer(outPos, outSize, false);
+                chestsFrom = FindContainer(inPos, inSize, true);
+                smelters = FindSmelters(outPos, outSize);
             }
         }
 
@@ -64,8 +82,6 @@ namespace ValheimHopper {
         }
 
         private bool PushItemsIntoChests() {
-            List<Container> chestsTo = FindContainer(outPos, outSize, false);
-
             foreach (Container to in chestsTo) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.GetInventory().CanAddItem(i, 1));
 
@@ -79,7 +95,6 @@ namespace ValheimHopper {
         }
 
         private bool DrainItemsFromChests() {
-            List<Container> chestsFrom = FindContainer(inPos, inSize, true);
 
             foreach (Container from in chestsFrom) {
                 ItemDrop.ItemData item = from.GetInventory().FindFirstItem(i => selfContainer.GetInventory().CanAddItem(i, 1));
@@ -94,8 +109,6 @@ namespace ValheimHopper {
         }
 
         private void PushItemsIntoSmelter() {
-            List<Smelter> smelters = FindSmelters(outPos, outSize);
-
             foreach (Smelter smelter in smelters) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
                     bool isAllowedOre = smelter.IsItemAllowed(i) && smelter.GetQueueSize() < smelter.m_maxOre;
