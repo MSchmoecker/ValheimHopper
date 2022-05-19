@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using NoChestBlock;
+using MultiUserChest;
 
 namespace ValheimHopper {
     public class Hopper : MonoBehaviour {
@@ -12,8 +12,16 @@ namespace ValheimHopper {
         private static int pieceMask;
         private static int itemMask;
 
-        private readonly Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
-        private readonly Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
+        [SerializeField] private Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
+        [SerializeField] private Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
+        [SerializeField] private Vector3 inSize = new Vector3(1f, 1f, 1f);
+        [SerializeField] private Vector3 outSize = new Vector3(1f, 1f, 1f);
+
+        private const float TransferInterval = 1f;
+
+        private float fixedDeltaTime;
+        private int transferFrames;
+        private int instanceId;
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
@@ -22,15 +30,23 @@ namespace ValheimHopper {
             pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
             itemMask = LayerMask.GetMask("item");
 
-            if (!zNetView) {
-                return;
-            }
+            transferFrames = Mathf.RoundToInt((1f / Time.fixedDeltaTime) * TransferInterval);
+            instanceId = GetInstanceID();
+            fixedDeltaTime = Time.fixedDeltaTime;
+        }
 
-            InvokeRepeating(nameof(TransferItems), 1f, 1f);
+        private void FixedUpdate() {
+            if ((FixedFrameCount() + instanceId) % transferFrames == 0) {
+                TransferItems();
+            }
+        }
+
+        private int FixedFrameCount() {
+            return Mathf.RoundToInt(Time.fixedTime / fixedDeltaTime);
         }
 
         private void TransferItems() {
-            if (zNetView.GetZDO() == null || !zNetView.IsOwner()) {
+            if (!zNetView || !zNetView.IsValid() || zNetView.GetZDO() == null || !zNetView.IsOwner()) {
                 return;
             }
 
@@ -48,7 +64,7 @@ namespace ValheimHopper {
         }
 
         private bool PushItemsIntoChests() {
-            List<Container> chestsTo = FindContainer(outPos, false);
+            List<Container> chestsTo = FindContainer(outPos, outSize, false);
 
             foreach (Container to in chestsTo) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.GetInventory().CanAddItem(i, 1));
@@ -63,7 +79,7 @@ namespace ValheimHopper {
         }
 
         private bool DrainItemsFromChests() {
-            List<Container> chestsFrom = FindContainer(inPos, true);
+            List<Container> chestsFrom = FindContainer(inPos, inSize, true);
 
             foreach (Container from in chestsFrom) {
                 ItemDrop.ItemData item = from.GetInventory().FindFirstItem(i => selfContainer.GetInventory().CanAddItem(i, 1));
@@ -78,7 +94,7 @@ namespace ValheimHopper {
         }
 
         private void PushItemsIntoSmelter() {
-            List<Smelter> smelters = FindSmelters(outPos);
+            List<Smelter> smelters = FindSmelters(outPos, outSize);
 
             foreach (Smelter smelter in smelters) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
@@ -111,7 +127,7 @@ namespace ValheimHopper {
         }
 
         private bool PickupItems() {
-            List<ItemDrop> items = FindItemDrops(inPos);
+            List<ItemDrop> items = FindItemDrops(inPos, inSize);
 
             foreach (ItemDrop item in items) {
                 if (!item.m_nview || !item.m_nview.IsValid()) {
@@ -137,7 +153,9 @@ namespace ValheimHopper {
 
         private bool PickupItem(ItemDrop item) {
             if (selfContainer.GetInventory().CanAddItem(item.m_itemData.m_dropPrefab, 1)) {
-                selfContainer.GetInventory().AddItem(item.m_itemData.m_dropPrefab, 1);
+                ItemDrop.ItemData itemData = item.m_itemData.Clone();
+                itemData.m_stack = 1;
+                selfContainer.GetInventory().AddItem(item.m_itemData);
                 item.RemoveOne();
                 return true;
             }
@@ -145,9 +163,9 @@ namespace ValheimHopper {
             return false;
         }
 
-        private List<ItemDrop> FindItemDrops(Vector3 relativePos) {
-            Vector3 center = transform.position + relativePos;
-            int count = Physics.OverlapBoxNonAlloc(center, Vector3.one / 2f, tmpColliders, Quaternion.identity, itemMask);
+        private List<ItemDrop> FindItemDrops(Vector3 relativePos, Vector3 size) {
+            Vector3 center = transform.TransformPoint(relativePos);
+            int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, itemMask);
 
             List<ItemDrop> items = new List<ItemDrop>();
 
@@ -162,9 +180,9 @@ namespace ValheimHopper {
             return items;
         }
 
-        private List<Container> FindContainer(Vector3 relativePos, bool allowHopper) {
-            Vector3 center = transform.position + relativePos;
-            int count = Physics.OverlapBoxNonAlloc(center, Vector3.one / 2f, tmpColliders, Quaternion.identity, pieceMask);
+        private List<Container> FindContainer(Vector3 relativePos, Vector3 size, bool allowHopper) {
+            Vector3 center = transform.TransformPoint(relativePos);
+            int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, pieceMask);
             List<Container> chests = new List<Container>();
 
             for (int i = 0; i < count; i++) {
@@ -184,9 +202,9 @@ namespace ValheimHopper {
             return chests;
         }
 
-        private List<Smelter> FindSmelters(Vector3 relativePos) {
-            Vector3 center = transform.position + relativePos;
-            int count = Physics.OverlapBoxNonAlloc(center, Vector3.one / 2f, tmpColliders, Quaternion.identity, pieceMask);
+        private List<Smelter> FindSmelters(Vector3 relativePos, Vector3 size) {
+            Vector3 center = transform.TransformPoint(relativePos);
+            int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, pieceMask);
             List<Smelter> smelters = new List<Smelter>();
 
             for (int i = 0; i < count; i++) {
@@ -198,6 +216,13 @@ namespace ValheimHopper {
             }
 
             return smelters;
+        }
+
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(inPos, inSize);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(outPos, outSize);
         }
     }
 }

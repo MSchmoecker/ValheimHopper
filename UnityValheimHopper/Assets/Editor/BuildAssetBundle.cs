@@ -10,4 +10,12 @@ public class BuildAssetBundle : MonoBehaviour {
                                         BuildTarget.StandaloneWindows);
         FileUtil.ReplaceFile("AssetBundles/StandaloneWindows/ValheimHopper_AssetBundle", "../ValheimHopper/ValheimHopper_AssetBundle");
     }
+
+    [MenuItem("Assets/Create Procedural Mesh")] static void Create () {   
+        string filePath = 
+            EditorUtility.SaveFilePanelInProject("Save Procedural Mesh", "Procedural Mesh", "asset", "");
+        if (filePath == "") return;
+        AssetDatabase.CreateAsset(new Mesh(), filePath);  
+    }
+
 }
