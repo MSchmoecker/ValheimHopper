@@ -10,6 +10,7 @@ using Jotunn.Managers;
 namespace ValheimHopper {
     [BepInPlugin(ModGuid, ModName, ModVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
+    [BepInDependency(MultiUserChest.Plugin.ModGuid)]
     public class Plugin : BaseUnityPlugin {
         public const string ModName = "ValheimHopper";
         public const string ModGuid = "com.maxsch.valheim.ValheimHopper";

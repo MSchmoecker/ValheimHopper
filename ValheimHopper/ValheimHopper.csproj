@@ -99,6 +99,7 @@
     <ItemGroup>
         <Compile Include="Hopper.cs" />
         <Compile Include="InventoryHelper.cs" />
+        <Compile Include="Patches\InventoryGUIPatch.cs" />
         <Compile Include="Patches\PlayerPatch.cs" />
         <Compile Include="Patches\ZNetPatch.cs" />
         <Compile Include="Plugin.cs" />

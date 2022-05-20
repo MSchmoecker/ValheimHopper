@@ -171,10 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: -145759160, guid: ede655af59964684191742c3107fbfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inPos: {x: 0, y: 0.75, z: 0}
-  outPos: {x: 0, y: -0.3, z: -0.65}
-  inSize: {x: 1.3, y: 0.5, z: 1}
-  outSize: {x: 0.7, y: 0.7, z: 0.5}
+  zNetView: {fileID: 0}
+  inPos: {x: 0, y: 0.8, z: 0}
+  outPos: {x: 0, y: -0.2, z: -0.65}
+  inSize: {x: 1.3, y: 0.5, z: 0.7}
+  outSize: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!114 &4759853200739378548
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using MultiUserChest;
 
 namespace ValheimHopper {
     public class Hopper : MonoBehaviour {
-        private ZNetView zNetView;
+        public ZNetView zNetView;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
         private static int pieceMask;
@@ -45,6 +45,10 @@ namespace ValheimHopper {
             transferFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * TransferInterval);
             objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
             instanceId = GetInstanceID();
+
+            if (zNetView && zNetView.IsValid()) {
+                zNetView.Register<bool>("Hopper_SetLeaveOneItemRPC", SetLeaveOneItemRPC);
+            }
         }
 
         private void FixedUpdate() {
@@ -82,8 +86,16 @@ namespace ValheimHopper {
         }
 
         private bool PushItemsIntoChests() {
+            bool leaveOneItem = zNetView.GetZDO().GetBool("hopper_leave_one_item");
+
             foreach (Container to in chestsTo) {
-                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.GetInventory().CanAddItem(i, 1));
+                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
+                    if (leaveOneItem && i.m_stack == 1) {
+                        return false;
+                    }
+
+                    return to.GetInventory().CanAddItem(i, 1);
+                });
 
                 if (item != null) {
                     to.AddItemToChest(item, selfContainer, new Vector2i(-1, -1), 1);
@@ -95,7 +107,6 @@ namespace ValheimHopper {
         }
 
         private bool DrainItemsFromChests() {
-
             foreach (Container from in chestsFrom) {
                 ItemDrop.ItemData item = from.GetInventory().FindFirstItem(i => selfContainer.GetInventory().CanAddItem(i, 1));
 
@@ -109,8 +120,14 @@ namespace ValheimHopper {
         }
 
         private void PushItemsIntoSmelter() {
+            bool leaveOneItem = zNetView.GetZDO().GetBool("hopper_leave_one_item");
+
             foreach (Smelter smelter in smelters) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
+                    if (leaveOneItem && i.m_stack == 1) {
+                        return false;
+                    }
+
                     bool isAllowedOre = smelter.IsItemAllowed(i) && smelter.GetQueueSize() < smelter.m_maxOre;
                     bool isFuelItem = smelter.m_fuelItem != null && smelter.m_fuelItem.m_itemData.m_shared.m_name == i.m_shared.m_name;
                     bool isAllowedFuel = isFuelItem && smelter.GetFuel() < smelter.m_maxFuel - 1;
@@ -236,6 +253,22 @@ namespace ValheimHopper {
             Gizmos.DrawWireCube(inPos, inSize);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(outPos, outSize);
+        }
+
+        public void SetLeaveOneItem(bool leaveOneItem) {
+            if (zNetView.IsOwner()) {
+                zNetView.GetZDO().Set("hopper_leave_one_item", leaveOneItem);
+            } else {
+                zNetView.InvokeRPC("Hopper_SetLeaveOneItemRPC", leaveOneItem);
+            }
+        }
+
+        private void SetLeaveOneItemRPC(long sender, bool leaveOneItem) {
+            if (!zNetView.IsOwner()) {
+                return;
+            }
+
+            zNetView.GetZDO().Set("hopper_leave_one_item", leaveOneItem);
         }
     }
 }
