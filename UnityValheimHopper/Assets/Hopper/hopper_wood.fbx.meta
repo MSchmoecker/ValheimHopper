@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 14481d7ad70791c4d90c5bdcb21d5959
+guid: 831452feac214d1419e6f08ad8cf0d0f
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,10 +7,15 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Hopper.001
-    second: {fileID: 2100000, guid: d45ad9921f1959a488a391561a681b8c, type: 2}
+      name: dark
+    second: {fileID: 2100000, guid: 0b3077cf9f9c17541a859385f538cc6a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: woodchest
+    second: {fileID: 2100000, guid: 2df16741e2598b542b143b99e8bf1f8e, type: 2}
   materials:
-    materialImportMode: 1
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -36,7 +41,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
