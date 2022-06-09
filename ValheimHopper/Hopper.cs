@@ -250,9 +250,9 @@ namespace ValheimHopper {
 
         private void OnDrawGizmos() {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(inPos, inSize);
+            Gizmos.DrawWireCube(transform.TransformPoint(inPos), inSize);
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(outPos, outSize);
+            Gizmos.DrawWireCube(transform.TransformPoint(outPos), outSize);
         }
 
         public void SetLeaveOneItem(bool leaveOneItem) {
