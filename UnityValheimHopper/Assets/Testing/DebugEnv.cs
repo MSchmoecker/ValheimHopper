@@ -9,7 +9,7 @@ public class DebugEnv : MonoBehaviour {
     }
 
     public static World GetDevWorld() {
-        World devWorld1 = World.LoadWorld("DevWorld");
+        World devWorld1 = World.LoadWorld("DevWorld", FileHelpers.FileSource.Local);
         if (!devWorld1.m_loadError && !devWorld1.m_versionError)
             return devWorld1;
         World devWorld2 = new World("DevWorld", "DevWorldSeed");

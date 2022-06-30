@@ -57,9 +57,7 @@ namespace ValheimHopper {
             }
 
             if ((FixedFrameCount() + instanceId + 1) % objectSearchFrames == 0) {
-                chestsTo = FindContainer(outPos, outSize, false);
-                chestsFrom = FindContainer(inPos, inSize, true);
-                smelters = FindSmelters(outPos, outSize);
+                FindIO();
             }
         }
 
@@ -157,9 +155,7 @@ namespace ValheimHopper {
         }
 
         private bool PickupItems() {
-            List<ItemDrop> items = FindItemDrops(inPos, inSize);
-
-            foreach (ItemDrop item in items) {
+            foreach (ItemDrop item in FindItemDrops(inPos, inSize)) {
                 if (!item.m_nview || !item.m_nview.IsValid()) {
                     continue;
                 }
@@ -193,59 +189,60 @@ namespace ValheimHopper {
             return false;
         }
 
-        private List<ItemDrop> FindItemDrops(Vector3 relativePos, Vector3 size) {
+        private IEnumerable<ItemDrop> FindItemDrops(Vector3 relativePos, Vector3 size) {
             Vector3 center = transform.TransformPoint(relativePos);
             int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, itemMask);
-
-            List<ItemDrop> items = new List<ItemDrop>();
 
             for (int i = 0; i < count; i++) {
                 ItemDrop item = tmpColliders[i].GetComponentInParent<ItemDrop>();
 
                 if (item) {
-                    items.Add(item);
+                    yield return item;
                 }
             }
-
-            return items;
         }
 
-        private List<Container> FindContainer(Vector3 relativePos, Vector3 size, bool allowHopper) {
-            Vector3 center = transform.TransformPoint(relativePos);
-            int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, pieceMask);
-            List<Container> chests = new List<Container>();
+        private void FindIO() {
+            Vector3 pos = transform.position;
+            int count = Physics.OverlapBoxNonAlloc(pos, Vector3.one, tmpColliders, Quaternion.identity, pieceMask);
+
+            Bounds inputBounds = new Bounds(transform.TransformPoint(inPos), inSize);
+            Bounds outputBounds = new Bounds(transform.TransformPoint(outPos), outSize);
+
+            chestsFrom.Clear();
+            chestsTo.Clear();
+            smelters.Clear();
 
             for (int i = 0; i < count; i++) {
-                Container container = tmpColliders[i].GetComponentInParent<Container>();
+                Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
 
-                if (!container || container.gameObject == gameObject) {
+                if (!piece || piece.gameObject == gameObject) {
                     continue;
                 }
 
-                if (!allowHopper && container.GetComponent<Hopper>()) {
-                    continue;
+                Container container = piece.GetComponent<Container>();
+                Hopper hopper = piece.GetComponent<Hopper>();
+                Smelter smelter = piece.GetComponent<Smelter>();
+
+                bool isAtInput = inputBounds.Contains(tmpColliders[i].ClosestPointOnBounds(inputBounds.center));
+                bool isAtOutput = outputBounds.Contains(tmpColliders[i].ClosestPointOnBounds(outputBounds.center));
+
+                if (isAtInput) {
+                    if (container && !chestsFrom.Contains(container)) {
+                        chestsFrom.Add(container);
+                    }
                 }
 
-                chests.Add(container);
-            }
+                if (isAtOutput) {
+                    if (container && !hopper && !chestsTo.Contains(container)) {
+                        chestsTo.Add(container);
+                    }
 
-            return chests;
-        }
-
-        private List<Smelter> FindSmelters(Vector3 relativePos, Vector3 size) {
-            Vector3 center = transform.TransformPoint(relativePos);
-            int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, pieceMask);
-            List<Smelter> smelters = new List<Smelter>();
-
-            for (int i = 0; i < count; i++) {
-                Smelter smelter = tmpColliders[i].GetComponentInParent<Smelter>();
-
-                if (smelter) {
-                    smelters.Add(smelter);
+                    if (smelter && !smelters.Contains(smelter)) {
+                        smelters.Add(smelter);
+                    }
                 }
             }
-
-            return smelters;
         }
 
         private void OnDrawGizmos() {
