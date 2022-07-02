@@ -5,6 +5,7 @@ using UnityEngine;
 using MultiUserChest;
 
 namespace ValheimHopper {
+    [DefaultExecutionOrder(5)]
     public class Hopper : MonoBehaviour {
         public ZNetView zNetView;
         private Container selfContainer;
@@ -178,15 +179,20 @@ namespace ValheimHopper {
         }
 
         private bool PickupItem(ItemDrop item) {
-            if (selfContainer.GetInventory().CanAddItem(item.m_itemData.m_dropPrefab, 1)) {
-                ItemDrop.ItemData itemData = item.m_itemData.Clone();
-                itemData.m_stack = 1;
-                selfContainer.GetInventory().AddItem(item.m_itemData);
-                item.RemoveOne();
-                return true;
+            if (!selfContainer.GetInventory().CanAddItem(item.m_itemData, 1)) {
+                return false;
             }
 
-            return false;
+            bool hasRemoved = item.RemoveOne();
+
+            if (!hasRemoved) {
+                return false;
+            }
+
+            ItemDrop.ItemData itemData = item.m_itemData.Clone();
+            itemData.m_stack = 1;
+            selfContainer.GetInventory().AddItem(itemData);
+            return true;
         }
 
         private IEnumerable<ItemDrop> FindItemDrops(Vector3 relativePos, Vector3 size) {
