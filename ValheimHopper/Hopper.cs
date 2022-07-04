@@ -245,9 +245,6 @@ namespace ValheimHopper {
             Vector3 pos = transform.position;
             int count = Physics.OverlapBoxNonAlloc(pos, Vector3.one, tmpColliders, Quaternion.identity, pieceMask);
 
-            Bounds inputBounds = new Bounds(transform.TransformPoint(inPos), inSize);
-            Bounds outputBounds = new Bounds(transform.TransformPoint(outPos), outSize);
-
             chestsFrom.Clear();
             chestsTo.Clear();
             smelters.Clear();
@@ -260,31 +257,47 @@ namespace ValheimHopper {
                     continue;
                 }
 
-                Container container = piece.GetComponent<Container>();
                 Hopper hopper = piece.GetComponent<Hopper>();
-                Smelter smelter = piece.GetComponent<Smelter>();
-
-                bool isAtInput = inputBounds.Contains(tmpColliders[i].ClosestPointOnBounds(inputBounds.center));
-                bool isAtOutput = outputBounds.Contains(tmpColliders[i].ClosestPointOnBounds(outputBounds.center));
-
-                if (isAtInput) {
-                    if (container && !chestsFrom.Contains(container)) {
-                        chestsFrom.Add(container);
-                    }
-                }
-
-                if (isAtOutput) {
-                    if (container && !chestsTo.Contains(container)) {
-                        chestsTo.Add(container);
-                    }
-
-                    if (smelter && !smelters.Contains(smelter)) {
-                        smelters.Add(smelter);
-                    }
-                }
 
                 if (hopper && !nearHoppers.Contains(hopper)) {
                     nearHoppers.Add(hopper);
+                }
+            }
+
+            count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(inPos), inSize / 2f, tmpColliders, transform.rotation, pieceMask);
+
+            for (int i = 0; i < count; i++) {
+                Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
+
+                if (!piece || piece.gameObject == gameObject) {
+                    continue;
+                }
+
+                Container container = piece.GetComponent<Container>();
+
+                if (container && !chestsFrom.Contains(container)) {
+                    chestsFrom.Add(container);
+                }
+            }
+
+            count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(outPos), outSize / 2f, tmpColliders, transform.rotation, pieceMask);
+
+            for (int i = 0; i < count; i++) {
+                Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
+
+                if (!piece || piece.gameObject == gameObject) {
+                    continue;
+                }
+
+                Container container = piece.GetComponent<Container>();
+                Smelter smelter = piece.GetComponent<Smelter>();
+
+                if (container && !chestsTo.Contains(container)) {
+                    chestsTo.Add(container);
+                }
+
+                if (smelter && !smelters.Contains(smelter)) {
+                    smelters.Add(smelter);
                 }
             }
         }
