@@ -18,10 +18,10 @@ namespace ValheimHopper {
         [SerializeField] private Vector3 inSize = new Vector3(1f, 1f, 1f);
         [SerializeField] private Vector3 outSize = new Vector3(1f, 1f, 1f);
 
-        private List<Container> chestsTo = new List<Container>();
-        private List<Container> chestsFrom = new List<Container>();
-        private List<Smelter> smelters = new List<Smelter>();
-        private List<Hopper> nearHoppers = new List<Hopper>();
+        [SerializeField] private List<Container> chestsTo = new List<Container>();
+        [SerializeField] private List<Container> chestsFrom = new List<Container>();
+        [SerializeField] private List<Smelter> smelters = new List<Smelter>();
+        [SerializeField] private List<Hopper> nearHoppers = new List<Hopper>();
 
         private const float TransferInterval = 0.2f;
         private const float ObjectSearchInterval = 3f;
