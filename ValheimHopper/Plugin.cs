@@ -44,7 +44,8 @@ namespace ValheimHopper {
             CustomPiece hopperPiece = new CustomPiece(hopperDown, true, new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>("Wood_V"),
                 Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 2, Recover = true }
+                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
+                    new RequirementConfig { Item = "BronzeNails", Amount = 1, Recover = true },
                 },
                 PieceTable = "Hammer"
             });
@@ -52,7 +53,8 @@ namespace ValheimHopper {
             CustomPiece hopperSidePiece = new CustomPiece(hopperSide, true, new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>("Wood_H"),
                 Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true }
+                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
+                    new RequirementConfig { Item = "BronzeNails", Amount = 1, Recover = true },
                 },
                 PieceTable = "Hammer"
             });
@@ -60,7 +62,8 @@ namespace ValheimHopper {
             CustomPiece hopperPieceMetal = new CustomPiece(hopperDownMetal, true, new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>("Iron_V"),
                 Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true }
+                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
+                    new RequirementConfig { Item = "IronNails", Amount = 1, Recover = true },
                 },
                 PieceTable = "Hammer"
             });
@@ -68,7 +71,8 @@ namespace ValheimHopper {
             CustomPiece hopperSidePieceMetal = new CustomPiece(hopperSideMetal, true, new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>("Iron_H"),
                 Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true }
+                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
+                    new RequirementConfig { Item = "IronNails", Amount = 1, Recover = true },
                 },
                 PieceTable = "Hammer"
             });
