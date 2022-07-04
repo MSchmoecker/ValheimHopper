@@ -1,5 +1,7 @@
 {
   "piece_hopper": "Hopper",
   "piece_hopper_side": "Side Hopper",
+  "piece_hopper_metal": "Metal Hopper",
+  "piece_hopper_side_metal": "Side Metal Hopper",
   "toggle_leave_one_item": "Leave one item in every slot"
 }

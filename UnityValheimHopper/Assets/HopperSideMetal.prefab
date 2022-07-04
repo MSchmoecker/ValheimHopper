@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 826d4168723afd74ab95015a2fcd0615, type: 2}
+    - target: {fileID: 212722826587757620, guid: e97c86f24203c17469d7ca487991d3ad,
+        type: 3}
+      propertyPath: m_name
+      value: $piece_hopper_side_metal
+      objectReference: {fileID: 0}
+    - target: {fileID: 212722826587757620, guid: e97c86f24203c17469d7ca487991d3ad,
+        type: 3}
+      propertyPath: m_width
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1029090660480833541, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
       propertyPath: m_Mesh

@@ -21,6 +21,7 @@ namespace ValheimHopper {
         private List<Container> chestsTo = new List<Container>();
         private List<Container> chestsFrom = new List<Container>();
         private List<Smelter> smelters = new List<Smelter>();
+        private List<Hopper> nearHoppers = new List<Hopper>();
 
         private const float TransferInterval = 0.2f;
         private const float ObjectSearchInterval = 3f;
@@ -28,7 +29,9 @@ namespace ValheimHopper {
         private float fixedDeltaTime;
         private int transferFrames;
         private int objectSearchFrames;
+
         private int instanceId;
+        private int frameOffset;
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
@@ -46,6 +49,7 @@ namespace ValheimHopper {
             transferFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * TransferInterval);
             objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
             instanceId = GetInstanceID();
+            frameOffset = Mathf.Abs(instanceId % transferFrames);
 
             if (zNetView && zNetView.IsValid()) {
                 zNetView.Register<bool>("Hopper_SetLeaveOneItemRPC", SetLeaveOneItemRPC);
@@ -53,11 +57,24 @@ namespace ValheimHopper {
         }
 
         private void FixedUpdate() {
-            if ((FixedFrameCount() + instanceId) % transferFrames == 0) {
-                TransferItems();
+            if (!IsValid()) {
+                return;
             }
 
-            if ((FixedFrameCount() + instanceId + 1) % objectSearchFrames == 0) {
+            int frame = FixedFrameCount();
+            int globalFrame = (frame + frameOffset) / transferFrames;
+
+            if ((frame + frameOffset) % transferFrames == 0) {
+                if (globalFrame % 2 == 0) {
+                    PullItems();
+                }
+
+                if (globalFrame % 2 == 1) {
+                    PushItems();
+                }
+            }
+
+            if ((frame + frameOffset + 1) % objectSearchFrames == 0) {
                 FindIO();
             }
         }
@@ -66,17 +83,19 @@ namespace ValheimHopper {
             return Mathf.RoundToInt(Time.fixedTime / fixedDeltaTime);
         }
 
-        private void TransferItems() {
-            if (!zNetView || !zNetView.IsValid() || zNetView.GetZDO() == null || !zNetView.IsOwner()) {
-                return;
-            }
+        private bool IsValid() {
+            return zNetView && zNetView.IsValid() && zNetView.GetZDO() != null && zNetView.IsOwner();
+        }
 
+        private void PullItems() {
             bool drained = DrainItemsFromChests();
 
             if (!drained) {
                 PickupItems();
             }
+        }
 
+        private void PushItems() {
             bool pushed = PushItemsIntoChests();
 
             if (!pushed) {
@@ -85,16 +104,16 @@ namespace ValheimHopper {
         }
 
         private bool PushItemsIntoChests() {
-            bool leaveOneItem = zNetView.GetZDO().GetBool("hopper_leave_one_item");
-
             foreach (Container to in chestsTo) {
-                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
-                    if (leaveOneItem && i.m_stack == 1) {
+                bool FindPushItem(ItemDrop.ItemData i) {
+                    if (!CanPushItem(i)) {
                         return false;
                     }
 
                     return to.GetInventory().CanAddItem(i, 1);
-                });
+                }
+
+                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(FindPushItem);
 
                 if (item != null) {
                     to.AddItemToChest(item, selfContainer, new Vector2i(-1, -1), 1);
@@ -105,9 +124,25 @@ namespace ValheimHopper {
             return false;
         }
 
+        private bool CanAddItem(ItemDrop.ItemData item) {
+            return selfContainer.GetInventory().CanAddItem(item, 1);
+        }
+
+        private bool CanPushItem(ItemDrop.ItemData item) {
+            if (item.m_stack == 1 && zNetView.GetZDO().GetBool("hopper_leave_one_item")) {
+                return false;
+            }
+
+            if (nearHoppers.Any(h => h.chestsFrom.Contains(selfContainer) && h.CanAddItem(item))) {
+                return false;
+            }
+
+            return true;
+        }
+
         private bool DrainItemsFromChests() {
             foreach (Container from in chestsFrom) {
-                ItemDrop.ItemData item = from.GetInventory().FindFirstItem(i => selfContainer.GetInventory().CanAddItem(i, 1));
+                ItemDrop.ItemData item = from.GetInventory().FindFirstItem(CanAddItem);
 
                 if (item != null) {
                     from.RemoveItemFromChest(item, selfContainer, new Vector2i(-1, -1), 1);
@@ -119,11 +154,9 @@ namespace ValheimHopper {
         }
 
         private void PushItemsIntoSmelter() {
-            bool leaveOneItem = zNetView.GetZDO().GetBool("hopper_leave_one_item");
-
             foreach (Smelter smelter in smelters) {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
-                    if (leaveOneItem && i.m_stack == 1) {
+                    if (!CanPushItem(i)) {
                         return false;
                     }
 
@@ -218,6 +251,7 @@ namespace ValheimHopper {
             chestsFrom.Clear();
             chestsTo.Clear();
             smelters.Clear();
+            nearHoppers.Clear();
 
             for (int i = 0; i < count; i++) {
                 Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
@@ -240,13 +274,17 @@ namespace ValheimHopper {
                 }
 
                 if (isAtOutput) {
-                    if (container && !hopper && !chestsTo.Contains(container)) {
+                    if (container && !chestsTo.Contains(container)) {
                         chestsTo.Add(container);
                     }
 
                     if (smelter && !smelters.Contains(smelter)) {
                         smelters.Add(smelter);
                     }
+                }
+
+                if (hopper && !nearHoppers.Contains(hopper)) {
+                    nearHoppers.Add(hopper);
                 }
             }
         }
