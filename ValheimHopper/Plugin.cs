@@ -47,7 +47,8 @@ namespace ValheimHopper {
                     new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
                     new RequirementConfig { Item = "BronzeNails", Amount = 1, Recover = true },
                 },
-                PieceTable = "Hammer"
+                PieceTable = "Hammer",
+                Category = "Crafting",
             });
 
             CustomPiece hopperSidePiece = new CustomPiece(hopperSide, true, new PieceConfig {
@@ -56,7 +57,8 @@ namespace ValheimHopper {
                     new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
                     new RequirementConfig { Item = "BronzeNails", Amount = 1, Recover = true },
                 },
-                PieceTable = "Hammer"
+                PieceTable = "Hammer",
+                Category = "Crafting",
             });
 
             CustomPiece hopperPieceMetal = new CustomPiece(hopperDownMetal, true, new PieceConfig {
@@ -65,7 +67,8 @@ namespace ValheimHopper {
                     new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
                     new RequirementConfig { Item = "IronNails", Amount = 1, Recover = true },
                 },
-                PieceTable = "Hammer"
+                PieceTable = "Hammer",
+                Category = "Crafting",
             });
 
             CustomPiece hopperSidePieceMetal = new CustomPiece(hopperSideMetal, true, new PieceConfig {
@@ -74,7 +77,8 @@ namespace ValheimHopper {
                     new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
                     new RequirementConfig { Item = "IronNails", Amount = 1, Recover = true },
                 },
-                PieceTable = "Hammer"
+                PieceTable = "Hammer",
+                Category = "Crafting",
             });
 
             PieceManager.Instance.AddPiece(hopperPiece);

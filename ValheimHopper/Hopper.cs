@@ -307,6 +307,13 @@ namespace ValheimHopper {
             Gizmos.DrawWireCube(transform.TransformPoint(inPos), inSize);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.TransformPoint(outPos), outSize);
+
+            Gizmos.color = Color.cyan;
+            foreach (Transform child in transform) {
+                if (child.CompareTag("snappoint")) {
+                    Gizmos.DrawSphere(child.position, .1f);
+                }
+            }
         }
 
         public void SetLeaveOneItem(bool leaveOneItem) {
