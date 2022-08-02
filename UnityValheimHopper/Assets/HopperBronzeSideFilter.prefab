@@ -1,33 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1080035379120701835
+--- !u!1001 &2243421548761652208
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 183249371542528070, guid: e97c86f24203c17469d7ca487991d3ad,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 826d4168723afd74ab95015a2fcd0615, type: 2}
     - target: {fileID: 212722826587757620, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
       propertyPath: m_name
-      value: $piece_hopper_side_metal
+      value: $piece_hopper_bronze_side_filter
       objectReference: {fileID: 0}
-    - target: {fileID: 212722826587757620, guid: e97c86f24203c17469d7ca487991d3ad,
+    - target: {fileID: 1570501928756610043, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
-      propertyPath: m_width
-      value: 3
+      propertyPath: isFilterHopper
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1029090660480833541, guid: e97c86f24203c17469d7ca487991d3ad,
+    - target: {fileID: 4759853200739378548, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 512290293929625263, guid: b8c957c5c39747e4d8d3df679fe0ad1f,
-        type: 3}
+      propertyPath: m_name
+      value: $piece_hopper_bronze_side_filter
+      objectReference: {fileID: 0}
     - target: {fileID: 5220840151356163939, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
       propertyPath: m_RootOrder
@@ -83,27 +77,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6152075609843777923, guid: e97c86f24203c17469d7ca487991d3ad,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: -6755584497757022086, guid: b8c957c5c39747e4d8d3df679fe0ad1f,
-        type: 3}
-    - target: {fileID: 7719941559818978765, guid: e97c86f24203c17469d7ca487991d3ad,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: -3310596949537672314, guid: b8c957c5c39747e4d8d3df679fe0ad1f,
-        type: 3}
     - target: {fileID: 8787115508912242616, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
       propertyPath: m_Name
-      value: HopperSideMetal
+      value: HopperBronzeSideFilter
       objectReference: {fileID: 0}
-    - target: {fileID: 8964872472225964356, guid: e97c86f24203c17469d7ca487991d3ad,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 826d4168723afd74ab95015a2fcd0615, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e97c86f24203c17469d7ca487991d3ad, type: 3}

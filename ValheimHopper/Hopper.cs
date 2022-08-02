@@ -7,11 +7,13 @@ using MultiUserChest;
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
     public class Hopper : MonoBehaviour {
-        public ZNetView zNetView;
+        private ZNetView zNetView;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
         private static int pieceMask;
         private static int itemMask;
+
+        [SerializeField] private bool isFilterHopper;
 
         [SerializeField] private Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
         [SerializeField] private Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
@@ -50,10 +52,6 @@ namespace ValheimHopper {
             objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
             instanceId = GetInstanceID();
             frameOffset = Mathf.Abs(instanceId % transferFrames);
-
-            if (zNetView && zNetView.IsValid()) {
-                zNetView.Register<bool>("Hopper_SetLeaveOneItemRPC", SetLeaveOneItemRPC);
-            }
         }
 
         private void FixedUpdate() {
@@ -129,7 +127,7 @@ namespace ValheimHopper {
         }
 
         private bool CanPushItem(ItemDrop.ItemData item) {
-            if (item.m_stack == 1 && zNetView.GetZDO().GetBool("hopper_leave_one_item")) {
+            if (isFilterHopper && item.m_stack == 1) {
                 return false;
             }
 
@@ -314,22 +312,6 @@ namespace ValheimHopper {
                     Gizmos.DrawSphere(child.position, .1f);
                 }
             }
-        }
-
-        public void SetLeaveOneItem(bool leaveOneItem) {
-            if (zNetView.IsOwner()) {
-                zNetView.GetZDO().Set("hopper_leave_one_item", leaveOneItem);
-            } else {
-                zNetView.InvokeRPC("Hopper_SetLeaveOneItemRPC", leaveOneItem);
-            }
-        }
-
-        private void SetLeaveOneItemRPC(long sender, bool leaveOneItem) {
-            if (!zNetView.IsOwner()) {
-                return;
-            }
-
-            zNetView.GetZDO().Set("hopper_leave_one_item", leaveOneItem);
         }
     }
 }

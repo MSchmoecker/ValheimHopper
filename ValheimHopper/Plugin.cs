@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
@@ -19,6 +20,8 @@ namespace ValheimHopper {
 
         public static ConfigEntry<bool> addSmelterSnappoints;
 
+        private static readonly HashSet<string> HopperPrefabNames = new HashSet<string>();
+
         public static Plugin Instance { get; private set; }
         public static AssetBundle AssetBundle { get; private set; }
 
@@ -37,15 +40,35 @@ namespace ValheimHopper {
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            CustomPiece hopperDownBronze = new CustomPiece(AssetBundle, "HopperDown", true, BronzeConfig("Wood_V"));
-            CustomPiece hopperSideBronze = new CustomPiece(AssetBundle, "HopperSide", true, BronzeConfig("Wood_H"));
-            CustomPiece hopperDownIron = new CustomPiece(AssetBundle, "HopperDownMetal", true, IronConfig("Iron_V"));
-            CustomPiece hopperSideIron = new CustomPiece(AssetBundle, "HopperSideMetal", true, IronConfig("Iron_H"));
+            CustomPiece hopperBronzeDown = new CustomPiece(AssetBundle, "HopperBronzeDown", true, BronzeConfig("Wood_V", false));
+            CustomPiece hopperBronzeDownFilter = new CustomPiece(AssetBundle, "HopperBronzeDownFilter", true, BronzeConfig("Wood_V", true));
+            CustomPiece hopperBronzeSide = new CustomPiece(AssetBundle, "HopperBronzeSide", true, BronzeConfig("Wood_H", false));
+            CustomPiece hopperBronzeSideFilter = new CustomPiece(AssetBundle, "HopperBronzeSideFilter", true, BronzeConfig("Wood_H", true));
 
-            PieceManager.Instance.AddPiece(hopperDownBronze);
-            PieceManager.Instance.AddPiece(hopperSideBronze);
-            PieceManager.Instance.AddPiece(hopperDownIron);
-            PieceManager.Instance.AddPiece(hopperSideIron);
+            CustomPiece hopperIronDown = new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V", false));
+            CustomPiece hopperIronDownFilter = new CustomPiece(AssetBundle, "HopperIronDownFilter", true, IronConfig("Iron_V", true));
+            CustomPiece hopperIronSide = new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H", false));
+            CustomPiece hopperIronSideIron = new CustomPiece(AssetBundle, "HopperIronSideFilter", true, IronConfig("Iron_H", true));
+
+            PieceManager.Instance.AddPiece(hopperBronzeDown);
+            PieceManager.Instance.AddPiece(hopperBronzeDownFilter);
+            PieceManager.Instance.AddPiece(hopperBronzeSide);
+            PieceManager.Instance.AddPiece(hopperBronzeSideFilter);
+
+            PieceManager.Instance.AddPiece(hopperIronDown);
+            PieceManager.Instance.AddPiece(hopperIronDownFilter);
+            PieceManager.Instance.AddPiece(hopperIronSide);
+            PieceManager.Instance.AddPiece(hopperIronSideIron);
+
+            HopperPrefabNames.Add(hopperBronzeDown.Piece.name);
+            HopperPrefabNames.Add(hopperBronzeDownFilter.Piece.name);
+            HopperPrefabNames.Add(hopperBronzeSide.Piece.name);
+            HopperPrefabNames.Add(hopperBronzeSideFilter.Piece.name);
+
+            HopperPrefabNames.Add(hopperIronDown.Piece.name);
+            HopperPrefabNames.Add(hopperIronDownFilter.Piece.name);
+            HopperPrefabNames.Add(hopperIronSide.Piece.name);
+            HopperPrefabNames.Add(hopperIronSideIron.Piece.name);
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
         }
@@ -72,10 +95,10 @@ namespace ValheimHopper {
 
         public static bool IsHopperPrefab(GameObject prefab) {
             string name = Utils.GetPrefabName(prefab);
-            return name == "HopperDown" || name == "HopperSide" || name == "HopperDownMetal" || name == "HopperSideMetal";
+            return HopperPrefabNames.Contains(name);
         }
 
-        private static PieceConfig BronzeConfig(string spriteName) {
+        private static PieceConfig BronzeConfig(string spriteName, bool filterHopper) {
             return new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
@@ -84,10 +107,11 @@ namespace ValheimHopper {
                 },
                 PieceTable = "Hammer",
                 Category = "Crafting",
+                Description = filterHopper ? "$hopper_filter_description" : "",
             };
         }
 
-        private static PieceConfig IronConfig(string spriteName) {
+        private static PieceConfig IronConfig(string spriteName, bool filterHopper) {
             return new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
@@ -96,6 +120,7 @@ namespace ValheimHopper {
                 },
                 PieceTable = "Hammer",
                 Category = "Crafting",
+                Description = filterHopper ? "$hopper_filter_description" : "",
             };
         }
     }

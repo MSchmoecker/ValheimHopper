@@ -1,7 +1,12 @@
 {
-  "piece_hopper": "Bronze Hopper",
-  "piece_hopper_side": "Bronze Side Hopper",
-  "piece_hopper_metal": "Iron Hopper",
-  "piece_hopper_side_metal": "Iron Side Hopper",
-  "toggle_leave_one_item": "Leave one item in every slot"
+  "piece_hopper_bronze_down": "Bronze Hopper",
+  "piece_hopper_bronze_down_filter": "Bronze Filter Hopper",
+  "piece_hopper_bronze_side": "Bronze Side Hopper",
+  "piece_hopper_bronze_side_filter": "Bronze Side Filter Hopper",
+  "piece_hopper_iron_down": "Iron Hopper",
+  "piece_hopper_iron_down_filter": "Iron Filter Hopper",
+  "piece_hopper_iron_side": "Iron Side Hopper",
+  "piece_hopper_iron_side_filter": "Iron Side Filter Hopper",
+  "toggle_leave_one_item": "Leave one item in every slot",
+  "hopper_filter_description": "Filtering: the last item in a slot will not be moved"
 }

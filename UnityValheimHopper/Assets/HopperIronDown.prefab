@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1721426467287306792, guid: e53322b522555cb45a08e1b8bed0a275,
         type: 3}
       propertyPath: m_Name
-      value: HopperDownMetal
+      value: HopperIronDown
       objectReference: {fileID: 0}
     - target: {fileID: 1751230461643874329, guid: e53322b522555cb45a08e1b8bed0a275,
         type: 3}
@@ -79,6 +79,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3179475347997722852, guid: e53322b522555cb45a08e1b8bed0a275,
+        type: 3}
+      propertyPath: m_name
+      value: $piece_hopper_iron_down
+      objectReference: {fileID: 0}
     - target: {fileID: 3826382580738071102, guid: e53322b522555cb45a08e1b8bed0a275,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -93,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 7845860950219878820, guid: e53322b522555cb45a08e1b8bed0a275,
         type: 3}
       propertyPath: m_name
-      value: $piece_hopper_metal
+      value: $piece_hopper_iron_down
       objectReference: {fileID: 0}
     - target: {fileID: 7845860950219878820, guid: e53322b522555cb45a08e1b8bed0a275,
         type: 3}
