@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using BepInEx;
+using BepInEx.Configuration;
 using HarmonyLib;
 using Jotunn.Configs;
 using Jotunn.Entities;
@@ -16,6 +17,8 @@ namespace ValheimHopper {
         public const string ModGuid = "com.maxsch.valheim.ValheimHopper";
         public const string ModVersion = "0.0.0";
 
+        public static ConfigEntry<bool> addSmelterSnappoints;
+
         public static Plugin Instance { get; private set; }
         public static AssetBundle AssetBundle { get; private set; }
 
@@ -26,6 +29,8 @@ namespace ValheimHopper {
 
             harmony = new Harmony(ModGuid);
             harmony.PatchAll();
+
+            addSmelterSnappoints = Config.Bind("General", "Add Smelter Snappoints", true, "Adds snappoints to inputs/outputs of the smelter, charcoal kiln and blastfurnace. Requires a restart to take effect.");
 
             CustomLocalization localization = LocalizationManager.Instance.GetLocalization();
             localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly()));
@@ -41,6 +46,28 @@ namespace ValheimHopper {
             PieceManager.Instance.AddPiece(hopperSideBronze);
             PieceManager.Instance.AddPiece(hopperDownIron);
             PieceManager.Instance.AddPiece(hopperSideIron);
+
+            PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
+        }
+
+        private void AddSnappoints() {
+            if (addSmelterSnappoints.Value) {
+                SnappointHelper.AddSnappoints("smelter", new[] {
+                    new Vector3(0f, 1.8f, -1.2f),
+                    new Vector3(0f, 1.8f, 1.2f),
+                });
+
+                SnappointHelper.AddSnappoints("charcoal_kiln", new[] {
+                    new Vector3(0f, 1f, 2.25f),
+                });
+
+                SnappointHelper.AddSnappoints("blastfurnace", new[] {
+                    new Vector3(-0.5f, 1.72f, 1.7f),
+                    new Vector3(0.55f, 1.72f, 1.7f),
+                });
+            }
+
+            PrefabManager.OnVanillaPrefabsAvailable -= AddSnappoints;
         }
 
         public static bool IsHopperPrefab(GameObject prefab) {
