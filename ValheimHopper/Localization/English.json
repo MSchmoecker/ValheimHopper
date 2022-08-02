@@ -1,7 +1,7 @@
 {
   "piece_hopper": "Bronze Hopper",
-  "piece_hopper_side": "Side Bronze Hopper",
+  "piece_hopper_side": "Bronze Side Hopper",
   "piece_hopper_metal": "Iron Hopper",
-  "piece_hopper_side_metal": "Side Iron Hopper",
+  "piece_hopper_side_metal": "Iron Side Hopper",
   "toggle_leave_one_item": "Leave one item in every slot"
 }

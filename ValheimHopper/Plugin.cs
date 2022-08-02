@@ -27,69 +27,49 @@ namespace ValheimHopper {
             harmony = new Harmony(ModGuid);
             harmony.PatchAll();
 
-            // load embedded asset bundle
-            AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle", Assembly.GetExecutingAssembly());
+            CustomLocalization localization = LocalizationManager.Instance.GetLocalization();
+            localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly()));
 
-            // load embedded localisation
-            CustomLocalization localization = new CustomLocalization();
-            string englishJson = AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly());
-            localization.AddJsonFile("English", englishJson);
-            LocalizationManager.Instance.AddLocalization(localization);
+            AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            GameObject hopperDown = AssetBundle.LoadAsset<GameObject>("HopperDown");
-            GameObject hopperSide = AssetBundle.LoadAsset<GameObject>("HopperSide");
-            GameObject hopperDownMetal = AssetBundle.LoadAsset<GameObject>("HopperDownMetal");
-            GameObject hopperSideMetal = AssetBundle.LoadAsset<GameObject>("HopperSideMetal");
+            CustomPiece hopperDownBronze = new CustomPiece(AssetBundle, "HopperDown", true, BronzeConfig("Wood_V"));
+            CustomPiece hopperSideBronze = new CustomPiece(AssetBundle, "HopperSide", true, BronzeConfig("Wood_H"));
+            CustomPiece hopperDownIron = new CustomPiece(AssetBundle, "HopperDownMetal", true, IronConfig("Iron_V"));
+            CustomPiece hopperSideIron = new CustomPiece(AssetBundle, "HopperSideMetal", true, IronConfig("Iron_H"));
 
-            CustomPiece hopperPiece = new CustomPiece(hopperDown, true, new PieceConfig {
-                Icon = AssetBundle.LoadAsset<Sprite>("Wood_V"),
-                Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
-                    new RequirementConfig { Item = "BronzeNails", Amount = 1, Recover = true },
-                },
-                PieceTable = "Hammer",
-                Category = "Crafting",
-            });
-
-            CustomPiece hopperSidePiece = new CustomPiece(hopperSide, true, new PieceConfig {
-                Icon = AssetBundle.LoadAsset<Sprite>("Wood_H"),
-                Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
-                    new RequirementConfig { Item = "BronzeNails", Amount = 1, Recover = true },
-                },
-                PieceTable = "Hammer",
-                Category = "Crafting",
-            });
-
-            CustomPiece hopperPieceMetal = new CustomPiece(hopperDownMetal, true, new PieceConfig {
-                Icon = AssetBundle.LoadAsset<Sprite>("Iron_V"),
-                Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
-                    new RequirementConfig { Item = "IronNails", Amount = 1, Recover = true },
-                },
-                PieceTable = "Hammer",
-                Category = "Crafting",
-            });
-
-            CustomPiece hopperSidePieceMetal = new CustomPiece(hopperSideMetal, true, new PieceConfig {
-                Icon = AssetBundle.LoadAsset<Sprite>("Iron_H"),
-                Requirements = new[] {
-                    new RequirementConfig { Item = "Wood", Amount = 3, Recover = true },
-                    new RequirementConfig { Item = "IronNails", Amount = 1, Recover = true },
-                },
-                PieceTable = "Hammer",
-                Category = "Crafting",
-            });
-
-            PieceManager.Instance.AddPiece(hopperPiece);
-            PieceManager.Instance.AddPiece(hopperSidePiece);
-            PieceManager.Instance.AddPiece(hopperPieceMetal);
-            PieceManager.Instance.AddPiece(hopperSidePieceMetal);
+            PieceManager.Instance.AddPiece(hopperDownBronze);
+            PieceManager.Instance.AddPiece(hopperSideBronze);
+            PieceManager.Instance.AddPiece(hopperDownIron);
+            PieceManager.Instance.AddPiece(hopperSideIron);
         }
 
         public static bool IsHopperPrefab(GameObject prefab) {
             string name = Utils.GetPrefabName(prefab);
             return name == "HopperDown" || name == "HopperSide" || name == "HopperDownMetal" || name == "HopperSideMetal";
+        }
+
+        private static PieceConfig BronzeConfig(string spriteName) {
+            return new PieceConfig {
+                Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
+                Requirements = new[] {
+                    new RequirementConfig("Wood", 3, 0, true),
+                    new RequirementConfig("BronzeNails", 1, 0, true)
+                },
+                PieceTable = "Hammer",
+                Category = "Crafting",
+            };
+        }
+
+        private static PieceConfig IronConfig(string spriteName) {
+            return new PieceConfig {
+                Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
+                Requirements = new[] {
+                    new RequirementConfig("Wood", 3, 0, true),
+                    new RequirementConfig("IronNails", 1, 0, true)
+                },
+                PieceTable = "Hammer",
+                Category = "Crafting",
+            };
         }
     }
 }
