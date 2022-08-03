@@ -49,5 +49,8 @@ If you use r2modman/Tunderstore Mod Manager you can set the path too, but this i
 ```
 
 ## Changelog
+0.1.1
+- Added missing MultiUserChest dependency to Thunderstore
+
 0.1.0
 - Release
