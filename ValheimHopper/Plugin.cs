@@ -12,11 +12,11 @@ using Jotunn.Managers;
 namespace ValheimHopper {
     [BepInPlugin(ModGuid, ModName, ModVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
-    [BepInDependency(MultiUserChest.Plugin.ModGuid)]
+    [BepInDependency(MultiUserChest.Plugin.ModGuid, "0.2.0")]
     public class Plugin : BaseUnityPlugin {
-        public const string ModName = "ValheimHopper";
-        public const string ModGuid = "com.maxsch.valheim.ValheimHopper";
-        public const string ModVersion = "0.0.0";
+        public const string ModName = "ItemHopper";
+        public const string ModGuid = "com.maxsch.valheim.ItemHopper";
+        public const string ModVersion = "0.1.0";
 
         public static ConfigEntry<bool> addSmelterSnappoints;
 
@@ -85,8 +85,8 @@ namespace ValheimHopper {
                 });
 
                 SnappointHelper.AddSnappoints("blastfurnace", new[] {
-                    new Vector3(-0.5f, 1.72f, 1.7f),
-                    new Vector3(0.55f, 1.72f, 1.7f),
+                    new Vector3(-0.5f, 1.72001f, 1.7f),
+                    new Vector3(0.57f, 1.72f, 1.70001f),
                 });
             }
 
