@@ -13,6 +13,7 @@ namespace ValheimHopper {
     [BepInPlugin(ModGuid, ModName, ModVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
     [BepInDependency(MultiUserChest.Plugin.ModGuid, "0.2.0")]
+    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
     public class Plugin : BaseUnityPlugin {
         public const string ModName = "ItemHopper";
         public const string ModGuid = "com.maxsch.valheim.ItemHopper";
