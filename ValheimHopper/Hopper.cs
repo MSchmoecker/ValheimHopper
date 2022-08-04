@@ -240,13 +240,20 @@ namespace ValheimHopper {
         }
 
         private void FindIO() {
-            Vector3 pos = transform.position;
-            int count = Physics.OverlapBoxNonAlloc(pos, Vector3.one, tmpColliders, Quaternion.identity, pieceMask);
+            Quaternion rotation = transform.rotation;
 
             chestsFrom.Clear();
             chestsTo.Clear();
             smelters.Clear();
             nearHoppers.Clear();
+
+            AddNearPieces();
+            AddInputPieces(rotation);
+            AddOutputPieces(rotation);
+        }
+
+        private void AddNearPieces() {
+            int count = Physics.OverlapSphereNonAlloc(transform.position, 1f, tmpColliders, pieceMask);
 
             for (int i = 0; i < count; i++) {
                 Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
@@ -261,8 +268,10 @@ namespace ValheimHopper {
                     nearHoppers.Add(hopper);
                 }
             }
+        }
 
-            count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(inPos), inSize / 2f, tmpColliders, transform.rotation, pieceMask);
+        private void AddInputPieces(Quaternion rotation) {
+            int count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(inPos), inSize / 2f, tmpColliders, rotation, pieceMask);
 
             for (int i = 0; i < count; i++) {
                 Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
@@ -271,14 +280,14 @@ namespace ValheimHopper {
                     continue;
                 }
 
-                Container container = piece.GetComponent<Container>();
-
-                if (container && !chestsFrom.Contains(container)) {
+                if (piece.TryGetComponent(out Container container) && !chestsFrom.Contains(container)) {
                     chestsFrom.Add(container);
                 }
             }
+        }
 
-            count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(outPos), outSize / 2f, tmpColliders, transform.rotation, pieceMask);
+        private void AddOutputPieces(Quaternion rotation) {
+            int count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(outPos), outSize / 2f, tmpColliders, rotation, pieceMask);
 
             for (int i = 0; i < count; i++) {
                 Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
@@ -287,14 +296,11 @@ namespace ValheimHopper {
                     continue;
                 }
 
-                Container container = piece.GetComponent<Container>();
-                Smelter smelter = piece.GetComponent<Smelter>();
-
-                if (container && !chestsTo.Contains(container)) {
+                if (piece.TryGetComponent(out Container container) && !chestsTo.Contains(container)) {
                     chestsTo.Add(container);
                 }
 
-                if (smelter && !smelters.Contains(smelter)) {
+                if (piece.TryGetComponent(out Smelter smelter) && !smelters.Contains(smelter)) {
                     smelters.Add(smelter);
                 }
             }
