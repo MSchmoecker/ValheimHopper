@@ -878,9 +878,9 @@ MonoBehaviour:
   m_broken: {fileID: 0}
   m_wet: {fileID: 0}
   m_noRoofWear: 1
-  m_noSupportWear: 0
+  m_noSupportWear: 1
   m_materialType: 0
-  m_supports: 0
+  m_supports: 1
   m_comOffset: {x: 0, y: 0, z: 0}
   m_health: 100
   m_damages:
