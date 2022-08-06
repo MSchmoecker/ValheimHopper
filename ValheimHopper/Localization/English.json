@@ -8,5 +8,11 @@
   "piece_hopper_iron_side": "Iron Side Hopper",
   "piece_hopper_iron_side_filter": "Iron Side Filter Hopper",
   "toggle_leave_one_item": "Leave one item in every slot",
-  "hopper_filter_description": "Filtering: the last item in a slot will not be moved"
+  "hopper_filter_description": "Filtering: the last item in a slot will not be moved",
+  "piece_hopper_settings_edit": "Edit Hopper Settings",
+  "hopper_options_filter": "Filter items",
+  "hopper_options_drop": "Drop items into the world",
+  "hopper_copy": "Copy",
+  "hopper_paste": "Paste",
+  "hopper_reset": "Reset"
 }

@@ -20,6 +20,7 @@ namespace ValheimHopper {
         public const string ModVersion = "0.1.1";
 
         public static ConfigEntry<bool> addSmelterSnappoints;
+        public static ConfigEntry<KeyboardShortcut> hopperEditKey;
 
         private static readonly HashSet<string> HopperPrefabNames = new HashSet<string>();
 
@@ -35,6 +36,7 @@ namespace ValheimHopper {
             harmony.PatchAll();
 
             addSmelterSnappoints = Config.Bind("General", "Add Smelter Snappoints", true, "Adds snappoints to inputs/outputs of the smelter, charcoal kiln and blastfurnace. Requires a restart to take effect.");
+            hopperEditKey = Config.Bind("General", "Hopper Edit Key", new KeyboardShortcut(KeyCode.E, KeyCode.LeftShift), "Key to edit hoppers while hovering over a placed one.");
 
             CustomLocalization localization = LocalizationManager.Instance.GetLocalization();
             localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly()));
@@ -72,9 +74,10 @@ namespace ValheimHopper {
             HopperPrefabNames.Add(hopperIronSideIron.Piece.name);
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
+            GUIManager.OnCustomGUIAvailable += HopperUI.Init;
         }
 
-        private void AddSnappoints() {
+        private static void AddSnappoints() {
             if (addSmelterSnappoints.Value) {
                 SnappointHelper.AddSnappoints("smelter", new[] {
                     new Vector3(0f, 1.8f, -1.2f),

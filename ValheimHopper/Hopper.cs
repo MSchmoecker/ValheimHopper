@@ -6,7 +6,8 @@ using MultiUserChest;
 
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
-    public class Hopper : MonoBehaviour {
+    public class Hopper : MonoBehaviour, Hoverable, Interactable {
+        public Piece piece;
         private ZNetView zNetView;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
@@ -35,9 +36,16 @@ namespace ValheimHopper {
         private int instanceId;
         private int frameOffset;
 
+        public ZBool FilterItems { get; private set; }
+        public ZBool DropItems { get; private set; }
+
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
+            piece = GetComponent<Piece>();
             selfContainer = GetComponent<Container>();
+
+            FilterItems = new ZBool("hopper_filter_items", isFilterHopper, zNetView);
+            DropItems = new ZBool("hopper_drop_items", false, zNetView);
 
             if (pieceMask == 0) {
                 pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
@@ -52,6 +60,16 @@ namespace ValheimHopper {
             objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
             instanceId = GetInstanceID();
             frameOffset = Mathf.Abs(instanceId % transferFrames);
+        }
+
+        public void PasteData(Hopper copy) {
+            FilterItems.Set(copy.FilterItems.Get());
+            DropItems.Set(copy.DropItems.Get());
+        }
+
+        public void ResetValues() {
+            FilterItems.Reset();
+            DropItems.Reset();
         }
 
         private void FixedUpdate() {
@@ -318,6 +336,33 @@ namespace ValheimHopper {
                     Gizmos.DrawSphere(child.position, .1f);
                 }
             }
+        }
+
+        public string GetHoverText() {
+            string text = selfContainer.GetHoverText();
+
+            if (selfContainer.m_checkGuardStone && !PrivateArea.CheckAccess(transform.position, flash: false)) {
+                return text;
+            }
+
+            text += $"\n[<color=yellow><b>{Plugin.hopperEditKey.Value.Serialize()}</b></color>] $piece_hopper_settings_edit";
+            return text;
+        }
+
+        public string GetHoverName() {
+            return piece.m_name;
+        }
+
+        public bool Interact(Humanoid user, bool hold, bool alt) {
+            if (Plugin.hopperEditKey.Value.IsPressed()) {
+                return false;
+            }
+
+            return selfContainer.Interact(user, hold, alt);
+        }
+
+        public bool UseItem(Humanoid user, ItemDrop.ItemData item) {
+            return false;
         }
     }
 }
