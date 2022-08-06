@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MultiUserChest;
+using Random = UnityEngine.Random;
 
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
@@ -116,6 +117,24 @@ namespace ValheimHopper {
 
             if (!pushed) {
                 PushItemsIntoSmelter();
+            }
+
+            if (chestsTo.Count == 0 &&  smelters.Count == 0 && DropItems.Get()) {
+                DropItem();
+            }
+        }
+
+        private void DropItem() {
+            ItemDrop.ItemData firstItem = selfContainer.GetInventory().FindFirstItem(CanPushItem);
+
+            if (firstItem != null) {
+                selfContainer.GetInventory().RemoveOneItem(firstItem);
+                float angle = Random.Range(0f, (float)(2f * Math.PI));
+                Vector3 randomPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * 0.2f;
+                Vector3 visualOffset = ItemHelper.GetVisualItemOffset(firstItem.m_dropPrefab.name);
+                Vector3 pos = transform.TransformPoint(outPos) + visualOffset + new Vector3(randomPos.x, 0, randomPos.z);
+                GameObject drop = Instantiate(firstItem.m_dropPrefab, pos, firstItem.m_dropPrefab.transform.rotation);
+                drop.GetComponent<ItemDrop>().m_itemData.m_stack = 1;
             }
         }
 
