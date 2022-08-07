@@ -14,7 +14,6 @@ namespace ValheimHopper {
 #pragma warning disable 0649
         [SerializeField] private Text title;
         [SerializeField] private Toggle filterHopper;
-        [SerializeField] private Toggle dropItems;
         [SerializeField] private Button copyButton;
         [SerializeField] private Button pasteButton;
         [SerializeField] private Button resetButton;
@@ -28,7 +27,6 @@ namespace ValheimHopper {
             Instance = this;
 
             filterHopper.onValueChanged.AddListener(i => target.FilterItems.Set(i));
-            dropItems.onValueChanged.AddListener(i => target.DropItems.Set(i));
 
             copyButton.onClick.AddListener(() => { copy = target; });
             pasteButton.onClick.AddListener(() => { target.PasteData(copy); });
@@ -86,7 +84,6 @@ namespace ValheimHopper {
         private void UpdateText() {
             title.text = Localization.instance.Localize(target.piece.m_name);
             filterHopper.SetIsOnWithoutNotify(target.FilterItems.Get());
-            dropItems.SetIsOnWithoutNotify(target.DropItems.Get());
         }
 
         private static void ApplyAllComponents(GameObject root) {
