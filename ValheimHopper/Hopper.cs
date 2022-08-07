@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MultiUserChest;
+using Logger = Jotunn.Logger;
 using Random = UnityEngine.Random;
 
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
     public class Hopper : MonoBehaviour {
-        public Piece piece;
+        [HideInInspector] public Piece piece;
         private ZNetView zNetView;
+        private WearNTear wearNTear;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
         private static int pieceMask;
         private static int itemMask;
 
-        [SerializeField] private bool isFilterHopper;
+        [SerializeField] private bool autoDeconstruct;
 
         [SerializeField] private Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
         [SerializeField] private Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
@@ -43,8 +45,9 @@ namespace ValheimHopper {
             zNetView = GetComponent<ZNetView>();
             piece = GetComponent<Piece>();
             selfContainer = GetComponent<Container>();
+            wearNTear = GetComponent<WearNTear>();
 
-            FilterItems = new ZBool("hopper_filter_items", isFilterHopper, zNetView);
+            FilterItems = new ZBool("hopper_filter_items", false, zNetView);
 
             if (pieceMask == 0) {
                 pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
@@ -70,7 +73,15 @@ namespace ValheimHopper {
         }
 
         private void FixedUpdate() {
-            if (!IsValid()) {
+            if (!IsValid() || !zNetView.IsOwner()) {
+                return;
+            }
+
+            if (autoDeconstruct) {
+                if (Player.m_localPlayer) {
+                    wearNTear.Destroy();
+                }
+
                 return;
             }
 
@@ -97,7 +108,7 @@ namespace ValheimHopper {
         }
 
         private bool IsValid() {
-            return zNetView && zNetView.IsValid() && zNetView.GetZDO() != null && zNetView.IsOwner();
+            return zNetView && zNetView.IsValid() && zNetView.GetZDO() != null;
         }
 
         private void PullItems() {
@@ -160,7 +171,7 @@ namespace ValheimHopper {
         }
 
         private bool CanPushItem(ItemDrop.ItemData item) {
-            if (isFilterHopper && item.m_stack == 1) {
+            if (FilterItems.Get() && item.m_stack == 1) {
                 return false;
             }
 

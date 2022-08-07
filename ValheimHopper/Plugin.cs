@@ -21,8 +21,6 @@ namespace ValheimHopper {
 
         public static ConfigEntry<bool> addSmelterSnappoints;
 
-        private static readonly HashSet<string> HopperPrefabNames = new HashSet<string>();
-
         public static Plugin Instance { get; private set; }
         public static AssetBundle AssetBundle { get; private set; }
 
@@ -49,7 +47,7 @@ namespace ValheimHopper {
             CustomPiece hopperIronDown = new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V", false));
             CustomPiece hopperIronDownFilter = new CustomPiece(AssetBundle, "HopperIronDownFilter", true, IronConfig("Iron_V", true));
             CustomPiece hopperIronSide = new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H", false));
-            CustomPiece hopperIronSideIron = new CustomPiece(AssetBundle, "HopperIronSideFilter", true, IronConfig("Iron_H", true));
+            CustomPiece hopperIronSideFilter = new CustomPiece(AssetBundle, "HopperIronSideFilter", true, IronConfig("Iron_H", true));
 
             PieceManager.Instance.AddPiece(hopperBronzeDown);
             PieceManager.Instance.AddPiece(hopperBronzeDownFilter);
@@ -59,17 +57,12 @@ namespace ValheimHopper {
             PieceManager.Instance.AddPiece(hopperIronDown);
             PieceManager.Instance.AddPiece(hopperIronDownFilter);
             PieceManager.Instance.AddPiece(hopperIronSide);
-            PieceManager.Instance.AddPiece(hopperIronSideIron);
+            PieceManager.Instance.AddPiece(hopperIronSideFilter);
 
-            HopperPrefabNames.Add(hopperBronzeDown.Piece.name);
-            HopperPrefabNames.Add(hopperBronzeDownFilter.Piece.name);
-            HopperPrefabNames.Add(hopperBronzeSide.Piece.name);
-            HopperPrefabNames.Add(hopperBronzeSideFilter.Piece.name);
-
-            HopperPrefabNames.Add(hopperIronDown.Piece.name);
-            HopperPrefabNames.Add(hopperIronDownFilter.Piece.name);
-            HopperPrefabNames.Add(hopperIronSide.Piece.name);
-            HopperPrefabNames.Add(hopperIronSideIron.Piece.name);
+            hopperBronzeDownFilter.Piece.m_enabled = false;
+            hopperBronzeSideFilter.Piece.m_enabled = false;
+            hopperIronDownFilter.Piece.m_enabled = false;
+            hopperIronSideFilter.Piece.m_enabled = false;
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
@@ -93,11 +86,6 @@ namespace ValheimHopper {
             }
 
             PrefabManager.OnVanillaPrefabsAvailable -= AddSnappoints;
-        }
-
-        public static bool IsHopperPrefab(GameObject prefab) {
-            string name = Utils.GetPrefabName(prefab);
-            return HopperPrefabNames.Contains(name);
         }
 
         private static PieceConfig BronzeConfig(string spriteName, bool filterHopper) {

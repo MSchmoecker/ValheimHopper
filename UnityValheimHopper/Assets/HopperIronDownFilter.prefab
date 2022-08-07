@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: isFilterHopper
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2330053428836586756, guid: f9a2f947067faa246bf22e7d47831bdd,
+        type: 3}
+      propertyPath: autoDeconstruct
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3994189679053736651, guid: f9a2f947067faa246bf22e7d47831bdd,
         type: 3}
       propertyPath: m_name

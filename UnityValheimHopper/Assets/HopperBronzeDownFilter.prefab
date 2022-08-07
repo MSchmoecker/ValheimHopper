@@ -82,5 +82,10 @@ PrefabInstance:
       propertyPath: isFilterHopper
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8924495713489727083, guid: e53322b522555cb45a08e1b8bed0a275,
+        type: 3}
+      propertyPath: autoDeconstruct
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e53322b522555cb45a08e1b8bed0a275, type: 3}
