@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
-    public class Hopper : MonoBehaviour, Hoverable, Interactable {
+    public class Hopper : MonoBehaviour {
         public Piece piece;
         private ZNetView zNetView;
         private Container selfContainer;
@@ -355,33 +355,6 @@ namespace ValheimHopper {
                     Gizmos.DrawSphere(child.position, .1f);
                 }
             }
-        }
-
-        public string GetHoverText() {
-            string text = selfContainer.GetHoverText();
-
-            if (selfContainer.m_checkGuardStone && !PrivateArea.CheckAccess(transform.position, flash: false)) {
-                return text;
-            }
-
-            text += $"\n[<color=yellow><b>{Plugin.hopperEditKey.Value.Serialize()}</b></color>] $piece_hopper_settings_edit";
-            return text;
-        }
-
-        public string GetHoverName() {
-            return piece.m_name;
-        }
-
-        public bool Interact(Humanoid user, bool hold, bool alt) {
-            if (Plugin.hopperEditKey.Value.IsPressed()) {
-                return false;
-            }
-
-            return selfContainer.Interact(user, hold, alt);
-        }
-
-        public bool UseItem(Humanoid user, ItemDrop.ItemData item) {
-            return false;
         }
     }
 }
