@@ -1,4 +1,5 @@
 using Jotunn;
+using Jotunn.GUI;
 using Jotunn.Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,14 +31,8 @@ namespace ValheimHopper {
             dropItems.onValueChanged.AddListener(i => target.DropItems.Set(i));
 
             copyButton.onClick.AddListener(() => { copy = target; });
-            pasteButton.onClick.AddListener(() => {
-                target.PasteData(copy);
-                UpdateText();
-            });
-            resetButton.onClick.AddListener(() => {
-                target.ResetValues();
-                UpdateText();
-            });
+            pasteButton.onClick.AddListener(() => { target.PasteData(copy); });
+            resetButton.onClick.AddListener(() => { target.ResetValues(); });
         }
 
         public static void Init() {
@@ -49,55 +44,43 @@ namespace ValheimHopper {
             GUIManager.Instance.ApplyTextStyle(ui.title, GUIManager.Instance.AveriaSerifBold, GUIManager.Instance.ValheimOrange, 20);
             ApplyLocalization();
 
+            uiRoot.AddComponent<DragWindowCntrl>();
             uiRoot.SetActive(false);
             uiRoot.FixReferences(true);
         }
 
-        private void Update() {
-            if (IsOpen) {
-                if (Plugin.hopperEditKey.Value.IsDown() || Input.GetKeyDown(KeyCode.Escape) || ZInput.GetButtonDown("Use") || ZInput.GetButtonDown("Inventory")) {
-                    target = null;
-                    SetGUIState(false);
-                }
-            } else {
-                if (Plugin.hopperEditKey.Value.IsDown() && Player.m_localPlayer) {
-                    TryOpenUI();
-                }
+        private void LateUpdate() {
+            if (!Player.m_localPlayer) {
+                target = null;
+                SetGUIState(false);
+                return;
             }
 
-            if (IsOpen && target) {
+            InventoryGui gui = InventoryGui.instance;
+
+            if (!gui || !gui.IsContainerOpen() || !gui.m_currentContainer) {
+                target = null;
+                SetGUIState(false);
+                return;
+            }
+
+            if (gui.m_currentContainer.TryGetComponent(out Hopper hopper)) {
+                target = hopper;
+                SetGUIState(true);
                 UpdateText();
+            } else {
+                target = null;
+                SetGUIState(false);
             }
         }
 
         private static void SetGUIState(bool active) {
-            if (IsOpen && active) {
+            if (IsOpen == active) {
                 return;
             }
 
             IsOpen = active;
             uiRoot.SetActive(active);
-            GUIManager.BlockInput(active);
-        }
-
-        private void TryOpenUI() {
-            GameObject hoverPiece = Player.m_localPlayer.GetHoverObject();
-
-            if (!hoverPiece) {
-                return;
-            }
-
-            Hopper hopper = hoverPiece.GetComponentInParent<Hopper>();
-
-            if (hopper) {
-                OpenUI(hopper);
-            }
-        }
-
-        public void OpenUI(Hopper hopper) {
-            target = hopper;
-            SetGUIState(true);
-            UpdateText();
         }
 
         private void UpdateText() {
