@@ -1,22 +1,35 @@
-# Item Hopper
+# Update 0.2.0
+**This updated has some breaking changes for existing structures, please see the changelog for more details.**
 
+
+# Item Hopper
 ## About
 Adds hoppers that can transfer and pickup items.
 
 <img src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/ShowcaseSmelter.png" height="400" alt="Smelter"/> <img src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/ShowcaseMiniSorter.png" height="400" alt="MiniSorter"/>
 
+
+## Features
+### Real ingame hopper
 Different hopper types are available: bronze and iron.
-The pieces are found in the hammer crafting tab,
-bronze hoppers cost 3 Wood + 1 Bronze Nail, iron hoppers cost 3 Wood + 1 Iron Nail.
-Both have the same transfer speed but the bronze hopper has only one slot while the iron hopper has three.
+The pieces are found in the hammer crafting tab, both types cost 3 wood and 1 nail of their respective type.
 
-Filter hopper: these can be used to automate item routing.
-They will always hold on to the last item in every slot.
+They have the same transfer speed but the bronze hopper has only one slot while the iron hopper has three.
 
+### Individual hopper settings
+- Item filtering: this can be used for automate item routing.
+  They will always hold on to the last item in every slot.
+- Drop items: if enabled and the hopper has no target inventory they will dropped like the smelter does for example.
 
-## Installation
+### Seamless multiplayer
+The mod aims to work without interruption or major behavior differences of hoppers in multiplayer.
+
+## Manual Installation
 This mod requires BepInEx, Jötunn and MultiUserChest.\
 Extract the content of `ValheimHopper` into the `BepInEx/plugins` folder.
+
+The mod must be installed on all clients and the server, otherwise the connection will fail.
+
 
 ## Links
 - Thunderstore: https://valheim.thunderstore.io/package/MSchmoecker/ItemHopper/
@@ -24,14 +37,30 @@ Extract the content of `ValheimHopper` into the `BepInEx/plugins` folder.
 - Nexus: https://www.nexusmods.com/valheim/mods/1974
 - Discord: Margmas#9562
 
+
 ## Credits
 Big thanks to Bento#5066 for the hopper models and icons!
+
 
 ## Development
 See [contributing](https://github.com/MSchmoecker/ValheimHopper/blob/master/CONTRIBUTING.md).
 
 
 ## Changelog
+0.2.0
+
+**Attention: This update changes how structural integrity and filter hopper work.
+Old filter and structural unsupported hoppers in a world will be destroyed when loading the area.
+All items will be dropped and will not be lost. Please make a backup of your world before updating, regardless.**
+
+- Added UI to configure hoppers individually, removed extra pieces for filter hoppers
+- Added item dropping for hoppers that have no target smelter/chest. Default off, has its own config inside the UI
+- Added structural integrity to hopper, this fixes item placement issues with PlanBuild
+- Added enforcement of mod presence on the server and clients
+- Added Vulkan support
+- Added workbench build requirement for hoppers
+- Improved snappoints slightly
+
 0.1.1
 - Added missing MultiUserChest dependency to Thunderstore
 
