@@ -40,6 +40,7 @@ namespace ValheimHopper {
         private int frameOffset;
 
         public ZBool FilterItems { get; private set; }
+        public ZBool DropItems { get; private set; }
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
@@ -48,6 +49,7 @@ namespace ValheimHopper {
             wearNTear = GetComponent<WearNTear>();
 
             FilterItems = new ZBool("hopper_filter_items", false, zNetView);
+            DropItems = new ZBool("hopper_drop_items", false, zNetView);
 
             if (pieceMask == 0) {
                 pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
@@ -66,10 +68,12 @@ namespace ValheimHopper {
 
         public void PasteData(Hopper copy) {
             FilterItems.Set(copy.FilterItems.Get());
+            DropItems.Set(copy.DropItems.Get());
         }
 
         public void ResetValues() {
             FilterItems.Reset();
+            DropItems.Reset();
         }
 
         private void FixedUpdate() {
@@ -121,7 +125,9 @@ namespace ValheimHopper {
 
         private void PushItems() {
             if (chestsTo.Count == 0 && smelters.Count == 0) {
-                DropItem();
+                if (DropItems.Get()) {
+                    DropItem();
+                }
             } else {
                 bool pushed = PushItemsIntoChests();
 
