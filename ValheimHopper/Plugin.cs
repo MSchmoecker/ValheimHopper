@@ -71,8 +71,8 @@ namespace ValheimHopper {
         private static void AddSnappoints() {
             if (addSmelterSnappoints.Value) {
                 SnappointHelper.AddSnappoints("smelter", new[] {
-                    new Vector3(0f, 1.8f, -1.2f),
-                    new Vector3(0f, 1.8f, 1.2f),
+                    new Vector3(0f, 1.6f, -1.25f),
+                    new Vector3(0f, 1.6f, 1.25f),
                 });
 
                 SnappointHelper.AddSnappoints("charcoal_kiln", new[] {
@@ -96,6 +96,7 @@ namespace ValheimHopper {
                     new RequirementConfig("BronzeNails", 1, 0, true)
                 },
                 PieceTable = "Hammer",
+                CraftingStation = "piece_workbench",
                 Category = "Crafting",
                 Description = filterHopper ? "$hopper_filter_description" : "",
             };
@@ -109,6 +110,7 @@ namespace ValheimHopper {
                     new RequirementConfig("IronNails", 1, 0, true)
                 },
                 PieceTable = "Hammer",
+                CraftingStation = "piece_workbench",
                 Category = "Crafting",
                 Description = filterHopper ? "$hopper_filter_description" : "",
             };
