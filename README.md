@@ -47,6 +47,9 @@ See [contributing](https://github.com/MSchmoecker/ValheimHopper/blob/master/CONT
 
 
 ## Changelog
+0.2.1
+- Fixed errors when destroying a smelter while a hopper is still attached
+
 0.2.0
 
 **Attention: This update changes how structural integrity and filter hopper work.
