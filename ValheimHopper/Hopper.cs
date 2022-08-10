@@ -153,6 +153,10 @@ namespace ValheimHopper {
 
         private bool PushItemsIntoChests() {
             foreach (Container to in chestsTo) {
+                if (!to) {
+                    continue;
+                }
+
                 bool FindPushItem(ItemDrop.ItemData i) {
                     if (!CanPushItem(i)) {
                         return false;
@@ -190,6 +194,10 @@ namespace ValheimHopper {
 
         private bool DrainItemsFromChests() {
             foreach (Container from in chestsFrom) {
+                if (!from) {
+                    continue;
+                }
+
                 ItemDrop.ItemData item = from.GetInventory().FindFirstItem(CanAddItem);
 
                 if (item != null) {
@@ -203,6 +211,10 @@ namespace ValheimHopper {
 
         private void PushItemsIntoSmelter() {
             foreach (Smelter smelter in smelters) {
+                if (!smelter) {
+                    continue;
+                }
+
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
                     if (!CanPushItem(i)) {
                         return false;
