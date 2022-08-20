@@ -377,7 +377,7 @@ namespace ValheimHopper {
             Gizmos.color = Color.cyan;
             foreach (Transform child in transform) {
                 if (child.CompareTag("snappoint")) {
-                    Gizmos.DrawSphere(child.position, .1f);
+                    Gizmos.DrawSphere(child.position, .05f);
                 }
             }
         }
