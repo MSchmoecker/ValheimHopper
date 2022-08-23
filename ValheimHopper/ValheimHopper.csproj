@@ -126,6 +126,7 @@
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="SnappointHelper.cs" />
+        <Compile Include="TargetIO.cs" />
         <Compile Include="UnityDebugEnv.cs" />
         <Compile Include="ZProperty.cs" />
     </ItemGroup>

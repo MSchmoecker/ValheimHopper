@@ -84,7 +84,7 @@ namespace ValheimHopper {
         }
 
         private void UpdateText() {
-            title.text = Localization.instance.Localize(target.piece.m_name);
+            title.text = Localization.instance.Localize(target.Piece.m_name);
             filterHopper.SetIsOnWithoutNotify(target.FilterItems.Get());
             dropItems.SetIsOnWithoutNotify(target.DropItems.Get());
         }
