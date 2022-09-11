@@ -218,7 +218,7 @@ namespace ValheimHopper {
         }
 
         private bool CanAddItem(ItemDrop.ItemData itemToAdd, out Vector2i pos) {
-            pos = new Vector2i(-1, -1);
+            pos = new Vector2i(0, 0);
 
             if (!selfContainer.GetInventory().CanAddItem(itemToAdd, 1)) {
                 return false;
@@ -312,17 +312,19 @@ namespace ValheimHopper {
                     continue;
                 }
 
-                if (selfContainer.GetInventory().CanAddItem(item.m_itemData, 1)) {
-                    if (!item.m_nview.IsOwner()) {
-                        item.RequestOwn();
-                        continue;
-                    }
+                if (!CanAddItem(item.m_itemData, out _)) {
+                    continue;
+                }
 
-                    bool pickuped = PickupItem(item);
+                if (!item.m_nview.IsOwner()) {
+                    item.RequestOwn();
+                    continue;
+                }
 
-                    if (pickuped) {
-                        return true;
-                    }
+                bool pickuped = PickupItem(item);
+
+                if (pickuped) {
+                    return true;
                 }
             }
 
@@ -330,7 +332,7 @@ namespace ValheimHopper {
         }
 
         private bool PickupItem(ItemDrop item) {
-            if (!selfContainer.GetInventory().CanAddItem(item.m_itemData, 1)) {
+            if (!CanAddItem(item.m_itemData, out Vector2i pos)) {
                 return false;
             }
 
@@ -341,8 +343,7 @@ namespace ValheimHopper {
             }
 
             ItemDrop.ItemData itemData = item.m_itemData.Clone();
-            itemData.m_stack = 1;
-            selfContainer.GetInventory().AddItem(itemData);
+            selfContainer.GetInventory().AddItem(itemData, 1, pos.x, pos.y);
             return true;
         }
 
