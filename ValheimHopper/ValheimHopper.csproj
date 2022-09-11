@@ -62,7 +62,9 @@
             <Private>false</Private>
         </Reference>
         <Reference Include="MultiUserChest, Culture=neutral, PublicKeyToken=null">
-            <HintPath>$(R2MODMAN_INSTALL)\BepInEx\plugins\MultiUserChest\MultiUserChest.dll</HintPath>
+            <HintPath Condition="Exists('$(VALHEIM_INSTALL)\BepInEx\plugins\MultiUserChest\MultiUserChest.dll')">$(VALHEIM_INSTALL)\BepInEx\plugins\MultiUserChest\MultiUserChest.dll</HintPath>
+            <HintPath Condition="Exists('$(R2MODMAN_INSTALL)\BepInEx\plugins\MultiUserChest\MultiUserChest.dll')">$(R2MODMAN_INSTALL)\BepInEx\plugins\MultiUserChest\MultiUserChest.dll</HintPath>
+            <HintPath Condition="Exists('$(R2MODMAN_INSTALL)\BepInEx\plugins\MSchmoecker-MultiUserChest\MultiUserChest.dll')">$(R2MODMAN_INSTALL)\BepInEx\plugins\MSchmoecker-MultiUserChest\MultiUserChest.dll</HintPath>
             <Private>false</Private>
         </Reference>
         <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
