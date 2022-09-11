@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
     public class Hopper : MonoBehaviour {
-        public Piece Piece {get; private set; }
+        public Piece Piece { get; private set; }
         private ZNetView zNetView;
         private WearNTear wearNTear;
         private Container selfContainer;
@@ -63,16 +63,54 @@ namespace ValheimHopper {
             objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
             instanceId = GetInstanceID();
             frameOffset = Mathf.Abs(instanceId % transferFrames);
+
+            selfContainer.GetInventory().m_onChanged += SaveFilter;
+        }
+
+        private void SaveFilter() {
+            foreach (ItemDrop.ItemData item in selfContainer.GetInventory().m_inventory) {
+                Vector2i gridPos = item.m_gridPos;
+                int itemHash = item.m_dropPrefab.name.GetStableHashCode();
+                SetFilterItemHash(gridPos, itemHash);
+            }
+        }
+
+        public void SetFilterItemHash(Vector2i gridPos, int itemHash) {
+            SetFilterItemHash(gridPos.x, gridPos.y, itemHash);
+        }
+
+        public void SetFilterItemHash(int x, int y, int itemHash) {
+            zNetView.GetZDO().Set($"hopper_filter_{x}_{y}", itemHash);
+        }
+
+        public int GetFilterItemHash(Vector2i gridPos) {
+            return GetFilterItemHash(gridPos.x, gridPos.y);
+        }
+
+        public int GetFilterItemHash(int x, int y) {
+            return zNetView.GetZDO().GetInt($"hopper_filter_{x}_{y}");
         }
 
         public void PasteData(Hopper copy) {
             FilterItems.Set(copy.FilterItems.Get());
             DropItems.Set(copy.DropItems.Get());
+
+            for (int x = 0; x < selfContainer.GetInventory().m_width; x++) {
+                for (int y = 0; y < selfContainer.GetInventory().m_height; y++) {
+                    SetFilterItemHash(x, y, copy.GetFilterItemHash(x, y));
+                }
+            }
         }
 
         public void ResetValues() {
             FilterItems.Reset();
             DropItems.Reset();
+
+            for (int x = 0; x < selfContainer.GetInventory().m_width; x++) {
+                for (int y = 0; y < selfContainer.GetInventory().m_height; y++) {
+                    SetFilterItemHash(x, y, 0);
+                }
+            }
         }
 
         private void FixedUpdate() {
@@ -175,28 +213,35 @@ namespace ValheimHopper {
             return false;
         }
 
-        private bool CanAddItem(ItemDrop.ItemData item) {
-            return selfContainer.GetInventory().CanAddItem(item, 1);
+        private bool CanAddItem(ItemDrop.ItemData itemToAdd, out Vector2i pos) {
+            pos = new Vector2i(-1, -1);
+
+            if (!selfContainer.GetInventory().CanAddItem(itemToAdd, 1)) {
+                return false;
+            }
+
+            if (!FilterItems.Get()) {
+                return true;
+            }
+
+            int itemHash = itemToAdd.m_dropPrefab.name.GetStableHashCode();
+
+            for (int y = 0; y < selfContainer.m_height; y++) {
+                for (int x = 0; x < selfContainer.m_width; x++) {
+                    ItemDrop.ItemData item = selfContainer.GetInventory().GetItemAt(x, y);
+
+                    if (GetFilterItemHash(x, y) == itemHash && (item == null || item.m_stack + 1 <= item.m_shared.m_maxStackSize)) {
+                        pos = new Vector2i(x, y);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private bool CanPushItem(ItemDrop.ItemData item) {
-            if (FilterItems.Get() && item.m_stack == 1) {
-                return false;
-            }
-
-            if (nearHoppers.Any(h => h.targetsFrom.Exists(t => t.piece == Piece) && h.CanAddItem(item))) {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool CanPullItem(TargetIO from, ItemDrop.ItemData item) {
-            if (from.hopper && from.hopper.FilterItems.Get() && item.m_stack == 1) {
-                return false;
-            }
-
-            return CanAddItem(item);
+            return !nearHoppers.Any(h => h.targetsFrom.Exists(t => t.piece == Piece) && h.CanAddItem(item, out _));
         }
 
         private bool DrainItemsFromChests() {
@@ -205,11 +250,11 @@ namespace ValheimHopper {
                     continue;
                 }
 
-                ItemDrop.ItemData item = from.container.GetInventory().FindFirstItem(i => CanPullItem(from, i));
-
-                if (item != null) {
-                    from.container.RemoveItemFromChest(item, selfContainer, new Vector2i(-1, -1), 1);
-                    return true;
+                foreach (ItemDrop.ItemData item in from.container.GetInventory().FindItemInOrder()) {
+                    if (CanAddItem(item, out Vector2i pos)) {
+                        from.container.RemoveItemFromChest(item, selfContainer, pos, 1);
+                        return true;
+                    }
                 }
             }
 

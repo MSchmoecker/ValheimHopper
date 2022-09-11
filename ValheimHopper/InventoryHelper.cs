@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ValheimHopper {
     public static class InventoryHelper {
@@ -18,6 +19,22 @@ namespace ValheimHopper {
             }
 
             return null;
+        }
+
+        public static IEnumerable<ItemDrop.ItemData> FindItemInOrder(this Inventory target) {
+            if (target.m_inventory.Count == 0) {
+                yield break;
+            }
+
+            for (int y = 0; y < target.m_height; y++) {
+                for (int x = 0; x < target.m_width; x++) {
+                    ItemDrop.ItemData item = target.GetItemAt(x, y);
+
+                    if (item != null) {
+                        yield return item;
+                    }
+                }
+            }
         }
     }
 }
