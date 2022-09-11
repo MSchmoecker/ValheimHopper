@@ -15,6 +15,7 @@ namespace ValheimHopper {
         [SerializeField] private Text title;
         [SerializeField] private Toggle filterHopper;
         [SerializeField] private Toggle dropItems;
+        [SerializeField] private Toggle pickupItems;
         [SerializeField] private Button copyButton;
         [SerializeField] private Button pasteButton;
         [SerializeField] private Button resetButton;
@@ -27,8 +28,9 @@ namespace ValheimHopper {
         private void Awake() {
             Instance = this;
 
-            filterHopper.onValueChanged.AddListener(i => target.FilterItems.Set(i));
-            dropItems.onValueChanged.AddListener(i => target.DropItems.Set(i));
+            filterHopper.onValueChanged.AddListener(i => target.FilterItemsOption.Set(i));
+            dropItems.onValueChanged.AddListener(i => target.DropItemsOption.Set(i));
+            pickupItems.onValueChanged.AddListener(i => target.PickupItemsOption.Set(i));
 
             copyButton.onClick.AddListener(() => { copy = target; });
             pasteButton.onClick.AddListener(() => { target.PasteData(copy); });
@@ -85,8 +87,9 @@ namespace ValheimHopper {
 
         private void UpdateText() {
             title.text = Localization.instance.Localize(target.Piece.m_name);
-            filterHopper.SetIsOnWithoutNotify(target.FilterItems.Get());
-            dropItems.SetIsOnWithoutNotify(target.DropItems.Get());
+            filterHopper.SetIsOnWithoutNotify(target.FilterItemsOption.Get());
+            dropItems.SetIsOnWithoutNotify(target.DropItemsOption.Get());
+            pickupItems.SetIsOnWithoutNotify(target.PickupItemsOption.Get());
         }
 
         private static void ApplyAllComponents(GameObject root) {

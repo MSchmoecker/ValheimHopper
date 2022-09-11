@@ -38,8 +38,9 @@ namespace ValheimHopper {
         private int instanceId;
         private int frameOffset;
 
-        public ZBool FilterItems { get; private set; }
-        public ZBool DropItems { get; private set; }
+        public ZBool FilterItemsOption { get; private set; }
+        public ZBool DropItemsOption { get; private set; }
+        public ZBool PickupItemsOption { get; private set; }
 
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
@@ -47,8 +48,9 @@ namespace ValheimHopper {
             selfContainer = GetComponent<Container>();
             wearNTear = GetComponent<WearNTear>();
 
-            FilterItems = new ZBool("hopper_filter_items", false, zNetView);
-            DropItems = new ZBool("hopper_drop_items", false, zNetView);
+            FilterItemsOption = new ZBool("hopper_filter_items", false, zNetView);
+            DropItemsOption = new ZBool("hopper_drop_items", false, zNetView);
+            PickupItemsOption = new ZBool("hopper_pickup_items", true, zNetView);
 
             if (pieceMask == 0) {
                 pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
@@ -92,8 +94,9 @@ namespace ValheimHopper {
         }
 
         public void PasteData(Hopper copy) {
-            FilterItems.Set(copy.FilterItems.Get());
-            DropItems.Set(copy.DropItems.Get());
+            FilterItemsOption.Set(copy.FilterItemsOption.Get());
+            DropItemsOption.Set(copy.DropItemsOption.Get());
+            PickupItemsOption.Set(copy.PickupItemsOption.Get());
 
             for (int x = 0; x < selfContainer.GetInventory().m_width; x++) {
                 for (int y = 0; y < selfContainer.GetInventory().m_height; y++) {
@@ -103,8 +106,9 @@ namespace ValheimHopper {
         }
 
         public void ResetValues() {
-            FilterItems.Reset();
-            DropItems.Reset();
+            FilterItemsOption.Reset();
+            DropItemsOption.Reset();
+            PickupItemsOption.Reset();
 
             for (int x = 0; x < selfContainer.GetInventory().m_width; x++) {
                 for (int y = 0; y < selfContainer.GetInventory().m_height; y++) {
@@ -155,14 +159,14 @@ namespace ValheimHopper {
         private void PullItems() {
             bool drained = DrainItemsFromChests();
 
-            if (!drained) {
+            if (!drained && PickupItemsOption.Get()) {
                 PickupItems();
             }
         }
 
         private void PushItems() {
             if (targetsTo.Count == 0) {
-                if (DropItems.Get()) {
+                if (DropItemsOption.Get()) {
                     DropItem();
                 }
             } else {
@@ -220,7 +224,7 @@ namespace ValheimHopper {
                 return false;
             }
 
-            if (!FilterItems.Get()) {
+            if (!FilterItemsOption.Get()) {
                 return true;
             }
 
