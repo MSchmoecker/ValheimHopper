@@ -10,7 +10,7 @@ namespace ValheimHopper.Patches {
         public static void UpdateContainerPostfix(InventoryGui __instance) {
             Container container = __instance.m_currentContainer;
 
-            if (container && container.IsOwner() && container.TryGetComponent(out Hopper hopper) && hopper.FilterItemsOption.Get()) {
+            if (container && container.TryGetComponent(out Hopper hopper) && hopper.FilterItemsOption.Get()) {
                 ShowContainerGridGhosts(hopper, __instance.m_containerGrid);
             }
         }
