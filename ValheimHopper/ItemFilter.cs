@@ -1,7 +1,11 @@
+using System.Collections.Generic;
+
 namespace ValheimHopper {
     public class ItemFilter {
         private ZNetView zNetView;
         private Inventory inventory;
+
+        private Dictionary<string, ZInt> slots = new Dictionary<string, ZInt>();
 
         public ItemFilter(ZNetView zNetView, Inventory inventory) {
             this.zNetView = zNetView;
@@ -41,11 +45,23 @@ namespace ValheimHopper {
         }
 
         public void SetItemHash(int x, int y, int itemHash) {
-            zNetView.GetZDO().Set($"hopper_filter_{x}_{y}", itemHash);
+            GetSlot(x, y).Set(itemHash);
         }
 
         public int GetItemHash(int x, int y) {
-            return zNetView.GetZDO().GetInt($"hopper_filter_{x}_{y}");
+            return GetSlot(x, y).Get();
+        }
+
+        private ZInt GetSlot(int x, int y) {
+            string key = $"hopper_filter_{x}_{y}";
+
+            if (slots.TryGetValue(key, out ZInt slot)) {
+                return slot;
+            }
+
+            slot = new ZInt(key, 0, zNetView);
+            slots[key] = slot;
+            return slot;
         }
     }
 }
