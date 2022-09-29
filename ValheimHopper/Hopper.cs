@@ -67,9 +67,19 @@ namespace ValheimHopper {
             objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
             instanceId = GetInstanceID();
             frameOffset = Mathf.Abs(instanceId % transferFrames);
+        }
+
+        private void Start() {
+            if (!IsValid()) {
+                return;
+            }
 
             filter = new ItemFilter(zNetView, selfContainer.GetInventory());
-            selfContainer.GetInventory().m_onChanged += filter.Save;
+            selfContainer.GetInventory().m_onChanged += () => {
+                if (FilterItemsOption.Get()) {
+                    filter.Save();
+                }
+            };
         }
 
         public void PasteData(Hopper copy) {
