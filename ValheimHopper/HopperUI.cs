@@ -28,9 +28,13 @@ namespace ValheimHopper {
         private void Awake() {
             Instance = this;
 
-            filterHopper.onValueChanged.AddListener(i => target.FilterItemsOption.Set(i));
             dropItems.onValueChanged.AddListener(i => target.DropItemsOption.Set(i));
             pickupItems.onValueChanged.AddListener(i => target.PickupItemsOption.Set(i));
+
+            filterHopper.onValueChanged.AddListener(i => {
+                target.FilterItemsOption.Set(i);
+                target.filter.Clear();
+            });
 
             copyButton.onClick.AddListener(() => { copy = target; });
             pasteButton.onClick.AddListener(() => { target.PasteData(copy); });
