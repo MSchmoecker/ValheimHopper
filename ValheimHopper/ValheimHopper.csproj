@@ -124,6 +124,7 @@
         <Compile Include="Hopper.cs" />
         <Compile Include="HopperUI.cs" />
         <Compile Include="InventoryHelper.cs" />
+        <Compile Include="ItemFilter.cs" />
         <Compile Include="ItemHelper.cs" />
         <Compile Include="Patches\InventoryGuiPatch.cs" />
         <Compile Include="Plugin.cs" />

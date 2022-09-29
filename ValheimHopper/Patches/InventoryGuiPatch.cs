@@ -21,7 +21,7 @@ namespace ValheimHopper.Patches {
                     continue;
                 }
 
-                int itemHash = hopper.GetFilterItemHash(element.m_pos);
+                int itemHash = hopper.filter.GetItemHash(element.m_pos);
                 GameObject itemGameObject = ObjectDB.instance.GetItemPrefab(itemHash);
 
                 if (!itemGameObject) {

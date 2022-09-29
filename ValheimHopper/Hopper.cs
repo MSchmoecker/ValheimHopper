@@ -38,6 +38,8 @@ namespace ValheimHopper {
         private int instanceId;
         private int frameOffset;
 
+        public ItemFilter filter;
+
         public ZBool FilterItemsOption { get; private set; }
         public ZBool DropItemsOption { get; private set; }
         public ZBool PickupItemsOption { get; private set; }
@@ -66,55 +68,22 @@ namespace ValheimHopper {
             instanceId = GetInstanceID();
             frameOffset = Mathf.Abs(instanceId % transferFrames);
 
-            selfContainer.GetInventory().m_onChanged += SaveFilter;
-        }
-
-        private void SaveFilter() {
-            foreach (ItemDrop.ItemData item in selfContainer.GetInventory().m_inventory) {
-                Vector2i gridPos = item.m_gridPos;
-                int itemHash = item.m_dropPrefab.name.GetStableHashCode();
-                SetFilterItemHash(gridPos, itemHash);
-            }
-        }
-
-        public void SetFilterItemHash(Vector2i gridPos, int itemHash) {
-            SetFilterItemHash(gridPos.x, gridPos.y, itemHash);
-        }
-
-        public void SetFilterItemHash(int x, int y, int itemHash) {
-            zNetView.GetZDO().Set($"hopper_filter_{x}_{y}", itemHash);
-        }
-
-        public int GetFilterItemHash(Vector2i gridPos) {
-            return GetFilterItemHash(gridPos.x, gridPos.y);
-        }
-
-        public int GetFilterItemHash(int x, int y) {
-            return zNetView.GetZDO().GetInt($"hopper_filter_{x}_{y}");
+            filter = new ItemFilter(zNetView, selfContainer.GetInventory());
+            selfContainer.GetInventory().m_onChanged += filter.Save;
         }
 
         public void PasteData(Hopper copy) {
             FilterItemsOption.Set(copy.FilterItemsOption.Get());
             DropItemsOption.Set(copy.DropItemsOption.Get());
             PickupItemsOption.Set(copy.PickupItemsOption.Get());
-
-            for (int x = 0; x < selfContainer.GetInventory().m_width; x++) {
-                for (int y = 0; y < selfContainer.GetInventory().m_height; y++) {
-                    SetFilterItemHash(x, y, copy.GetFilterItemHash(x, y));
-                }
-            }
+            filter.Copy(copy.filter);
         }
 
         public void ResetValues() {
             FilterItemsOption.Reset();
             DropItemsOption.Reset();
             PickupItemsOption.Reset();
-
-            for (int x = 0; x < selfContainer.GetInventory().m_width; x++) {
-                for (int y = 0; y < selfContainer.GetInventory().m_height; y++) {
-                    SetFilterItemHash(x, y, 0);
-                }
-            }
+            filter.Clear();
         }
 
         private void FixedUpdate() {
@@ -233,8 +202,11 @@ namespace ValheimHopper {
             for (int y = 0; y < selfContainer.m_height; y++) {
                 for (int x = 0; x < selfContainer.m_width; x++) {
                     ItemDrop.ItemData item = selfContainer.GetInventory().GetItemAt(x, y);
+                    int filterHash = filter.GetItemHash(x, y);
+                    bool isFiltered = filterHash == 0 || filterHash == itemHash;
+                    bool canAdd = item == null || item.m_stack + 1 <= item.m_shared.m_maxStackSize;
 
-                    if (GetFilterItemHash(x, y) == itemHash && (item == null || item.m_stack + 1 <= item.m_shared.m_maxStackSize)) {
+                    if (isFiltered && canAdd) {
                         pos = new Vector2i(x, y);
                         return true;
                     }
