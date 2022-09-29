@@ -182,6 +182,10 @@ namespace ValheimHopper {
                         return false;
                     }
 
+                    if (to.hopper && !to.hopper.CanAddItem(i, out _)) {
+                        return false;
+                    }
+
                     return to.container.GetInventory().CanAddItem(i, 1);
                 }
 
