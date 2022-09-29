@@ -31,9 +31,14 @@ namespace ValheimHopper {
             dropItems.onValueChanged.AddListener(i => target.DropItemsOption.Set(i));
             pickupItems.onValueChanged.AddListener(i => target.PickupItemsOption.Set(i));
 
-            filterHopper.onValueChanged.AddListener(i => {
-                target.FilterItemsOption.Set(i);
-                target.filter.Clear();
+            filterHopper.onValueChanged.AddListener(active => {
+                target.FilterItemsOption.Set(active);
+
+                if (active) {
+                    target.filter.Save();
+                } else {
+                    target.filter.Clear();
+                }
             });
 
             copyButton.onClick.AddListener(() => { copy = target; });
