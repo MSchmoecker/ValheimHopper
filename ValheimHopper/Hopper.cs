@@ -207,20 +207,27 @@ namespace ValheimHopper {
                 return false;
             }
 
-            if (!FilterItemsOption.Get()) {
-                return true;
-            }
-
             int itemHash = itemToAdd.m_dropPrefab.name.GetStableHashCode();
 
             for (int y = 0; y < selfContainer.m_height; y++) {
                 for (int x = 0; x < selfContainer.m_width; x++) {
                     ItemDrop.ItemData item = selfContainer.GetInventory().GetItemAt(x, y);
-                    int filterHash = filter.GetItemHash(x, y);
-                    bool isFiltered = filterHash == 0 || filterHash == itemHash;
-                    bool canAdd = item == null || item.m_stack + 1 <= item.m_shared.m_maxStackSize;
+                    bool canAdd = item == null ||
+                                  item.m_stack + 1 <= item.m_shared.m_maxStackSize && item.m_shared.m_name == itemToAdd.m_shared.m_name;
 
-                    if (isFiltered && canAdd) {
+                    if (!canAdd) {
+                        continue;
+                    }
+
+                    if (FilterItemsOption.Get()) {
+                        int filterHash = filter.GetItemHash(x, y);
+                        bool isFiltered = filterHash == 0 || filterHash == itemHash;
+
+                        if (isFiltered) {
+                            pos = new Vector2i(x, y);
+                            return true;
+                        }
+                    } else {
                         pos = new Vector2i(x, y);
                         return true;
                     }
