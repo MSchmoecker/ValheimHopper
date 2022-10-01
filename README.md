@@ -1,7 +1,3 @@
-# Update 0.2.0
-**This updated has some breaking changes for existing structures, please see the changelog for more details.**
-
-
 # Item Hopper
 ## About
 Adds hoppers that can transfer and pickup items.
@@ -17,9 +13,11 @@ The pieces are found in the hammer crafting tab, both types cost 3 wood and 1 na
 They have the same transfer speed but the bronze hopper has only one slot while the iron hopper has three.
 
 ### Individual hopper settings
-- Item filtering: this can be used for automate item routing.
-  They will always hold on to the last item in every slot.
-- Drop items: if enabled and the hopper has no target inventory they will dropped like the smelter does for example.
+Every hopper can have it's own setting. They appear in a custom UI when the hopper is opened.
+- Filter Items: this can be used for automate item routing.
+  The last item will be remembered with a "ghost" item and only this item type will be moved to the hopper.
+- Enable Item Dropping: if enabled and the hopper has no target inventory they will dropped like the smelter does for example.
+- Enable Item Pickup: if disabled the hopper will not pickup items from the ground.
 
 ### Seamless multiplayer
 The mod aims to work without interruption or major behavior differences of hoppers in multiplayer.
@@ -35,7 +33,7 @@ The mod must be installed on all clients and the server, otherwise the connectio
 - Thunderstore: https://valheim.thunderstore.io/package/MSchmoecker/ItemHopper/
 - Github: https://github.com/MSchmoecker/ValheimHopper
 - Nexus: https://www.nexusmods.com/valheim/mods/1974
-- Discord: Margmas#9562
+- Discord: Margmas#9562. Feel free to DM or ping me in the [Jötunn discord](https://discord.gg/DdUt6g7gyA)
 
 
 ## Credits
@@ -47,6 +45,14 @@ See [contributing](https://github.com/MSchmoecker/ValheimHopper/blob/master/CONT
 
 
 ## Changelog
+0.3.0
+- Changed filter to a "ghost" item instead of holding on to the last item.
+  This also fixed the issue that stacked filter hoppers could not be used for filtering and allows for tool/weapon filtering
+- Added option to disable item pickup
+- Added more snappoint positions
+- Added German localization, improved English localization
+- Fixed item loop if hopper are too close together
+
 0.2.1
 - Fixed errors when destroying a smelter while a hopper is still attached
 
