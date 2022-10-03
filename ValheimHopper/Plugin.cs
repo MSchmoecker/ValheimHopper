@@ -72,17 +72,19 @@ namespace ValheimHopper {
         private static void AddSnappoints() {
             if (addSmelterSnappoints.Value) {
                 SnappointHelper.AddSnappoints("smelter", new[] {
-                    new Vector3(0f, 1.6f, -1.25f),
-                    new Vector3(0f, 1.6f, 1.25f),
+                    new Vector3(0f, 1.6f, -1.2f),
+                    new Vector3(0f, 1.6f, 1.2f),
                 });
 
                 SnappointHelper.AddSnappoints("charcoal_kiln", new[] {
-                    new Vector3(0f, 1f, 2.25f),
+                    new Vector3(0f, 1f, 2.15f),
                 });
 
                 SnappointHelper.AddSnappoints("blastfurnace", new[] {
-                    new Vector3(-0.5f, 1.72001f, 1.7f),
-                    new Vector3(0.57f, 1.72f, 1.70001f),
+                    new Vector3(-0.5f, 1.72001f, 1.55f),
+                    new Vector3(-0.6f, 1.72001f, 1.55f),
+                    new Vector3(0.57f, 1.72f, 1.55001f),
+                    new Vector3(0.73f, 1.72f, 1.55001f),
                 });
             }
 
