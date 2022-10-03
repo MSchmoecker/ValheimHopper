@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ValheimHopper {
@@ -16,7 +17,7 @@ namespace ValheimHopper {
             if (!devWorld1.m_loadError && !devWorld1.m_versionError)
                 return devWorld1;
             World devWorld2 = new World("DevWorld", "DevWorldSeed");
-            devWorld2.SaveWorldMetaData();
+            devWorld2.SaveWorldMetaData(DateTime.Now);
             return devWorld2;
         }
 
