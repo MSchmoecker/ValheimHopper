@@ -45,6 +45,9 @@ See [contributing](https://github.com/MSchmoecker/ValheimHopper/blob/master/CONT
 
 
 ## Changelog
+0.3.1
+- Fixed smelter snappoints were slightly too far away, causing placed hoppers to not being supported and break
+
 0.3.0
 - Changed filter to a "ghost" item instead of holding on to the last item.
   This also fixed the issue that stacked filter hoppers could not be used for filtering and allows for tool/weapon filtering
