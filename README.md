@@ -45,6 +45,9 @@ See [contributing](https://github.com/MSchmoecker/ValheimHopper/blob/master/CONT
 
 
 ## Changelog
+0.3.2
+- Fixed a pushing hopper did not respected the filter order of a filter hopper it pushed into. This could lead to an existing filter being overwritten
+
 0.3.1
 - Fixed smelter snappoints were slightly too far away, causing placed hoppers to not being supported and break
 
