@@ -11,7 +11,7 @@ using Jotunn.Managers;
 
 namespace ValheimHopper {
     [BepInPlugin(ModGuid, ModName, ModVersion)]
-    [BepInDependency(Jotunn.Main.ModGuid)]
+    [BepInDependency(Jotunn.Main.ModGuid, "2.7.7")]
     [BepInDependency(MultiUserChest.Plugin.ModGuid, "0.2.0")]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
     public class Plugin : BaseUnityPlugin {
@@ -40,30 +40,15 @@ namespace ValheimHopper {
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            CustomPiece hopperBronzeDown = new CustomPiece(AssetBundle, "HopperBronzeDown", true, BronzeConfig("Wood_V", false));
-            CustomPiece hopperBronzeDownFilter = new CustomPiece(AssetBundle, "HopperBronzeDownFilter", true, BronzeConfig("Wood_V", true));
-            CustomPiece hopperBronzeSide = new CustomPiece(AssetBundle, "HopperBronzeSide", true, BronzeConfig("Wood_H", false));
-            CustomPiece hopperBronzeSideFilter = new CustomPiece(AssetBundle, "HopperBronzeSideFilter", true, BronzeConfig("Wood_H", true));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeDown", true, BronzeConfig("Wood_V", false)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeDownFilter", true, BronzeConfig("Wood_V", true)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeSide", true, BronzeConfig("Wood_H", false)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeSideFilter", true, BronzeConfig("Wood_H", true)));
 
-            CustomPiece hopperIronDown = new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V", false));
-            CustomPiece hopperIronDownFilter = new CustomPiece(AssetBundle, "HopperIronDownFilter", true, IronConfig("Iron_V", true));
-            CustomPiece hopperIronSide = new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H", false));
-            CustomPiece hopperIronSideFilter = new CustomPiece(AssetBundle, "HopperIronSideFilter", true, IronConfig("Iron_H", true));
-
-            PieceManager.Instance.AddPiece(hopperBronzeDown);
-            PieceManager.Instance.AddPiece(hopperBronzeDownFilter);
-            PieceManager.Instance.AddPiece(hopperBronzeSide);
-            PieceManager.Instance.AddPiece(hopperBronzeSideFilter);
-
-            PieceManager.Instance.AddPiece(hopperIronDown);
-            PieceManager.Instance.AddPiece(hopperIronDownFilter);
-            PieceManager.Instance.AddPiece(hopperIronSide);
-            PieceManager.Instance.AddPiece(hopperIronSideFilter);
-
-            hopperBronzeDownFilter.Piece.m_enabled = false;
-            hopperBronzeSideFilter.Piece.m_enabled = false;
-            hopperIronDownFilter.Piece.m_enabled = false;
-            hopperIronSideFilter.Piece.m_enabled = false;
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V", false)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDownFilter", true, IronConfig("Iron_V", true)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H", false)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSideFilter", true, IronConfig("Iron_H", true)));
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
@@ -102,6 +87,7 @@ namespace ValheimHopper {
                 CraftingStation = "piece_workbench",
                 Category = "Crafting",
                 Description = filterHopper ? "$hopper_filter_description" : "",
+                Enabled = !filterHopper,
             };
         }
 
@@ -116,6 +102,7 @@ namespace ValheimHopper {
                 CraftingStation = "piece_workbench",
                 Category = "Crafting",
                 Description = filterHopper ? "$hopper_filter_description" : "",
+                Enabled = !filterHopper,
             };
         }
     }
