@@ -192,7 +192,12 @@ namespace ValheimHopper {
                 ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(FindPushItem);
 
                 if (item != null) {
-                    to.container.AddItemToChest(item, selfContainer, new Vector2i(-1, -1), 1);
+                    if (to.hopper && to.hopper.CanAddItem(item, out Vector2i pos)) {
+                        to.container.AddItemToChest(item, selfContainer, pos, 1);
+                    } else {
+                        to.container.AddItemToChest(item, selfContainer, new Vector2i(-1, -1), 1);
+                    }
+
                     return true;
                 }
             }
