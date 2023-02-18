@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1721426467287306792
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,15 +153,13 @@ MonoBehaviour:
   m_Script: {fileID: -145759160, guid: ede655af59964684191742c3107fbfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piece: {fileID: 0}
   autoDeconstruct: 0
   inPos: {x: 0, y: 0.81, z: 0}
   outPos: {x: 0, y: -0.65, z: 0}
   inSize: {x: 1.2, y: 0.5, z: 0.6}
   outSize: {x: 0.4, y: 0.4, z: 0.4}
-  chestsTo: []
-  chestsFrom: []
-  smelters: []
+  targetsTo: []
+  targetsFrom: []
   nearHoppers: []
 --- !u!114 &3179475347997722852
 MonoBehaviour:
@@ -204,6 +204,12 @@ MonoBehaviour:
   m_repairPiece: 0
   m_canBeRemoved: 1
   m_allowRotatedOverlap: 0
+  m_vegetationGroundOnly: 0
+  m_blockingPieces: []
+  m_blockRadius: 0
+  m_mustConnectTo: {fileID: 0}
+  m_connectRadius: 0
+  m_mustBeAboveConnected: 0
   m_onlyInBiome: 0
   m_placeEffect:
     m_effectPrefabs:
@@ -266,6 +272,7 @@ MonoBehaviour:
     m_spirit: 0
   m_hitNoise: 0
   m_destroyNoise: 0
+  m_triggerPrivateArea: 1
   m_destroyedEffect:
     m_effectPrefabs:
     - m_prefab: {fileID: 4857526854772028618, guid: ca25e0c64a977dc42954807142dd87b8,
@@ -467,6 +474,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -491,6 +499,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4035593700725509535
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +555,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -570,6 +580,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4411780701515849093
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,6 +798,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -811,6 +823,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8505984880246497282
 GameObject:
   m_ObjectHideFlags: 0
