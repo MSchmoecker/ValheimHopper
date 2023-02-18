@@ -9,7 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Aa]ssets/Assemblies
+/[Aa]ssets/Assemblies/*
 
 /[Aa]ssetBundles/StandaloneWindows/*
 
