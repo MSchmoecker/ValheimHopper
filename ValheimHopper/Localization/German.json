@@ -1,12 +1,8 @@
 {
   "piece_hopper_bronze_down": "Bronze Trichter",
-  "piece_hopper_bronze_down_filter": "Bronze Filtertrichter",
   "piece_hopper_bronze_side": "Bronze Seitentrichter",
-  "piece_hopper_bronze_side_filter": "Bronze Seitenfiltertrichter",
   "piece_hopper_iron_down": "Eisen Trichter",
-  "piece_hopper_iron_down_filter": "Eisen Filtertrichter",
   "piece_hopper_iron_side": "Eisen Seitentrichter",
-  "piece_hopper_iron_side_filter": "Eisen Seitenfiltertrichter",
   "toggle_leave_one_item": "Lasse ein Gegenstand in jedem Slot",
   "hopper_filter_description": "Filter Trichter",
   "piece_hopper_settings_edit": "Bearbeite Trichter Einstellungen",

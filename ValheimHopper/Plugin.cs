@@ -40,15 +40,12 @@ namespace ValheimHopper {
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeDown", true, BronzeConfig("Wood_V", false)));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeDownFilter", true, BronzeConfig("Wood_V", true)));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeSide", true, BronzeConfig("Wood_H", false)));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeSideFilter", true, BronzeConfig("Wood_H", true)));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeDown", true, BronzeConfig("Wood_V")));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeSide", true, BronzeConfig("Wood_H")));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V")));
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H")));
 
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V", false)));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDownFilter", true, IronConfig("Iron_V", true)));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H", false)));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSideFilter", true, IronConfig("Iron_H", true)));
+            AssetBundle.Unload(false);
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
@@ -76,7 +73,7 @@ namespace ValheimHopper {
             PrefabManager.OnVanillaPrefabsAvailable -= AddSnappoints;
         }
 
-        private static PieceConfig BronzeConfig(string spriteName, bool filterHopper) {
+        private static PieceConfig BronzeConfig(string spriteName) {
             return new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
@@ -86,12 +83,10 @@ namespace ValheimHopper {
                 PieceTable = "Hammer",
                 CraftingStation = "piece_workbench",
                 Category = "Crafting",
-                Description = filterHopper ? "$hopper_filter_description" : "",
-                Enabled = !filterHopper,
             };
         }
 
-        private static PieceConfig IronConfig(string spriteName, bool filterHopper) {
+        private static PieceConfig IronConfig(string spriteName) {
             return new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
@@ -101,8 +96,6 @@ namespace ValheimHopper {
                 PieceTable = "Hammer",
                 CraftingStation = "piece_workbench",
                 Category = "Crafting",
-                Description = filterHopper ? "$hopper_filter_description" : "",
-                Enabled = !filterHopper,
             };
         }
     }

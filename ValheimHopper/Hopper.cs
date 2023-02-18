@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MultiUserChest;
-using Logger = Jotunn.Logger;
 using Random = UnityEngine.Random;
 
 namespace ValheimHopper {
@@ -16,8 +15,6 @@ namespace ValheimHopper {
         private Collider[] tmpColliders = new Collider[1000];
         private static int pieceMask;
         private static int itemMask;
-
-        [SerializeField] private bool autoDeconstruct;
 
         [SerializeField] private Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
         [SerializeField] private Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
@@ -98,14 +95,6 @@ namespace ValheimHopper {
 
         private void FixedUpdate() {
             if (!IsValid() || !zNetView.IsOwner()) {
-                return;
-            }
-
-            if (autoDeconstruct) {
-                if (Player.m_localPlayer) {
-                    wearNTear.Destroy();
-                }
-
                 return;
             }
 
