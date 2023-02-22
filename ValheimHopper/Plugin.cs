@@ -32,7 +32,7 @@ namespace ValheimHopper {
             harmony = new Harmony(ModGuid);
             harmony.PatchAll();
 
-            addSmelterSnappoints = Config.Bind("General", "Add Smelter Snappoints", true, "Adds snappoints to inputs/outputs of the smelter, charcoal kiln and blastfurnace. Requires a restart to take effect.");
+            addSmelterSnappoints = Config.Bind("General", "Add Smelter Snappoints", true, "Adds snappoints to inputs/outputs of the smelter, charcoal kiln, blastfurnace, windmill and spinning wheel. Requires a restart to take effect.");
 
             CustomLocalization localization = LocalizationManager.Instance.GetLocalization();
             localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly()));
@@ -65,6 +65,16 @@ namespace ValheimHopper {
                     new Vector3(-0.6f, 1.72001f, 1.55f),
                     new Vector3(0.57f, 1.72f, 1.55001f),
                     new Vector3(0.73f, 1.72f, 1.55001f),
+                });
+
+                SnappointHelper.AddSnappoints("windmill", new[] {
+                    new Vector3(0f, 1.55f, -1.55f),
+                    new Vector3(-0.05f, 0.83f, 2.3f),
+                });
+
+                SnappointHelper.AddSnappoints("piece_spinningwheel", new[] {
+                    new Vector3(0.72f, 1.8f, 0f),
+                    new Vector3(0f, 0.95f, 1.75f),
                 });
             }
 
