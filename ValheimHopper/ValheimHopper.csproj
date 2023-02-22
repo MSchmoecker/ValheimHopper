@@ -194,4 +194,7 @@
       </PropertyGroup>
       <Error Condition="!Exists('..\packages\JotunnLib.2.10.4\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.10.4\build\JotunnLib.props'))" />
     </Target>
+    <Target Name="AfterBuild">
+      <Exec Command="$(SolutionDir)Libs/pdb2mdb.exe $(TargetPath)" />
+    </Target>
 </Project>

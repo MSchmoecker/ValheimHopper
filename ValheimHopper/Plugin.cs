@@ -45,8 +45,6 @@ namespace ValheimHopper {
             PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V")));
             PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H")));
 
-            AssetBundle.Unload(false);
-
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
         }
