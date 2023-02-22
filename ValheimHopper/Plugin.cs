@@ -12,7 +12,7 @@ using Jotunn.Managers;
 namespace ValheimHopper {
     [BepInPlugin(ModGuid, ModName, ModVersion)]
     [BepInDependency(Jotunn.Main.ModGuid, "2.7.7")]
-    [BepInDependency(MultiUserChest.Plugin.ModGuid, "0.2.0")]
+    [BepInDependency(MultiUserChest.Plugin.ModGuid, "0.4.0")]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
     public class Plugin : BaseUnityPlugin {
         public const string ModName = "ItemHopper";

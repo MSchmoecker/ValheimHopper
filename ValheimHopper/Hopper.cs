@@ -182,9 +182,9 @@ namespace ValheimHopper {
 
                 if (item != null) {
                     if (to.hopper && to.hopper.CanAddItem(item, out Vector2i pos)) {
-                        to.container.AddItemToChest(item, selfContainer, pos, 1);
+                        to.container.AddItemToChest(item, selfContainer.GetInventory(), pos, zNetView.m_zdo.m_uid);
                     } else {
-                        to.container.AddItemToChest(item, selfContainer, new Vector2i(-1, -1), 1);
+                        to.container.AddItemToChest(item, selfContainer.GetInventory(), new Vector2i(-1, -1), zNetView.m_zdo.m_uid);
                     }
 
                     return true;
@@ -243,7 +243,7 @@ namespace ValheimHopper {
 
                 foreach (ItemDrop.ItemData item in from.container.GetInventory().FindItemInOrder()) {
                     if (CanAddItem(item, out Vector2i pos)) {
-                        from.container.RemoveItemFromChest(item, selfContainer, pos, 1);
+                        from.container.RemoveItemFromChest(item, selfContainer.GetInventory(), pos, zNetView.m_zdo.m_uid);
                         return true;
                     }
                 }
