@@ -21,7 +21,7 @@ namespace ValheimHopper {
             return null;
         }
 
-        public static IEnumerable<ItemDrop.ItemData> FindItemInOrder(this Inventory target) {
+        public static IEnumerable<ItemDrop.ItemData> GetItemInOrder(this Inventory target) {
             if (target.m_inventory.Count == 0) {
                 yield break;
             }

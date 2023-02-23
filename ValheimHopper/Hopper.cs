@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MultiUserChest;
+using ValheimHopper.Logic;
 using Random = UnityEngine.Random;
 
 namespace ValheimHopper {
     [DefaultExecutionOrder(5)]
-    public class Hopper : MonoBehaviour {
+    public class Hopper : MonoBehaviour, IPushTarget, IPullTarget {
         public Piece Piece { get; private set; }
         private ZNetView zNetView;
-        private WearNTear wearNTear;
         private Container selfContainer;
         private Collider[] tmpColliders = new Collider[1000];
         private static int pieceMask;
         private static int itemMask;
+
+        public int PushPriority { get; } = 15;
+        public int PullPriority { get; } = 15;
+        public bool IsPickup { get; } = false;
 
         [SerializeField] private Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
         [SerializeField] private Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
         [SerializeField] private Vector3 inSize = new Vector3(1f, 1f, 1f);
         [SerializeField] private Vector3 outSize = new Vector3(1f, 1f, 1f);
 
-        [SerializeField] private List<TargetIO> targetsTo = new List<TargetIO>();
-        [SerializeField] private List<TargetIO> targetsFrom = new List<TargetIO>();
+        private List<IPushTarget> pushTo = new List<IPushTarget>();
+        private List<IPullTarget> pullFrom = new List<IPullTarget>();
         [SerializeField] private List<Hopper> nearHoppers = new List<Hopper>();
 
         private const float TransferInterval = 0.2f;
@@ -45,7 +49,6 @@ namespace ValheimHopper {
             zNetView = GetComponent<ZNetView>();
             Piece = GetComponent<Piece>();
             selfContainer = GetComponent<Container>();
-            wearNTear = GetComponent<WearNTear>();
 
             FilterItemsOption = new ZBool("hopper_filter_items", false, zNetView);
             DropItemsOption = new ZBool("hopper_drop_items", false, zNetView);
@@ -120,29 +123,50 @@ namespace ValheimHopper {
             return Mathf.RoundToInt(Time.fixedTime / fixedDeltaTime);
         }
 
-        private bool IsValid() {
-            return zNetView && zNetView.IsValid() && zNetView.GetZDO() != null;
+        public bool IsValid() {
+            return this && gameObject && Helper.IsValidNetView(zNetView) && zNetView.HasOwner();
         }
 
         private void PullItems() {
-            bool drained = DrainItemsFromChests();
+            foreach (IPullTarget from in pullFrom) {
+                if (!from.IsValid()) {
+                    continue;
+                }
 
-            if (!drained && PickupItemsOption.Get()) {
-                PickupItems();
+                if (!PickupItemsOption.Get() && from.IsPickup) {
+                    continue;
+                }
+
+                foreach (ItemDrop.ItemData item in from.GetItems()) {
+                    if (!CanAddItem(item, out Vector2i pos)) {
+                        continue;
+                    }
+
+                    from.RemoveItem(item, selfContainer.GetInventory(), pos, zNetView.m_zdo.m_uid);
+                    return;
+                }
             }
         }
 
         private void PushItems() {
-            if (targetsTo.Count == 0) {
-                if (DropItemsOption.Get()) {
-                    DropItem();
-                }
-            } else {
-                bool pushed = PushItemsIntoChests();
+            if (pushTo.Count == 0 && DropItemsOption.Get()) {
+                DropItem();
+                return;
+            }
 
-                if (!pushed) {
-                    PushItemsIntoSmelters();
+            foreach (IPushTarget to in pushTo) {
+                if (!to.IsValid()) {
+                    continue;
                 }
+
+                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.CanAddItem(i));
+
+                if (item == null || !CanPushItem(item)) {
+                    continue;
+                }
+
+                to.AddItem(item, selfContainer.GetInventory(), zNetView.m_zdo.m_uid);
+                return;
             }
         }
 
@@ -160,41 +184,24 @@ namespace ValheimHopper {
             }
         }
 
-        private bool PushItemsIntoChests() {
-            foreach (TargetIO to in targetsTo) {
-                if (!to.piece || !to.container) {
-                    continue;
-                }
-
-                bool FindPushItem(ItemDrop.ItemData i) {
-                    if (!CanPushItem(i)) {
-                        return false;
-                    }
-
-                    if (to.hopper && !to.hopper.CanAddItem(i, out _)) {
-                        return false;
-                    }
-
-                    return to.container.GetInventory().CanAddItem(i, 1);
-                }
-
-                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(FindPushItem);
-
-                if (item != null) {
-                    if (to.hopper && to.hopper.CanAddItem(item, out Vector2i pos)) {
-                        to.container.AddItemToChest(item, selfContainer.GetInventory(), pos, zNetView.m_zdo.m_uid);
-                    } else {
-                        to.container.AddItemToChest(item, selfContainer.GetInventory(), new Vector2i(-1, -1), zNetView.m_zdo.m_uid);
-                    }
-
-                    return true;
-                }
-            }
-
-            return false;
+        public bool CanAddItem(ItemDrop.ItemData item) {
+            return CanAddItem(item, out _);
         }
 
-        private bool CanAddItem(ItemDrop.ItemData itemToAdd, out Vector2i pos) {
+        public void AddItem(ItemDrop.ItemData item, Inventory source, ZDOID sender) {
+            CanAddItem(item, out Vector2i pos);
+            selfContainer.AddItemToChest(item, source, pos, sender, 1);
+        }
+
+        public IEnumerable<ItemDrop.ItemData> GetItems() {
+            return selfContainer.GetInventory().GetItemInOrder();
+        }
+
+        public void RemoveItem(ItemDrop.ItemData item, Inventory destination, Vector2i destinationPos, ZDOID sender) {
+            selfContainer.RemoveItemFromChest(item, destination, destinationPos, sender, 1);
+        }
+
+        public bool CanAddItem(ItemDrop.ItemData itemToAdd, out Vector2i pos) {
             pos = new Vector2i(0, 0);
 
             if (!selfContainer.GetInventory().CanAddItem(itemToAdd, 1)) {
@@ -231,164 +238,46 @@ namespace ValheimHopper {
             return false;
         }
 
-        private bool CanPushItem(ItemDrop.ItemData item) {
-            return !nearHoppers.Any(h => h.targetsFrom.Exists(t => t.piece == Piece) && h.CanAddItem(item, out _));
-        }
-
-        private bool DrainItemsFromChests() {
-            foreach (TargetIO from in targetsFrom) {
-                if (!from.piece || !from.container) {
-                    continue;
-                }
-
-                foreach (ItemDrop.ItemData item in from.container.GetInventory().FindItemInOrder()) {
-                    if (CanAddItem(item, out Vector2i pos)) {
-                        from.container.RemoveItemFromChest(item, selfContainer.GetInventory(), pos, zNetView.m_zdo.m_uid);
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private void PushItemsIntoSmelters() {
-            foreach (TargetIO to in targetsTo) {
-                if (!to.piece || !to.smelter) {
-                    continue;
-                }
-
-                Smelter smelter = to.smelter;
-
-                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => {
-                    if (!CanPushItem(i)) {
-                        return false;
-                    }
-
-                    bool isAllowedOre = smelter.IsItemAllowed(i) && smelter.GetQueueSize() < smelter.m_maxOre;
-                    bool isFuelItem = smelter.m_fuelItem != null && smelter.m_fuelItem.m_itemData.m_shared.m_name == i.m_shared.m_name;
-                    bool isAllowedFuel = isFuelItem && smelter.GetFuel() < smelter.m_maxFuel - 1;
-
-                    Vector3 pos = transform.TransformPoint(outPos);
-                    Switch oreSwitch = smelter.m_addOreSwitch;
-                    Switch fuelSwitch = smelter.m_addWoodSwitch;
-
-                    bool oreRange = oreSwitch == null || Vector3.Distance(oreSwitch.transform.position, pos) <= 1f;
-                    bool fuelRange = fuelSwitch == null || Vector3.Distance(fuelSwitch.transform.position, pos) <= 1f;
-
-                    return isAllowedOre && oreRange || isAllowedFuel && fuelRange;
-                });
-
-                if (item != null) {
-                    selfContainer.GetInventory().RemoveItem(item, 1);
-
-                    if (smelter.IsItemAllowed(item)) {
-                        smelter.m_nview.InvokeRPC("AddOre", item.m_dropPrefab.name);
-                    } else {
-                        smelter.m_nview.InvokeRPC("AddFuel");
-                    }
-
-                    break;
-                }
-            }
-        }
-
-        private bool PickupItems() {
-            foreach (ItemDrop item in FindItemDrops(inPos, inSize)) {
-                if (!item.m_nview || !item.m_nview.IsValid()) {
-                    continue;
-                }
-
-                if (!CanAddItem(item.m_itemData, out _)) {
-                    continue;
-                }
-
-                if (!item.m_nview.IsOwner()) {
-                    item.RequestOwn();
-                    continue;
-                }
-
-                bool pickuped = PickupItem(item);
-
-                if (pickuped) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool PickupItem(ItemDrop item) {
-            if (!CanAddItem(item.m_itemData, out Vector2i pos)) {
-                return false;
-            }
-
-            bool hasRemoved = item.RemoveOne();
-
-            if (!hasRemoved) {
-                return false;
-            }
-
-            ItemDrop.ItemData itemData = item.m_itemData.Clone();
-            selfContainer.GetInventory().AddItem(itemData, 1, pos.x, pos.y);
+        public bool InRange(Vector3 position) {
             return true;
         }
 
-        private IEnumerable<ItemDrop> FindItemDrops(Vector3 relativePos, Vector3 size) {
-            Vector3 center = transform.TransformPoint(relativePos);
-            int count = Physics.OverlapBoxNonAlloc(center, size / 2f, tmpColliders, Quaternion.identity, itemMask);
-
-            for (int i = 0; i < count; i++) {
-                ItemDrop item = tmpColliders[i].GetComponentInParent<ItemDrop>();
-
-                if (item) {
-                    yield return item;
-                }
-            }
+        private bool CanPushItem(ItemDrop.ItemData item) {
+            return !nearHoppers.Any(hopper => hopper.pullFrom.Contains(this) && hopper.CanAddItem(item, out _));
         }
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
+            pullFrom = FindTargets<IPullTarget>(inPos, inSize, rotation, i => i.PullPriority);
+            pushTo = FindTargets<IPushTarget>(outPos, outSize, rotation, i => i.PushPriority);
 
-            targetsFrom.Clear();
-            targetsTo.Clear();
-            nearHoppers.Clear();
-
-            AddNearPieces();
-            AddIOPieces(inPos, inSize, rotation, targetsFrom);
-            AddIOPieces(outPos, outSize, rotation, targetsTo);
+            AddNearHoppers();
         }
 
-        private void AddNearPieces() {
+        private void AddNearHoppers() {
+            nearHoppers.Clear();
             int count = Physics.OverlapSphereNonAlloc(transform.position, 1f, tmpColliders, pieceMask);
 
             for (int i = 0; i < count; i++) {
-                Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
+                Hopper hopper = tmpColliders[i].GetComponentInParent<Hopper>();
 
-                if (!piece || piece.gameObject == gameObject) {
-                    continue;
-                }
-
-                Hopper hopper = piece.GetComponent<Hopper>();
-
-                if (hopper && !nearHoppers.Contains(hopper)) {
+                if (hopper && hopper != this && !nearHoppers.Contains(hopper)) {
                     nearHoppers.Add(hopper);
                 }
             }
         }
 
-        private void AddIOPieces(Vector3 pos, Vector3 size, Quaternion rotation, List<TargetIO> targetList) {
-            int count = Physics.OverlapBoxNonAlloc(transform.TransformPoint(pos), size / 2f, tmpColliders, rotation, pieceMask);
+        private List<T> FindTargets<T>(Vector3 pos, Vector3 size, Quaternion rotation, Func<T, int> orderBy) where T : ITarget {
+            Vector3 globalPos = transform.TransformPoint(pos);
+            List<T> targets = new List<T>();
+
+            int count = Physics.OverlapBoxNonAlloc(globalPos, size / 2f, tmpColliders, rotation, pieceMask | itemMask);
 
             for (int i = 0; i < count; i++) {
-                Piece piece = tmpColliders[i].GetComponentInParent<Piece>();
-
-                if (!piece || piece.gameObject == gameObject || targetList.Exists(t => t.piece == piece)) {
-                    continue;
-                }
-
-                targetList.Add(new TargetIO(piece));
+                targets.AddRange(tmpColliders[i].GetComponentsInParent<T>().Where(t => t.InRange(globalPos)));
             }
+
+            return targets.Distinct().OrderByDescending(orderBy).ToList();
         }
 
         private void OnDrawGizmos() {
