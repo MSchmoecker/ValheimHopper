@@ -11,10 +11,8 @@ namespace ValheimHopper {
     public class Hopper : MonoBehaviour, IPushTarget, IPullTarget {
         public Piece Piece { get; private set; }
         private ZNetView zNetView;
-        private Container selfContainer;
-        private Collider[] tmpColliders = new Collider[1000];
-        private static int pieceMask;
-        private static int itemMask;
+        private Container container;
+        private ContainerTarget containerTarget;
 
         public int PushPriority { get; } = 15;
         public int PullPriority { get; } = 15;
@@ -32,11 +30,8 @@ namespace ValheimHopper {
         private const float TransferInterval = 0.2f;
         private const float ObjectSearchInterval = 3f;
 
-        private float fixedDeltaTime;
-        private int transferFrames;
-        private int objectSearchFrames;
-
-        private int instanceId;
+        private int transferFrame;
+        private int objectSearchFrame;
         private int frameOffset;
 
         public ItemFilter filter;
@@ -48,25 +43,16 @@ namespace ValheimHopper {
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
             Piece = GetComponent<Piece>();
-            selfContainer = GetComponent<Container>();
+            container = GetComponent<Container>();
+            containerTarget = GetComponent<ContainerTarget>();
 
             FilterItemsOption = new ZBool("hopper_filter_items", false, zNetView);
             DropItemsOption = new ZBool("hopper_drop_items", false, zNetView);
             PickupItemsOption = new ZBool("hopper_pickup_items", true, zNetView);
 
-            if (pieceMask == 0) {
-                pieceMask = LayerMask.GetMask("piece", "piece_nonsolid");
-            }
-
-            if (itemMask == 0) {
-                itemMask = LayerMask.GetMask("item");
-            }
-
-            fixedDeltaTime = Time.fixedDeltaTime;
-            transferFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * TransferInterval);
-            objectSearchFrames = Mathf.RoundToInt((1f / fixedDeltaTime) * ObjectSearchInterval);
-            instanceId = GetInstanceID();
-            frameOffset = Mathf.Abs(instanceId % transferFrames);
+            transferFrame = Mathf.RoundToInt((1f / Time.fixedDeltaTime) * TransferInterval);
+            objectSearchFrame = Mathf.RoundToInt((1f / Time.fixedDeltaTime) * ObjectSearchInterval);
+            frameOffset = Mathf.Abs(GetInstanceID() % transferFrame);
         }
 
         private void Start() {
@@ -74,8 +60,8 @@ namespace ValheimHopper {
                 return;
             }
 
-            filter = new ItemFilter(zNetView, selfContainer.GetInventory());
-            selfContainer.GetInventory().m_onChanged += () => {
+            filter = new ItemFilter(zNetView, container.GetInventory());
+            container.GetInventory().m_onChanged += () => {
                 if (FilterItemsOption.Get()) {
                     filter.Save();
                 }
@@ -101,10 +87,10 @@ namespace ValheimHopper {
                 return;
             }
 
-            int frame = FixedFrameCount();
-            int globalFrame = (frame + frameOffset) / transferFrames;
+            int frame = Helper.GetFixedFrameCount();
+            int globalFrame = (frame + frameOffset) / transferFrame;
 
-            if ((frame + frameOffset) % transferFrames == 0) {
+            if ((frame + frameOffset) % transferFrame == 0) {
                 if (globalFrame % 2 == 0) {
                     PullItems();
                 }
@@ -114,17 +100,13 @@ namespace ValheimHopper {
                 }
             }
 
-            if ((frame + frameOffset + 1) % objectSearchFrames == 0) {
+            if ((frame + frameOffset + 1) % objectSearchFrame == 0) {
                 FindIO();
             }
         }
 
-        private int FixedFrameCount() {
-            return Mathf.RoundToInt(Time.fixedTime / fixedDeltaTime);
-        }
-
         public bool IsValid() {
-            return this && gameObject && Helper.IsValidNetView(zNetView) && zNetView.HasOwner();
+            return this && containerTarget && containerTarget.IsValid();
         }
 
         private void PullItems() {
@@ -138,11 +120,11 @@ namespace ValheimHopper {
                 }
 
                 foreach (ItemDrop.ItemData item in from.GetItems()) {
-                    if (!CanAddItem(item, out Vector2i pos)) {
+                    if (!FindFreeSlot(item, out Vector2i pos)) {
                         continue;
                     }
 
-                    from.RemoveItem(item, selfContainer.GetInventory(), pos, zNetView.m_zdo.m_uid);
+                    from.RemoveItem(item, container.GetInventory(), pos, zNetView.m_zdo.m_uid);
                     return;
                 }
             }
@@ -159,22 +141,22 @@ namespace ValheimHopper {
                     continue;
                 }
 
-                ItemDrop.ItemData item = selfContainer.GetInventory().FindFirstItem(i => to.CanAddItem(i));
+                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i));
 
                 if (item == null || !CanPushItem(item)) {
                     continue;
                 }
 
-                to.AddItem(item, selfContainer.GetInventory(), zNetView.m_zdo.m_uid);
+                to.AddItem(item, container.GetInventory(), zNetView.m_zdo.m_uid);
                 return;
             }
         }
 
         private void DropItem() {
-            ItemDrop.ItemData firstItem = selfContainer.GetInventory().FindFirstItem(CanPushItem);
+            ItemDrop.ItemData firstItem = container.GetInventory().FindFirstItem(CanPushItem);
 
             if (firstItem != null) {
-                selfContainer.GetInventory().RemoveOneItem(firstItem);
+                container.GetInventory().RemoveOneItem(firstItem);
                 float angle = Random.Range(0f, (float)(2f * Math.PI));
                 Vector3 randomPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * 0.2f;
                 Vector3 visualOffset = ItemHelper.GetVisualItemOffset(firstItem.m_dropPrefab.name);
@@ -185,34 +167,34 @@ namespace ValheimHopper {
         }
 
         public bool CanAddItem(ItemDrop.ItemData item) {
-            return CanAddItem(item, out _);
+            return FindFreeSlot(item, out _);
         }
 
         public void AddItem(ItemDrop.ItemData item, Inventory source, ZDOID sender) {
-            CanAddItem(item, out Vector2i pos);
-            selfContainer.AddItemToChest(item, source, pos, sender, 1);
+            FindFreeSlot(item, out Vector2i pos);
+            container.AddItemToChest(item, source, pos, sender, 1);
         }
 
         public IEnumerable<ItemDrop.ItemData> GetItems() {
-            return selfContainer.GetInventory().GetItemInOrder();
+            return containerTarget.GetItems();
         }
 
         public void RemoveItem(ItemDrop.ItemData item, Inventory destination, Vector2i destinationPos, ZDOID sender) {
-            selfContainer.RemoveItemFromChest(item, destination, destinationPos, sender, 1);
+            containerTarget.RemoveItem(item, destination, destinationPos, sender);
         }
 
-        public bool CanAddItem(ItemDrop.ItemData itemToAdd, out Vector2i pos) {
+        private bool FindFreeSlot(ItemDrop.ItemData itemToAdd, out Vector2i pos) {
             pos = new Vector2i(0, 0);
 
-            if (!selfContainer.GetInventory().CanAddItem(itemToAdd, 1)) {
+            if (!container.GetInventory().CanAddItem(itemToAdd, 1)) {
                 return false;
             }
 
             int itemHash = itemToAdd.m_dropPrefab.name.GetStableHashCode();
 
-            for (int y = 0; y < selfContainer.m_height; y++) {
-                for (int x = 0; x < selfContainer.m_width; x++) {
-                    ItemDrop.ItemData item = selfContainer.GetInventory().GetItemAt(x, y);
+            for (int y = 0; y < container.m_height; y++) {
+                for (int x = 0; x < container.m_width; x++) {
+                    ItemDrop.ItemData item = container.GetInventory().GetItemAt(x, y);
                     bool canAdd = item == null ||
                                   item.m_stack + 1 <= item.m_shared.m_maxStackSize && item.m_shared.m_name == itemToAdd.m_shared.m_name;
 
@@ -243,41 +225,14 @@ namespace ValheimHopper {
         }
 
         private bool CanPushItem(ItemDrop.ItemData item) {
-            return !nearHoppers.Any(hopper => hopper.pullFrom.Contains(this) && hopper.CanAddItem(item, out _));
+            return !nearHoppers.Any(hopper => hopper != this && hopper.pullFrom.Contains(this) && hopper.CanAddItem(item));
         }
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pullFrom = FindTargets<IPullTarget>(inPos, inSize, rotation, i => i.PullPriority);
-            pushTo = FindTargets<IPushTarget>(outPos, outSize, rotation, i => i.PushPriority);
-
-            AddNearHoppers();
-        }
-
-        private void AddNearHoppers() {
-            nearHoppers.Clear();
-            int count = Physics.OverlapSphereNonAlloc(transform.position, 1f, tmpColliders, pieceMask);
-
-            for (int i = 0; i < count; i++) {
-                Hopper hopper = tmpColliders[i].GetComponentInParent<Hopper>();
-
-                if (hopper && hopper != this && !nearHoppers.Contains(hopper)) {
-                    nearHoppers.Add(hopper);
-                }
-            }
-        }
-
-        private List<T> FindTargets<T>(Vector3 pos, Vector3 size, Quaternion rotation, Func<T, int> orderBy) where T : ITarget {
-            Vector3 globalPos = transform.TransformPoint(pos);
-            List<T> targets = new List<T>();
-
-            int count = Physics.OverlapBoxNonAlloc(globalPos, size / 2f, tmpColliders, rotation, pieceMask | itemMask);
-
-            for (int i = 0; i < count; i++) {
-                targets.AddRange(tmpColliders[i].GetComponentsInParent<T>().Where(t => t.InRange(globalPos)));
-            }
-
-            return targets.Distinct().OrderByDescending(orderBy).ToList();
+            pullFrom = Helper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => i.PullPriority);
+            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority);
+            nearHoppers = Helper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => i.PullPriority);
         }
 
         private void OnDrawGizmos() {
@@ -285,6 +240,8 @@ namespace ValheimHopper {
             Gizmos.DrawWireCube(transform.TransformPoint(inPos), inSize);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.TransformPoint(outPos), outSize);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(transform.position, Vector3.one * 1.5f);
 
             Gizmos.color = Color.cyan;
             foreach (Transform child in transform) {
