@@ -40,11 +40,11 @@ namespace ValheimHopper {
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            AddBronzePiece("HopperBronzeDown", "Wood_V");
-            AddBronzePiece("HopperBronzeSide", "Wood_H");
-            AddIronPiece("HopperIronDown", "Iron_V");
-            AddIronPiece("HopperIronSide", "Iron_H");
-            AddBronzePiece("MS_PipeBronzeSide", "Pipe_H");
+            AddBronzePiece("HopperBronzeDown", "Wood_V", 6, 4);
+            AddBronzePiece("HopperBronzeSide", "Wood_H", 6, 4);
+            AddIronPiece("HopperIronDown", "Iron_V", 8, 2);
+            AddIronPiece("HopperIronSide", "Iron_H", 8, 2);
+            AddBronzePiece("MS_PipeBronzeSide", "Pipe_H", 4, 2);
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
@@ -82,12 +82,12 @@ namespace ValheimHopper {
             PrefabManager.OnVanillaPrefabsAvailable -= AddSnappoints;
         }
 
-        private static void AddBronzePiece(string assetName, string spriteName) {
+        private static void AddBronzePiece(string assetName, string spriteName, int wood, int nails) {
             PieceConfig config = new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
-                    new RequirementConfig("Wood", 3, 0, true),
-                    new RequirementConfig("BronzeNails", 1, 0, true)
+                    new RequirementConfig("Wood", wood, 0, true),
+                    new RequirementConfig("BronzeNails", nails, 0, true)
                 },
                 PieceTable = "Hammer",
                 CraftingStation = "piece_workbench",
@@ -97,12 +97,12 @@ namespace ValheimHopper {
             PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, assetName, true, config));
         }
 
-        private static void AddIronPiece(string assetName, string spriteName) {
+        private static void AddIronPiece(string assetName, string spriteName, int wood, int nails) {
             PieceConfig config = new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
-                    new RequirementConfig("Wood", 3, 0, true),
-                    new RequirementConfig("IronNails", 1, 0, true)
+                    new RequirementConfig("Wood", wood, 0, true),
+                    new RequirementConfig("IronNails", nails, 0, true)
                 },
                 PieceTable = "Hammer",
                 CraftingStation = "piece_workbench",
