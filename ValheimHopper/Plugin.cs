@@ -40,10 +40,11 @@ namespace ValheimHopper {
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeDown", true, BronzeConfig("Wood_V")));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperBronzeSide", true, BronzeConfig("Wood_H")));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronDown", true, IronConfig("Iron_V")));
-            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, "HopperIronSide", true, IronConfig("Iron_H")));
+            AddBronzePiece("HopperBronzeDown", "Wood_V");
+            AddBronzePiece("HopperBronzeSide", "Wood_H");
+            AddIronPiece("HopperIronDown", "Iron_V");
+            AddIronPiece("HopperIronSide", "Iron_H");
+            AddBronzePiece("MS_PipeBronzeSide", "Pipe_H");
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
@@ -81,8 +82,8 @@ namespace ValheimHopper {
             PrefabManager.OnVanillaPrefabsAvailable -= AddSnappoints;
         }
 
-        private static PieceConfig BronzeConfig(string spriteName) {
-            return new PieceConfig {
+        private static void AddBronzePiece(string assetName, string spriteName) {
+            PieceConfig config = new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
                     new RequirementConfig("Wood", 3, 0, true),
@@ -92,10 +93,12 @@ namespace ValheimHopper {
                 CraftingStation = "piece_workbench",
                 Category = "Crafting",
             };
+
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, assetName, true, config));
         }
 
-        private static PieceConfig IronConfig(string spriteName) {
-            return new PieceConfig {
+        private static void AddIronPiece(string assetName, string spriteName) {
+            PieceConfig config = new PieceConfig {
                 Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
                     new RequirementConfig("Wood", 3, 0, true),
@@ -105,6 +108,8 @@ namespace ValheimHopper {
                 CraftingStation = "piece_workbench",
                 Category = "Crafting",
             };
+
+            PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, assetName, true, config));
         }
     }
 }

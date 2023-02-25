@@ -161,6 +161,7 @@
         <Compile Include="Logic\IPushTarget.cs" />
         <Compile Include="Logic\ITarget.cs" />
         <Compile Include="Logic\ItemDropTarget.cs" />
+        <Compile Include="Logic\Pipe.cs" />
         <Compile Include="Logic\SmelterFuelTarget.cs" />
         <Compile Include="Logic\SmelterOreTarget.cs" />
         <Compile Include="Patches\ExtensionPatch.cs" />
