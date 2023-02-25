@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ValheimHopper.Logic {
     public class SmelterOreTarget : MonoBehaviour, IPushTarget {
-        public int PushPriority { get; } = 5;
+        public HopperPriority PushPriority { get; } = HopperPriority.SmelterOrePush;
 
         private Smelter smelter;
 

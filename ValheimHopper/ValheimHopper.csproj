@@ -157,6 +157,7 @@
         <Compile Include="Logic\ContainerTarget.cs" />
         <Compile Include="Logic\Helper.cs" />
         <Compile Include="Logic\Hopper.cs" />
+        <Compile Include="Logic\HopperPriority.cs" />
         <Compile Include="Logic\IPullTarget.cs" />
         <Compile Include="Logic\IPushTarget.cs" />
         <Compile Include="Logic\ITarget.cs" />

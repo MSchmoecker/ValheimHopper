@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace ValheimHopper.Logic {
     public class Pipe : MonoBehaviour, IPushTarget, IPullTarget {
-        public int PushPriority { get; } = 20;
-        public int PullPriority { get; } = 20;
+        public HopperPriority PushPriority { get; } = HopperPriority.PipePush;
+        public HopperPriority PullPriority { get; } = HopperPriority.PipePull;
         public bool IsPickup { get; } = false;
 
         [SerializeField] private Vector3 outPos = new Vector3(0, 0, -1f);
@@ -94,7 +94,7 @@ namespace ValheimHopper.Logic {
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority);
+            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
         }
 
         private void OnDrawGizmos() {

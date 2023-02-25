@@ -6,7 +6,7 @@ using MultiUserChest;
 using ValheimHopper.Logic;
 using Random = UnityEngine.Random;
 
-namespace ValheimHopper {
+namespace ValheimHopper.Logic {
     [DefaultExecutionOrder(5)]
     public class Hopper : MonoBehaviour, IPushTarget, IPullTarget {
         public Piece Piece { get; private set; }
@@ -14,8 +14,8 @@ namespace ValheimHopper {
         private Container container;
         private ContainerTarget containerTarget;
 
-        public int PushPriority { get; } = 15;
-        public int PullPriority { get; } = 15;
+        public HopperPriority PushPriority { get; } = HopperPriority.HopperPush;
+        public HopperPriority PullPriority { get; } = HopperPriority.HopperPull;
         public bool IsPickup { get; } = false;
 
         [SerializeField] private Vector3 inPos = new Vector3(0, 0.25f * 1.5f, 0);
@@ -230,9 +230,9 @@ namespace ValheimHopper {
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pullFrom = Helper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => i.PullPriority);
-            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority);
-            nearHoppers = Helper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => i.PullPriority);
+            pullFrom = Helper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => (int)i.PullPriority);
+            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
+            nearHoppers = Helper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => (int)i.PullPriority);
         }
 
         private void OnDrawGizmos() {

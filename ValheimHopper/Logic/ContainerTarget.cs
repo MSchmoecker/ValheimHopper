@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ValheimHopper.Logic {
     public class ContainerTarget : MonoBehaviour, IPushTarget, IPullTarget {
-        public int PushPriority { get; } = 10;
-        public int PullPriority { get; } = 10;
+        public HopperPriority PushPriority { get; } = HopperPriority.ContainerPush;
+        public HopperPriority PullPriority { get; } = HopperPriority.ContainerPull;
         public bool IsPickup { get; } = false;
 
         private Container container;

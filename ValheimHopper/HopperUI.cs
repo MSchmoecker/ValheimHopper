@@ -3,6 +3,7 @@ using Jotunn.GUI;
 using Jotunn.Managers;
 using UnityEngine;
 using UnityEngine.UI;
+using ValheimHopper.Logic;
 
 namespace ValheimHopper {
     public class HopperUI : MonoBehaviour {

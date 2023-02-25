@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ValheimHopper.Logic {
     public interface IPullTarget : ITarget {
-        int PullPriority { get; }
+        HopperPriority PullPriority { get; }
         bool IsPickup { get; }
 
         IEnumerable<ItemDrop.ItemData> GetItems();

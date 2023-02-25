@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using ValheimHopper.Logic;
 
 namespace ValheimHopper.Patches {
     [HarmonyPatch]

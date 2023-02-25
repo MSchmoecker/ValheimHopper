@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using ValheimHopper.Logic;
 
-namespace ValheimHopper {
+namespace ValheimHopper.Logic {
     public class ItemDropTarget : MonoBehaviour, IPullTarget {
-        public int PullPriority { get; } = -5;
+        public HopperPriority PullPriority { get; } = HopperPriority.ItemDropPull;
         public bool IsPickup { get; } = true;
 
         private ItemDrop itemDrop;
