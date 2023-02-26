@@ -36,5 +36,11 @@ namespace ValheimHopper.Logic.Helper {
             ItemOffsetCache[name] = center;
             return center;
         }
+
+        public static void CheckDropPrefab(ItemDrop itemDrop) {
+            if (!itemDrop.m_itemData.m_dropPrefab) {
+                itemDrop.m_itemData.m_dropPrefab = ObjectDB.instance.GetItemPrefab(itemDrop.GetPrefabName(itemDrop.gameObject.name));
+            }
+        }
     }
 }

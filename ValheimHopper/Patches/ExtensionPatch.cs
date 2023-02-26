@@ -24,5 +24,10 @@ namespace ValheimHopper.Patches {
                 __instance.gameObject.AddComponent<SmelterOreTarget>();
             }
         }
+
+        [HarmonyPatch(typeof(Beehive), nameof(Beehive.Awake)), HarmonyPostfix]
+        private static void BeehiveAwakePostfix(Beehive __instance) {
+            __instance.gameObject.AddComponent<BeehiveTarget>();
+        }
     }
 }

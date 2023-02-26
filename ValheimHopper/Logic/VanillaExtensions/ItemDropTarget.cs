@@ -14,7 +14,10 @@ namespace ValheimHopper.Logic {
         }
 
         public IEnumerable<ItemDrop.ItemData> GetItems() {
-            yield return itemDrop.m_itemData;
+            if (itemDrop) {
+                ItemHelper.CheckDropPrefab(itemDrop);
+                yield return itemDrop.m_itemData;
+            }
         }
 
         public void RemoveItem(ItemDrop.ItemData item, Inventory destination, Vector2i destinationPos, ZDOID sender) {

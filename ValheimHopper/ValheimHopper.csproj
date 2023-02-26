@@ -162,6 +162,7 @@
         <Compile Include="Logic\ITarget.cs" />
         <Compile Include="Logic\ItemFilter.cs" />
         <Compile Include="Logic\Pipe.cs" />
+        <Compile Include="Logic\VanillaExtensions\BeehiveTarget.cs" />
         <Compile Include="Logic\VanillaExtensions\ContainerTarget.cs" />
         <Compile Include="Logic\VanillaExtensions\ItemDropTarget.cs" />
         <Compile Include="Logic\VanillaExtensions\SmelterFuelTarget.cs" />

@@ -9,5 +9,6 @@ namespace ValheimHopper.Logic {
         HopperPush = 30,
         PipePull = 40,
         PipePush = 40,
+        BeehivePull = 50,
     }
 }
