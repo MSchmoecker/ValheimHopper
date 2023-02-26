@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MultiUserChest;
-using ValheimHopper.Logic;
+using ValheimHopper.Logic.Helper;
 using Random = UnityEngine.Random;
 
 namespace ValheimHopper.Logic {
@@ -87,7 +87,7 @@ namespace ValheimHopper.Logic {
                 return;
             }
 
-            int frame = Helper.GetFixedFrameCount();
+            int frame = HopperHelper.GetFixedFrameCount();
             int globalFrame = (frame + frameOffset) / transferFrame;
 
             if ((frame + frameOffset) % transferFrame == 0) {
@@ -230,9 +230,9 @@ namespace ValheimHopper.Logic {
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pullFrom = Helper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => (int)i.PullPriority);
-            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
-            nearHoppers = Helper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => (int)i.PullPriority);
+            pullFrom = HopperHelper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => (int)i.PullPriority);
+            pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
+            nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => (int)i.PullPriority);
         }
 
         private void OnDrawGizmos() {

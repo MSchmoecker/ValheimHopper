@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ValheimHopper {
+namespace ValheimHopper.Logic.Helper {
     public static class InventoryHelper {
         public static ItemDrop.ItemData FindFirstItem(this Inventory target, Func<ItemDrop.ItemData, bool> predicate) {
             if (target.m_inventory.Count == 0) {

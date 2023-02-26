@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using ValheimHopper.Logic;
+using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
     public class ItemDropTarget : MonoBehaviour, IPullTarget {
@@ -34,7 +34,7 @@ namespace ValheimHopper.Logic {
         }
 
         public bool IsValid() {
-            return this && itemDrop && Helper.IsValidNetView(itemDrop.m_nview);
+            return this && itemDrop && HopperHelper.IsValidNetView(itemDrop.m_nview);
         }
 
         public bool InRange(Vector3 position) {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ValheimHopper.Logic;
 
-namespace ValheimHopper {
+namespace ValheimHopper.UI {
     public class HopperUI : MonoBehaviour {
         public static HopperUI Instance { get; private set; }
         public static bool IsOpen { get; private set; }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ValheimHopper {
+namespace ValheimHopper.Debug {
     // [DefaultExecutionOrder(-97)]
     public class UnityDebugEnv : MonoBehaviour {
         private void Awake() {

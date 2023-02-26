@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
     public class Pipe : MonoBehaviour, IPushTarget, IPullTarget {
@@ -37,7 +38,7 @@ namespace ValheimHopper.Logic {
                 return;
             }
 
-            int frame = Helper.GetFixedFrameCount();
+            int frame = HopperHelper.GetFixedFrameCount();
             int globalFrame = (frame + frameOffset) / transferFrame;
 
             if ((frame + frameOffset) % transferFrame == 0) {
@@ -94,7 +95,7 @@ namespace ValheimHopper.Logic {
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pushTo = Helper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
+            pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
         }
 
         private void OnDrawGizmos() {

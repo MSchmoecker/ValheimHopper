@@ -1,4 +1,4 @@
-namespace ValheimHopper {
+namespace ValheimHopper.Logic {
     public abstract class ZProperty<T> {
         public string Key { get; }
         public T DefaultValue { get; }

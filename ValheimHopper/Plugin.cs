@@ -3,11 +3,13 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using UnityEngine;
 using Jotunn.Configs;
 using Jotunn.Entities;
-using UnityEngine;
 using Jotunn.Utils;
 using Jotunn.Managers;
+using ValheimHopper.Logic.Helper;
+using ValheimHopper.UI;
 
 namespace ValheimHopper {
     [BepInPlugin(ModGuid, ModName, ModVersion)]

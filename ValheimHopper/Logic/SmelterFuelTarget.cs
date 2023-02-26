@@ -1,4 +1,5 @@
 using UnityEngine;
+using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
     public class SmelterFuelTarget : MonoBehaviour, IPushTarget {
@@ -11,7 +12,7 @@ namespace ValheimHopper.Logic {
         }
 
         public bool IsValid() {
-            return this && smelter && Helper.IsValidNetView(smelter.m_nview) && smelter.m_nview.HasOwner();
+            return this && smelter && HopperHelper.IsValidNetView(smelter.m_nview) && smelter.m_nview.HasOwner();
         }
 
         public bool CanAddItem(ItemDrop.ItemData item) {
@@ -30,7 +31,7 @@ namespace ValheimHopper.Logic {
         }
         
         public bool InRange(Vector3 position) {
-            return Helper.IsInRange(position, smelter.m_addWoodSwitch.transform.position, 1f);
+            return HopperHelper.IsInRange(position, smelter.m_addWoodSwitch.transform.position, 1f);
         }
     }
 }

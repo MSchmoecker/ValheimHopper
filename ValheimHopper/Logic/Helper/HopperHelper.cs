@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ValheimHopper.Logic {
-    public static class Helper {
+namespace ValheimHopper.Logic.Helper {
+    public static class HopperHelper {
         private static readonly Collider[] tempColliders = new Collider[256];
         private static int PieceMask { get; } = LayerMask.GetMask("piece", "piece_nonsolid");
         private static int ItemMask { get; } = LayerMask.GetMask("item");

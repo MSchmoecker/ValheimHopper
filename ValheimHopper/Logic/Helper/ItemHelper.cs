@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Logger = Jotunn.Logger;
 
-namespace ValheimHopper {
+namespace ValheimHopper.Logic.Helper {
     public static class ItemHelper {
         private static readonly Dictionary<string, Vector3> ItemOffsetCache = new Dictionary<string, Vector3>();
 

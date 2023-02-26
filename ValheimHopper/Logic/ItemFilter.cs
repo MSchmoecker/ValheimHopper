@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ValheimHopper {
+namespace ValheimHopper.Logic {
     public class ItemFilter {
         private ZNetView zNetView;
         private Inventory inventory;

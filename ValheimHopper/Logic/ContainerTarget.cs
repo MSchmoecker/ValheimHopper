@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using MultiUserChest;
 using UnityEngine;
+using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
     public class ContainerTarget : MonoBehaviour, IPushTarget, IPullTarget {
@@ -16,7 +16,7 @@ namespace ValheimHopper.Logic {
         }
 
         public bool IsValid() {
-            return this && container && Helper.IsValidNetView(container.m_nview) && container.m_nview.HasOwner();
+            return this && container && HopperHelper.IsValidNetView(container.m_nview) && container.m_nview.HasOwner();
         }
 
         public IEnumerable<ItemDrop.ItemData> GetItems() {

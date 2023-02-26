@@ -2,8 +2,8 @@ using Jotunn.Managers;
 using UnityEngine;
 using Logger = Jotunn.Logger;
 
-namespace ValheimHopper {
-    public class SnappointHelper {
+namespace ValheimHopper.Logic.Helper {
+    public static class SnappointHelper {
         public static void AddSnappoints(string name, Vector3[] points) {
             GameObject target = PrefabManager.Instance.GetPrefab(name);
 
