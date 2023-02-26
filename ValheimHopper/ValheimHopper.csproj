@@ -151,7 +151,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Debug\UnityDebugEnv.cs" />
-        <Compile Include="Logic\ContainerTarget.cs" />
         <Compile Include="Logic\Helper\HopperHelper.cs" />
         <Compile Include="Logic\Helper\InventoryHelper.cs" />
         <Compile Include="Logic\Helper\ItemHelper.cs" />
@@ -161,11 +160,12 @@
         <Compile Include="Logic\IPullTarget.cs" />
         <Compile Include="Logic\IPushTarget.cs" />
         <Compile Include="Logic\ITarget.cs" />
-        <Compile Include="Logic\ItemDropTarget.cs" />
         <Compile Include="Logic\ItemFilter.cs" />
         <Compile Include="Logic\Pipe.cs" />
-        <Compile Include="Logic\SmelterFuelTarget.cs" />
-        <Compile Include="Logic\SmelterOreTarget.cs" />
+        <Compile Include="Logic\VanillaExtensions\ContainerTarget.cs" />
+        <Compile Include="Logic\VanillaExtensions\ItemDropTarget.cs" />
+        <Compile Include="Logic\VanillaExtensions\SmelterFuelTarget.cs" />
+        <Compile Include="Logic\VanillaExtensions\SmelterOreTarget.cs" />
         <Compile Include="Logic\ZProperty.cs" />
         <Compile Include="Patches\ExtensionPatch.cs" />
         <Compile Include="Patches\InventoryGuiPatch.cs" />
