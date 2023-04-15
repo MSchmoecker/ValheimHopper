@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 4495049251837348880}
   - component: {fileID: 385621934946697939}
   m_Layer: 10
-  m_Name: VH_PipeBronzeSide
+  m_Name: MS_PipeBronzeSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

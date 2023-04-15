@@ -46,7 +46,7 @@ namespace ValheimHopper {
             AddBronzePiece("HopperBronzeSide", "Wood_H", 6, 4);
             AddIronPiece("HopperIronDown", "Iron_V", 8, 2);
             AddIronPiece("HopperIronSide", "Iron_H", 8, 2);
-            AddBronzePiece("VH_PipeBronzeSide", "Pipe_H", 4, 2);
+            AddBronzePiece("MS_PipeBronzeSide", "Pipe_H", 4, 2);
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
