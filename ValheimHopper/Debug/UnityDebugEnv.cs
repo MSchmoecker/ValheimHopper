@@ -13,9 +13,12 @@ namespace ValheimHopper.Debug {
         }
 
         public static World GetDevWorld() {
-            World devWorld1 = World.LoadWorld("DevWorld", FileHelpers.FileSource.Local);
-            if (!devWorld1.m_loadError && !devWorld1.m_versionError)
-                return devWorld1;
+            World devWorld = World.LoadWorld("DevWorld", FileHelpers.FileSource.Local);
+
+            if (devWorld.m_dataError == World.SaveDataError.None) {
+                return devWorld;
+            }
+
             World devWorld2 = new World("DevWorld", "DevWorldSeed");
             devWorld2.SaveWorldMetaData(DateTime.Now);
             return devWorld2;
