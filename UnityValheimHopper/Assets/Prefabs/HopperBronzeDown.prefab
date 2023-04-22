@@ -153,10 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: -1267689374, guid: ede655af59964684191742c3107fbfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inPos: {x: 0, y: 0.375, z: 0}
-  outPos: {x: 0, y: -0.375, z: 0}
-  inSize: {x: 1, y: 1, z: 1}
-  outSize: {x: 1, y: 1, z: 1}
+  inPos: {x: 0, y: 0.81, z: 0}
+  outPos: {x: 0, y: -0.65, z: 0}
+  inSize: {x: 1.2, y: 0.5, z: 0.6}
+  outSize: {x: 0.4, y: 0.4, z: 0.4}
   nearHoppers: []
 --- !u!114 &3179475347997722852
 MonoBehaviour:
