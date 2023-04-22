@@ -95,7 +95,7 @@ namespace ValheimHopper.Logic {
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
+            pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority, this);
         }
 
         private void OnDrawGizmos() {
@@ -108,6 +108,18 @@ namespace ValheimHopper.Logic {
                     Gizmos.DrawSphere(child.position, .05f);
                 }
             }
+        }
+
+        public int NetworkHashCode() {
+            return HopperHelper.GetNetworkHashCode(zNetView);
+        }
+
+        public bool Equals(ITarget x, ITarget y) {
+            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
+        }
+
+        public int GetHashCode(ITarget obj) {
+            return obj.NetworkHashCode();
         }
     }
 }

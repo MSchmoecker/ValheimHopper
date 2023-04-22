@@ -53,5 +53,17 @@ namespace ValheimHopper.Logic {
             beehive.m_nview.GetZDO().SetOwner(sender);
             ZDOMan.instance.ForceSendZDO(sender, beehive.m_nview.GetZDO().m_uid);
         }
+
+        public int NetworkHashCode() {
+            return HopperHelper.GetNetworkHashCode(beehive.m_nview);
+        }
+
+        public bool Equals(ITarget x, ITarget y) {
+            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
+        }
+
+        public int GetHashCode(ITarget obj) {
+            return obj.NetworkHashCode();
+        }
     }
 }

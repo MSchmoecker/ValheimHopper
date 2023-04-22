@@ -43,5 +43,17 @@ namespace ValheimHopper.Logic {
         public bool InRange(Vector3 position) {
             return true;
         }
+
+        public int NetworkHashCode() {
+            return HopperHelper.GetNetworkHashCode(itemDrop.m_nview);
+        }
+
+        public bool Equals(ITarget x, ITarget y) {
+            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
+        }
+
+        public int GetHashCode(ITarget obj) {
+            return obj.NetworkHashCode();
+        }
     }
 }

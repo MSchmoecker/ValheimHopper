@@ -23,19 +23,28 @@ namespace ValheimHopper.Logic.Helper {
             return netView && netView.IsValid() && netView.m_zdo != null;
         }
 
+        public static int GetNetworkHashCode(ZNetView netView) {
+            return netView.m_zdo.m_uid.GetHashCode();
+        }
+
         public static int GetFixedFrameCount() {
             return Mathf.RoundToInt(Time.fixedTime / Time.fixedDeltaTime);
         }
 
-        public static List<T> FindTargets<T>(Vector3 pos, Vector3 size, Quaternion rotation, Func<T, int> orderBy) where T : ITarget {
+        public static List<T> FindTargets<T>(Vector3 pos, Vector3 size, Quaternion rotation, Func<T, HopperPriority> orderBy, ITarget exclude) where T : ITarget {
             List<T> targets = new List<T>();
             int count = Physics.OverlapBoxNonAlloc(pos, size / 2f, tempColliders, rotation, PieceMask | ItemMask);
 
             for (int i = 0; i < count; i++) {
-                targets.AddRange(tempColliders[i].GetComponentsInParent<T>().Where(t => t.InRange(pos)));
+                List<T> possibleTargets = tempColliders[i]
+                                          .GetComponentsInParent<T>()
+                                          .Where(target => target.InRange(pos) && target.IsValid() && target.NetworkHashCode() != exclude.NetworkHashCode())
+                                          .ToList();
+
+                targets.AddRange(possibleTargets);
             }
 
-            return targets.Distinct().OrderByDescending(orderBy).ToList();
+            return targets.OrderByDescending(orderBy).GroupBy(t => t.NetworkHashCode()).Select(t => t.First()).ToList();
         }
     }
 }

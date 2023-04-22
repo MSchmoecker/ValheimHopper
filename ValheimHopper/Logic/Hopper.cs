@@ -25,7 +25,7 @@ namespace ValheimHopper.Logic {
 
         private List<IPushTarget> pushTo = new List<IPushTarget>();
         private List<IPullTarget> pullFrom = new List<IPullTarget>();
-        [SerializeField] private List<Hopper> nearHoppers = new List<Hopper>();
+        private List<Hopper> nearHoppers = new List<Hopper>();
 
         private const float TransferInterval = 0.2f;
         private const float ObjectSearchInterval = 3f;
@@ -230,9 +230,22 @@ namespace ValheimHopper.Logic {
 
         private void FindIO() {
             Quaternion rotation = transform.rotation;
-            pullFrom = HopperHelper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => (int)i.PullPriority);
-            pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => (int)i.PushPriority);
-            nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => (int)i.PullPriority);
+            pullFrom = HopperHelper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => i.PullPriority, this);
+            pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority, this);
+            nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => i.PullPriority, this);
+            pullFrom.RemoveAll(pull => pushTo.Exists(push => push.NetworkHashCode() == pull.NetworkHashCode()));
+        }
+
+        public int NetworkHashCode() {
+            return HopperHelper.GetNetworkHashCode(zNetView);
+        }
+
+        public bool Equals(ITarget x, ITarget y) {
+            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
+        }
+
+        public int GetHashCode(ITarget obj) {
+            return obj.NetworkHashCode();
         }
 
         private void OnDrawGizmos() {

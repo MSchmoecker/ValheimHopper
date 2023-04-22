@@ -27,5 +27,17 @@ namespace ValheimHopper.Logic {
         public bool InRange(Vector3 position) {
             return HopperHelper.IsInRange(position, smelter.m_addOreSwitch.transform.position, 1f);
         }
+
+        public int NetworkHashCode() {
+            return HopperHelper.GetNetworkHashCode(smelter.m_nview);
+        }
+
+        public bool Equals(ITarget x, ITarget y) {
+            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
+        }
+
+        public int GetHashCode(ITarget obj) {
+            return obj.NetworkHashCode();
+        }
     }
 }
