@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using JetBrains.Annotations;
 using UnityEngine;
 using Jotunn.Configs;
 using Jotunn.Entities;
@@ -17,11 +17,11 @@ namespace ValheimHopper {
     [BepInDependency(MultiUserChest.Plugin.ModGuid, "0.4.0")]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
     public class Plugin : BaseUnityPlugin {
-        public const string ModName = "ItemHopper";
-        public const string ModGuid = "com.maxsch.valheim.ItemHopper";
-        public const string ModVersion = "0.3.2";
+        [PublicAPI] public const string ModName = "ItemHopper";
+        [PublicAPI] public const string ModGuid = "com.maxsch.valheim.ItemHopper";
+        [PublicAPI] public const string ModVersion = "0.3.2";
 
-        public static ConfigEntry<bool> addSmelterSnappoints;
+        private static ConfigEntry<bool> addSmelterSnappoints;
 
         public static Plugin Instance { get; private set; }
         public static AssetBundle AssetBundle { get; private set; }
