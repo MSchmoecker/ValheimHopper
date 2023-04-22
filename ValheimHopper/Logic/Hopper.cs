@@ -24,7 +24,7 @@ namespace ValheimHopper.Logic {
         [SerializeField] private Vector3 outSize = new Vector3(1f, 1f, 1f);
 
         private List<IPushTarget> pushTo = new List<IPushTarget>();
-        private List<IPullTarget> pullFrom = new List<IPullTarget>();
+        internal List<IPullTarget> pullFrom = new List<IPullTarget>();
         private List<Hopper> nearHoppers = new List<Hopper>();
 
         private const float TransferInterval = 0.2f;
@@ -141,9 +141,9 @@ namespace ValheimHopper.Logic {
                     continue;
                 }
 
-                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i));
+                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
 
-                if (item == null || !CanPushItem(item)) {
+                if (item == null) {
                     continue;
                 }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ValheimHopper.Logic.Helper;
 
@@ -15,6 +16,7 @@ namespace ValheimHopper.Logic {
         private ContainerTarget containerTarget;
         private ZNetView zNetView;
         private List<IPushTarget> pushTo = new List<IPushTarget>();
+        private List<Hopper> nearHoppers = new List<Hopper>();
 
         private const float TransferInterval = 0.2f;
         private const float ObjectSearchInterval = 3f;
@@ -76,13 +78,17 @@ namespace ValheimHopper.Logic {
             containerTarget.RemoveItem(item, destination, destinationPos, sender);
         }
 
+        private bool CanPushItem(ItemDrop.ItemData item) {
+            return !nearHoppers.Any(hopper => hopper.pullFrom.Contains(this) && hopper.CanAddItem(item));
+        }
+
         private void PushItems() {
             foreach (IPushTarget to in pushTo) {
                 if (!to.IsValid()) {
                     continue;
                 }
 
-                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i));
+                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
 
                 if (item == null) {
                     continue;
@@ -96,6 +102,7 @@ namespace ValheimHopper.Logic {
         private void FindIO() {
             Quaternion rotation = transform.rotation;
             pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority, this);
+            nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => i.PullPriority, this);
         }
 
         private void OnDrawGizmos() {
