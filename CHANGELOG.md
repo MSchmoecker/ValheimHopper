@@ -1,4 +1,14 @@
 # Changelog
+1.0.0
+- Added bronze pipes
+- Added snappoints for windmill and spinning wheel. Note that both pieces don't support other pieces themselves, meaning without further support the hoppers will break
+- Added debug files (ValheimHopper.dll.mdb) to the release, this will make finding future issues easier
+- Added pulling from beehives
+- Changed build cost of hoppers to be slightly more expensive
+- Changed snappoints
+- Updated MultiUserChest dependent code, a minimum version of 0.4.0 is now required
+- Reworked hopper code to be more deterministic and easier to maintain
+- Removed old filter hoppers prefabs
 
 0.3.2
 - Fixed a pushing hopper did not respected the filter order of a filter hopper it pushed into. This could lead to an existing filter being overwritten
