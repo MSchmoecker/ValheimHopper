@@ -25,6 +25,8 @@ namespace ValheimHopper.Logic {
         private int objectSearchFrame;
         private int frameOffset;
 
+        private int pushCounter;
+
         private void Awake() {
             zNetView = GetComponent<ZNetView>();
             container = GetComponent<Container>();
@@ -83,19 +85,21 @@ namespace ValheimHopper.Logic {
         }
 
         private void PushItems() {
-            foreach (IPushTarget to in pushTo) {
-                if (!to.IsValid()) {
-                    continue;
-                }
-
-                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
-
-                if (item == null) {
-                    continue;
-                }
-
-                to.AddItem(item, container.GetInventory(), zNetView.m_zdo.m_uid);
+            if (pushTo.Count == 0) {
                 return;
+            }
+
+            IPushTarget to = pushTo[pushCounter % pushTo.Count];
+            pushCounter++;
+
+            if (!to.IsValid()) {
+                return;
+            }
+
+            ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
+
+            if (item != null) {
+                to.AddItem(item, container.GetInventory(), zNetView.m_zdo.m_uid);
             }
         }
 

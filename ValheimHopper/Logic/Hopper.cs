@@ -34,6 +34,9 @@ namespace ValheimHopper.Logic {
         private int objectSearchFrame;
         private int frameOffset;
 
+        private int pushCounter;
+        private int pullCounter;
+
         public ItemFilter filter;
 
         public ZBool FilterItemsOption { get; private set; }
@@ -110,45 +113,51 @@ namespace ValheimHopper.Logic {
         }
 
         private void PullItems() {
-            foreach (IPullTarget from in pullFrom) {
-                if (!from.IsValid()) {
+            if (pullFrom.Count == 0) {
+                return;
+            }
+
+            IPullTarget from = pullFrom[pullCounter % pullFrom.Count];
+            pullCounter++;
+
+            if (!from.IsValid()) {
+                return;
+            }
+
+            if (!PickupItemsOption.Get() && from.IsPickup) {
+                return;
+            }
+
+            foreach (ItemDrop.ItemData item in from.GetItems()) {
+                if (!FindFreeSlot(item, out Vector2i pos)) {
                     continue;
                 }
 
-                if (!PickupItemsOption.Get() && from.IsPickup) {
-                    continue;
-                }
-
-                foreach (ItemDrop.ItemData item in from.GetItems()) {
-                    if (!FindFreeSlot(item, out Vector2i pos)) {
-                        continue;
-                    }
-
-                    from.RemoveItem(item, container.GetInventory(), pos, zNetView.m_zdo.m_uid);
-                    return;
-                }
+                from.RemoveItem(item, container.GetInventory(), pos, zNetView.m_zdo.m_uid);
+                return;
             }
         }
 
         private void PushItems() {
-            if (pushTo.Count == 0 && DropItemsOption.Get()) {
-                DropItem();
+            if (pushTo.Count == 0) {
+                if (DropItemsOption.Get()) {
+                    DropItem();
+                }
+
                 return;
             }
 
-            foreach (IPushTarget to in pushTo) {
-                if (!to.IsValid()) {
-                    continue;
-                }
+            IPushTarget to = pushTo[pushCounter % pushTo.Count];
+            pushCounter++;
 
-                ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
-
-                if (item == null) {
-                    continue;
-                }
-
-                to.AddItem(item, container.GetInventory(), zNetView.m_zdo.m_uid);
+            if (!to.IsValid()) {
                 return;
+            }
+
+            ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
+
+            if (item != null) {
+                to.AddItem(item, container.GetInventory(), zNetView.m_zdo.m_uid);
             }
         }
 
