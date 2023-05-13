@@ -30,6 +30,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4759853200739378548, guid: e97c86f24203c17469d7ca487991d3ad,
         type: 3}
+      propertyPath: m_icon
+      value: 
+      objectReference: {fileID: 21300000, guid: e14405e9c8469764e9613a7b9ac02e49,
+        type: 3}
+    - target: {fileID: 4759853200739378548, guid: e97c86f24203c17469d7ca487991d3ad,
+        type: 3}
       propertyPath: m_name
       value: $piece_hopper_iron_side
       objectReference: {fileID: 0}

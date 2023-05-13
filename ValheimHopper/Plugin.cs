@@ -42,11 +42,11 @@ namespace ValheimHopper {
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
-            AddBronzePiece("HopperBronzeDown", "Wood_V", 6, 4);
-            AddBronzePiece("HopperBronzeSide", "Wood_H", 6, 4);
-            AddBronzePiece("MS_PipeBronzeSide", "Pipe_H", 4, 2);
-            AddIronPiece("HopperIronDown", "Iron_V", 6, 2);
-            AddIronPiece("HopperIronSide", "Iron_H", 6, 2);
+            AddBronzePiece("HopperBronzeDown", 6, 4);
+            AddBronzePiece("HopperBronzeSide", 6, 4);
+            AddBronzePiece("MS_PipeBronzeSide", 4, 2);
+            AddIronPiece("HopperIronDown", 6, 2);
+            AddIronPiece("HopperIronSide", 6, 2);
 
             PrefabManager.OnVanillaPrefabsAvailable += AddSnappoints;
             GUIManager.OnCustomGUIAvailable += HopperUI.Init;
@@ -84,9 +84,8 @@ namespace ValheimHopper {
             PrefabManager.OnVanillaPrefabsAvailable -= AddSnappoints;
         }
 
-        private static void AddBronzePiece(string assetName, string spriteName, int wood, int nails) {
+        private static void AddBronzePiece(string assetName, int wood, int nails) {
             PieceConfig config = new PieceConfig {
-                Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
                     new RequirementConfig("Wood", wood, 0, true),
                     new RequirementConfig("BronzeNails", nails, 0, true)
@@ -99,9 +98,8 @@ namespace ValheimHopper {
             PieceManager.Instance.AddPiece(new CustomPiece(AssetBundle, assetName, true, config));
         }
 
-        private static void AddIronPiece(string assetName, string spriteName, int wood, int nails) {
+        private static void AddIronPiece(string assetName, int wood, int nails) {
             PieceConfig config = new PieceConfig {
-                Icon = AssetBundle.LoadAsset<Sprite>(spriteName),
                 Requirements = new[] {
                     new RequirementConfig("Wood", wood, 0, true),
                     new RequirementConfig("IronNails", nails, 0, true)

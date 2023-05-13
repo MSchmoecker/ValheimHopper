@@ -157,7 +157,6 @@ MonoBehaviour:
   outPos: {x: 0, y: -0.65, z: 0}
   inSize: {x: 1.2, y: 0.5, z: 0.6}
   outSize: {x: 0.4, y: 0.4, z: 0.4}
-  nearHoppers: []
 --- !u!114 &3179475347997722852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +172,7 @@ MonoBehaviour:
   m_primaryTarget: 1
   m_randomTarget: 1
   m_targetNonPlayerBuilt: 1
-  m_icon: {fileID: 0}
+  m_icon: {fileID: 21300000, guid: 248307b78a03b4e409bfcb030a92b481, type: 3}
   m_name: $piece_hopper_bronze_down
   m_description: 
   m_enabled: 1

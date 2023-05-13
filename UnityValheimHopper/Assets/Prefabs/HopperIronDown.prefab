@@ -81,6 +81,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3179475347997722852, guid: e53322b522555cb45a08e1b8bed0a275,
         type: 3}
+      propertyPath: m_icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 26e1cb9d77d93194cb46ff80ecd23c3c,
+        type: 3}
+    - target: {fileID: 3179475347997722852, guid: e53322b522555cb45a08e1b8bed0a275,
+        type: 3}
       propertyPath: m_name
       value: $piece_hopper_iron_down
       objectReference: {fileID: 0}
