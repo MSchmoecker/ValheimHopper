@@ -466,7 +466,7 @@ MonoBehaviour:
   m_worn: {fileID: 0}
   m_broken: {fileID: 0}
   m_wet: {fileID: 0}
-  m_noRoofWear: 1
+  m_noRoofWear: 0
   m_noSupportWear: 1
   m_materialType: 0
   m_supports: 1
