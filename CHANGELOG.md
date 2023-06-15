@@ -1,4 +1,9 @@
 # Changelog
+
+1.1.0
+- Updated for Valheim 0.216.9
+- Added round robin distribution for pipes and hoppers, this means items will be distributed evenly if a hopper has multiple valid targets
+
 1.0.0
 - Added bronze pipes
 - Added snappoints for windmill and spinning wheel. Note that both pieces don't support other pieces themselves, meaning without further support the hoppers will break
