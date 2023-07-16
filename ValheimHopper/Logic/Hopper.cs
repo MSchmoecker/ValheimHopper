@@ -59,13 +59,9 @@ namespace ValheimHopper.Logic {
         }
 
         private void Start() {
-            if (!IsValid()) {
-                return;
-            }
-
             filter = new ItemFilter(zNetView, container.GetInventory());
             container.GetInventory().m_onChanged += () => {
-                if (FilterItemsOption.Get()) {
+                if (IsValid() && FilterItemsOption.Get()) {
                     filter.Save();
                 }
             };
