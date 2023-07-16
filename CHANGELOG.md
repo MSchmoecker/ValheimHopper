@@ -1,5 +1,8 @@
 # Changelog
 
+1.1.1
+- Fixed an error where a hopper with a filer that was initially spawned far away from the player would try to move items
+
 1.1.0
 - Updated for Valheim 0.216.9
 - Added round robin distribution for pipes and hoppers, this means items will be distributed evenly if a hopper has multiple valid targets
