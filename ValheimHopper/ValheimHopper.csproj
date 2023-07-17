@@ -170,6 +170,7 @@
         <Compile Include="Logic\ZProperty.cs" />
         <Compile Include="Patches\ExtensionPatch.cs" />
         <Compile Include="Patches\InventoryGuiPatch.cs" />
+        <Compile Include="Patches\PlacementPatch.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="UI\HopperUI.cs" />
