@@ -1,5 +1,9 @@
 # Changelog
 
+1.2.0
+- Added Russian localization (thanks Biatlonist76Biatlonist)
+- Fixed an error when trying to place a hopper
+
 1.1.1
 - Fixed an error where a hopper with a filer that was initially spawned far away from the player would try to move items
 
