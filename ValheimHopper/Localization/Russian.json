@@ -1,0 +1,16 @@
+{
+  "piece_hopper_bronze_down": "Бронзовая приемная воронка",
+  "piece_hopper_bronze_side": "Бронзовая боковая приемная воронка",
+  "piece_hopper_iron_down": "Железная приемная воронка",
+  "piece_hopper_iron_side": "Железная боковая приемная воронка",
+  "piece_pipe_bronze_side": "Бронзовая труба",
+  "toggle_leave_one_item": "Оставьте по одному предмету в каждом слоте",
+  "hopper_filter_description": "Фильтрующая приемная воронка",
+  "piece_hopper_settings_edit": "Изменить настройки приемной воронки",
+  "hopper_options_filter": "Фильтрующие элементы",
+  "hopper_options_drop": "Включить удаление элемента",
+  "hopper_options_pickup_enabled": "Включить самовывоз товара",
+  "hopper_copy": "Копировать",
+  "hopper_paste": "Вставить",
+  "hopper_reset": "Сброс"
+}
