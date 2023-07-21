@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &225918406933613695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 595441853617699735, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772195369744070802, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2315073747688321849, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243511151076398526, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601750156463826448, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_Name
+      value: MS_PipeBronze_Vertical_Down_2m
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614493908735634300, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_name
+      value: $piece_pipe_bronze_vertical_down_2m
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686921736106163388, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6349236277862561212, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7826806316156329832, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7826806316156329832, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8069613436966998002, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_icon
+      value: 
+      objectReference: {fileID: 21300000, guid: db90483b6b585104fa30c19a1c16555b,
+        type: 3}
+    - target: {fileID: 8069613436966998002, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_name
+      value: $piece_pipe_bronze_vertical_down_2m
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391705201127629526, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8877271766181504447, guid: 0fddb8cca7b420149aecf2caed3ce6b6,
+        type: 3}
+      propertyPath: outPos.y
+      value: -0.8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0fddb8cca7b420149aecf2caed3ce6b6, type: 3}

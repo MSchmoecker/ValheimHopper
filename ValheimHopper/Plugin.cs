@@ -46,6 +46,15 @@ namespace ValheimHopper {
             AddBronzePiece("HopperBronzeDown", 6, 4);
             AddBronzePiece("HopperBronzeSide", 6, 4);
             AddBronzePiece("MS_PipeBronzeSide", 4, 2);
+            AddBronzePiece("MS_PipeBronzeSide_2m", 2, 1);
+            AddBronzePiece("MS_PipeBronze_Vertical_Up_4m", 4, 2);
+            AddBronzePiece("MS_PipeBronze_Vertical_Down_4m", 4, 2);
+            AddBronzePiece("MS_PipeBronze_Vertical_Up_2m", 2, 1);
+            AddBronzePiece("MS_PipeBronze_Vertical_Down_2m", 2, 1);
+            AddBronzePiece("MS_PipeBronze_Diagonal_45_Up_4m", 4, 2);
+            AddBronzePiece("MS_PipeBronze_Diagonal_45_Down_4m", 4, 2);
+            AddBronzePiece("MS_PipeBronze_Diagonal_26_Up_4m", 4, 2);
+            AddBronzePiece("MS_PipeBronze_Diagonal_26_Down_4m", 4, 2);
             AddIronPiece("HopperIronDown", 6, 2);
             AddIronPiece("HopperIronSide", 6, 2);
 

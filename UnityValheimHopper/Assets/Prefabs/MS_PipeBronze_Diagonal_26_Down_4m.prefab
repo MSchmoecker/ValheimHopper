@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8756188979793572876
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 648688154925022372, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_name
+      value: $piece_pipe_bronze_diagonal_26_down_4m
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708639550974134448, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.23055905
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708639550974134448, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.9730584
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708639550974134448, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708639550974134448, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708639550974134448, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 206.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806979625220577322, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 927b0c62787ff9f4fa83357094bacd10,
+        type: 3}
+    - target: {fileID: 2806979625220577322, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_name
+      value: $piece_pipe_bronze_diagonal_26_down_4m
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619491198629147239, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: outPos.y
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619491198629147239, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: outPos.z
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881339229640126282, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715203177857741256, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: m_Name
+      value: MS_PipeBronze_Diagonal_26_Down_4m
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 75856e75e062fa0419a651dd480e8565, type: 3}
