@@ -70,7 +70,7 @@ namespace ValheimHopper {
                 });
 
                 SnappointHelper.AddSnappoints("charcoal_kiln", new[] {
-                    new Vector3(0f, 1f, 2.15f),
+                    new Vector3(0f, 1.1f, 2f),
                 });
 
                 SnappointHelper.AddSnappoints("blastfurnace", new[] {
