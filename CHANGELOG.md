@@ -1,5 +1,8 @@
 # Changelog
 
+1.3.0
+- Added more bronze pipe types (up/down/diagonal/...) and reworked existing pipe models
+
 1.2.0
 - Added Russian localization (thanks Biatlonist76Biatlonist)
 - Fixed an error when trying to place a hopper
