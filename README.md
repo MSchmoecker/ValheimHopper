@@ -2,29 +2,29 @@
 ## About
 Adds hoppers and pipes to transport items.
 
-<img src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/ShowcaseSmelter.png" height="400" alt="Smelter"/> <img src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/PipeSort.png" height="400" alt="Sorter"/>
+<img src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/ShowcaseSmelter.png" width="49%" alt="Smelter"/> <img src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/PipeSort.png" width="49%" alt="Sorter"/>
 
 
 ## Features
 ### Real ingame hoppers
 Different hopper types are available, all can be found in the hammer crafting tab:
 
-| Icon                                                                                                                                                  | Name                 | Cost                   |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|------------------------|
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Wood_V.png" />                         | Bronze hopper        | 6 wood, 4 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Wood_H.png" />                         | Bronze side hopper   | 6 wood, 4 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Horizontal_4m.png" />       | Bronze pipe 4m       | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Horizontal_2m.png" />       | Bronze pipe 2m       | 2 wood, 1 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Up_4m.png" />      | Bronze pipe up 4m    | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Up_2m.png" />      | Bronze pipe up 2m    | 2 wood, 1 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Down_4m.png" />    | Bronze pipe down 4m  | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Down_2m.png" />    | Bronze pipe down 2m  | 2 wood, 1 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_26_Up_4m.png" />   | Bronze pipe up 26°   | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_26_Down_4m.png" /> | Bronze pipe down 26° | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_45_Up_4m.png" />   | Bronze pipe up 45°   | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_45_Down_4m.png" /> | Bronze pipe down 45° | 4 wood, 2 bronze nails |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Iron_V.png" />                         | Iron hopper          | 6 wood, 2 iron nails   |
-| <img height="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Iron_H.png" />                         | Iron side hopper     | 6 wood, 2 iron nails   |
+| Icon                                                                                                                                                 | Name                 | Cost                   |
+|------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|------------------------|
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Wood_V.png" />                         | Bronze hopper        | 6 wood, 4 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Wood_H.png" />                         | Bronze side hopper   | 6 wood, 4 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Horizontal_4m.png" />       | Bronze pipe 4m       | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Horizontal_2m.png" />       | Bronze pipe 2m       | 2 wood, 1 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Up_4m.png" />      | Bronze pipe up 4m    | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Up_2m.png" />      | Bronze pipe up 2m    | 2 wood, 1 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Down_4m.png" />    | Bronze pipe down 4m  | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Vertical_Down_2m.png" />    | Bronze pipe down 2m  | 2 wood, 1 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_26_Up_4m.png" />   | Bronze pipe up 26°   | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_26_Down_4m.png" /> | Bronze pipe down 26° | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_45_Up_4m.png" />   | Bronze pipe up 45°   | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/PipeBronze_Diagonal_45_Down_4m.png" /> | Bronze pipe down 45° | 4 wood, 2 bronze nails |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Iron_V.png" />                         | Iron hopper          | 6 wood, 2 iron nails   |
+| <img width="46" alt="icon" src="https://raw.githubusercontent.com/MSchmoecker/ValheimHopper/master/Docs/Icons/Iron_H.png" />                         | Iron side hopper     | 6 wood, 2 iron nails   |
 
 The transfer speed of all hopper and pipes are identical.
 The bronze hopper has one slot while the iron hopper has three.

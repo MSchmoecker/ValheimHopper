@@ -1,5 +1,8 @@
 # Changelog
 
+1.3.1
+- Updated Russian localization (thanks Biatlonist76Biatlonist)
+
 1.3.0
 - Added more bronze pipe types (up/down/diagonal/...) and reworked existing pipe models
 
