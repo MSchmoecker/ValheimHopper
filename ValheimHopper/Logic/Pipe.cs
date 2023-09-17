@@ -4,7 +4,7 @@ using UnityEngine;
 using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
-    public class Pipe : MonoBehaviour, IPushTarget, IPullTarget {
+    public class Pipe : NetworkPiece, IPushTarget, IPullTarget {
         public HopperPriority PushPriority { get; } = HopperPriority.PipePush;
         public HopperPriority PullPriority { get; } = HopperPriority.PipePull;
         public bool IsPickup { get; } = false;
@@ -14,7 +14,6 @@ namespace ValheimHopper.Logic {
 
         private Container container;
         private ContainerTarget containerTarget;
-        private ZNetView zNetView;
         private List<IPushTarget> pushTo = new List<IPushTarget>();
         private List<Hopper> nearHoppers = new List<Hopper>();
 
@@ -27,7 +26,9 @@ namespace ValheimHopper.Logic {
 
         private int pushCounter;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
+
             zNetView = GetComponent<ZNetView>();
             container = GetComponent<Container>();
             containerTarget = GetComponent<ContainerTarget>();
@@ -54,10 +55,6 @@ namespace ValheimHopper.Logic {
             if ((frame + frameOffset + 1) % objectSearchFrame == 0) {
                 FindIO();
             }
-        }
-
-        public bool IsValid() {
-            return this && containerTarget && containerTarget.IsValid();
         }
 
         public bool InRange(Vector3 position) {
@@ -119,18 +116,6 @@ namespace ValheimHopper.Logic {
                     Gizmos.DrawSphere(child.position, .05f);
                 }
             }
-        }
-
-        public int NetworkHashCode() {
-            return HopperHelper.GetNetworkHashCode(zNetView);
-        }
-
-        public bool Equals(ITarget x, ITarget y) {
-            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
-        }
-
-        public int GetHashCode(ITarget obj) {
-            return obj.NetworkHashCode();
         }
     }
 }

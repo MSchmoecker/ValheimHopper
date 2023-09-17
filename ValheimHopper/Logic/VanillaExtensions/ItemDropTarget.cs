@@ -3,13 +3,14 @@ using UnityEngine;
 using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
-    public class ItemDropTarget : MonoBehaviour, IPullTarget {
+    public class ItemDropTarget : NetworkPiece, IPullTarget {
         public HopperPriority PullPriority { get; } = HopperPriority.ItemDropPull;
         public bool IsPickup { get; } = true;
 
         private ItemDrop itemDrop;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             itemDrop = GetComponent<ItemDrop>();
         }
 
@@ -36,24 +37,8 @@ namespace ValheimHopper.Logic {
             destination.AddItem(itemData, 1, destinationPos.x, destinationPos.y);
         }
 
-        public bool IsValid() {
-            return this && itemDrop && HopperHelper.IsValidNetView(itemDrop.m_nview);
-        }
-
         public bool InRange(Vector3 position) {
             return true;
-        }
-
-        public int NetworkHashCode() {
-            return HopperHelper.GetNetworkHashCode(itemDrop.m_nview);
-        }
-
-        public bool Equals(ITarget x, ITarget y) {
-            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
-        }
-
-        public int GetHashCode(ITarget obj) {
-            return obj.NetworkHashCode();
         }
     }
 }

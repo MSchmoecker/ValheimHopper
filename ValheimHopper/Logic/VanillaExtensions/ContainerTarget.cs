@@ -4,19 +4,16 @@ using UnityEngine;
 using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
-    public class ContainerTarget : MonoBehaviour, IPushTarget, IPullTarget {
+    public class ContainerTarget : NetworkPiece, IPushTarget, IPullTarget {
         public HopperPriority PushPriority { get; } = HopperPriority.ContainerPush;
         public HopperPriority PullPriority { get; } = HopperPriority.ContainerPull;
         public bool IsPickup { get; } = false;
 
         private Container container;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             container = GetComponent<Container>();
-        }
-
-        public bool IsValid() {
-            return this && container && HopperHelper.IsValidNetView(container.m_nview) && container.m_nview.HasOwner();
         }
 
         public IEnumerable<ItemDrop.ItemData> GetItems() {
@@ -37,18 +34,6 @@ namespace ValheimHopper.Logic {
 
         public bool InRange(Vector3 position) {
             return true;
-        }
-
-        public int NetworkHashCode() {
-            return HopperHelper.GetNetworkHashCode(container.m_nview);
-        }
-
-        public bool Equals(ITarget x, ITarget y) {
-            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
-        }
-
-        public int GetHashCode(ITarget obj) {
-            return obj.NetworkHashCode();
         }
     }
 }

@@ -8,9 +8,8 @@ using Random = UnityEngine.Random;
 
 namespace ValheimHopper.Logic {
     [DefaultExecutionOrder(5)]
-    public class Hopper : MonoBehaviour, IPushTarget, IPullTarget {
+    public class Hopper : NetworkPiece, IPushTarget, IPullTarget {
         public Piece Piece { get; private set; }
-        private ZNetView zNetView;
         private Container container;
         private ContainerTarget containerTarget;
 
@@ -43,8 +42,9 @@ namespace ValheimHopper.Logic {
         public ZBool DropItemsOption { get; private set; }
         public ZBool PickupItemsOption { get; private set; }
 
-        private void Awake() {
-            zNetView = GetComponent<ZNetView>();
+        protected override void Awake() {
+            base.Awake();
+
             Piece = GetComponent<Piece>();
             container = GetComponent<Container>();
             containerTarget = GetComponent<ContainerTarget>();
@@ -102,10 +102,6 @@ namespace ValheimHopper.Logic {
             if ((frame + frameOffset + 1) % objectSearchFrame == 0) {
                 FindIO();
             }
-        }
-
-        public bool IsValid() {
-            return this && containerTarget && containerTarget.IsValid();
         }
 
         private void PullItems() {
@@ -239,18 +235,6 @@ namespace ValheimHopper.Logic {
             pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority, this);
             nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => i.PullPriority, this);
             pullFrom.RemoveAll(pull => pushTo.Exists(push => push.NetworkHashCode() == pull.NetworkHashCode()));
-        }
-
-        public int NetworkHashCode() {
-            return HopperHelper.GetNetworkHashCode(zNetView);
-        }
-
-        public bool Equals(ITarget x, ITarget y) {
-            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
-        }
-
-        public int GetHashCode(ITarget obj) {
-            return obj.NetworkHashCode();
         }
 
         private void OnDrawGizmos() {

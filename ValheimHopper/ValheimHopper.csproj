@@ -161,6 +161,7 @@
         <Compile Include="Logic\IPushTarget.cs" />
         <Compile Include="Logic\ITarget.cs" />
         <Compile Include="Logic\ItemFilter.cs" />
+        <Compile Include="Logic\NetworkPiece.cs" />
         <Compile Include="Logic\Pipe.cs" />
         <Compile Include="Logic\VanillaExtensions\BeehiveTarget.cs" />
         <Compile Include="Logic\VanillaExtensions\ContainerTarget.cs" />

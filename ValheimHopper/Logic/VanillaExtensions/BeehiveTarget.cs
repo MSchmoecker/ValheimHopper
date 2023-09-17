@@ -3,20 +3,18 @@ using UnityEngine;
 using ValheimHopper.Logic.Helper;
 
 namespace ValheimHopper.Logic {
-    public class BeehiveTarget : MonoBehaviour, IPullTarget {
+    public class BeehiveTarget : NetworkPiece, IPullTarget {
         public HopperPriority PullPriority { get; } = HopperPriority.BeehivePull;
         public bool IsPickup { get; } = false;
 
         private Beehive beehive;
         private const string RequestOwnershipRPC = "VH_RequestOwnership";
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
+
             beehive = GetComponent<Beehive>();
             beehive.m_nview.Register(RequestOwnershipRPC, RPC_RequestOwnership);
-        }
-
-        public bool IsValid() {
-            return this && beehive && HopperHelper.IsValidNetView(beehive.m_nview) && beehive.m_nview.HasOwner();
         }
 
         public bool InRange(Vector3 position) {
@@ -52,18 +50,6 @@ namespace ValheimHopper.Logic {
 
             beehive.m_nview.GetZDO().SetOwner(sender);
             ZDOMan.instance.ForceSendZDO(sender, beehive.m_nview.GetZDO().m_uid);
-        }
-
-        public int NetworkHashCode() {
-            return HopperHelper.GetNetworkHashCode(beehive.m_nview);
-        }
-
-        public bool Equals(ITarget x, ITarget y) {
-            return x == y || x?.NetworkHashCode() == y?.NetworkHashCode();
-        }
-
-        public int GetHashCode(ITarget obj) {
-            return obj.NetworkHashCode();
         }
     }
 }
