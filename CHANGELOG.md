@@ -1,5 +1,9 @@
 # Changelog
 
+1.4.0
+- Added support for hoppers and pipes to push items into ballistas
+- Internal code simplifications
+
 1.3.1
 - Updated Russian localization (thanks Biatlonist76Biatlonist)
 
