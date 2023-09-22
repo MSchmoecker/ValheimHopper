@@ -29,5 +29,10 @@ namespace ValheimHopper.Patches {
         private static void BeehiveAwakePostfix(Beehive __instance) {
             __instance.gameObject.AddComponent<BeehiveTarget>();
         }
+
+        [HarmonyPatch(typeof(Turret), nameof(Turret.Awake)), HarmonyPostfix]
+        private static void TurretAwakePostfix(Turret __instance) {
+            __instance.gameObject.AddComponent<TurretTarget>();
+        }
     }
 }

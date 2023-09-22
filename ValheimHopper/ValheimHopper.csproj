@@ -168,6 +168,7 @@
         <Compile Include="Logic\VanillaExtensions\ItemDropTarget.cs" />
         <Compile Include="Logic\VanillaExtensions\SmelterFuelTarget.cs" />
         <Compile Include="Logic\VanillaExtensions\SmelterOreTarget.cs" />
+        <Compile Include="Logic\VanillaExtensions\TurretTarget.cs" />
         <Compile Include="Logic\ZProperty.cs" />
         <Compile Include="Patches\ExtensionPatch.cs" />
         <Compile Include="Patches\InventoryGuiPatch.cs" />
