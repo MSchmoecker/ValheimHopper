@@ -19,7 +19,7 @@ namespace ValheimHopper {
     public class Plugin : BaseUnityPlugin {
         [PublicAPI] public const string ModName = "ItemHopper";
         [PublicAPI] public const string ModGuid = "com.maxsch.valheim.ItemHopper";
-        [PublicAPI] public const string ModVersion = "1.4.0";
+        [PublicAPI] public const string ModVersion = "1.4.1";
 
         private static ConfigEntry<bool> addSmelterSnappoints;
 

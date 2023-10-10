@@ -1,5 +1,9 @@
 # Changelog
 
+1.4.1
+- Updated and compiled for Valheim version 0.217.24, not working with an older version
+- Updated and compiled for BepInExPack 5.4.2200 and Jotunn 2.14.4
+
 1.4.0
 - Added support for hoppers and pipes to push items into ballistas
 - Internal code simplifications
