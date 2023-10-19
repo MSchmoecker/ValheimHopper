@@ -37,9 +37,9 @@ namespace ValheimHopper {
             addSmelterSnappoints = Config.Bind("General", "Add Smelter Snappoints", true, "Adds snappoints to inputs/outputs of the smelter, charcoal kiln, blastfurnace, windmill and spinning wheel. Requires a restart to take effect.");
 
             CustomLocalization localization = LocalizationManager.Instance.GetLocalization();
-            localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json", Assembly.GetExecutingAssembly()));
-            localization.AddJsonFile("German", AssetUtils.LoadTextFromResources("Localization.German.json", Assembly.GetExecutingAssembly()));
-            localization.AddJsonFile("Russian", AssetUtils.LoadTextFromResources("Localization.Russian.json", Assembly.GetExecutingAssembly()));
+            localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json"));
+            localization.AddJsonFile("German", AssetUtils.LoadTextFromResources("Localization.German.json"));
+            localization.AddJsonFile("Russian", AssetUtils.LoadTextFromResources("Localization.Russian.json"));
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 
