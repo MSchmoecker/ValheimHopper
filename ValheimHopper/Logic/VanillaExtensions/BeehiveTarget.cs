@@ -39,8 +39,8 @@ namespace ValheimHopper.Logic {
                 return;
             }
 
-            beehive.m_nview.GetZDO().Set("level", honeyLevel - 1);
-            destination.AddItem(item, 1, destinationPos.x, destinationPos.y);
+            beehive.m_nview.GetZDO().Set(ZDOVars.s_level, honeyLevel - 1);
+            destination.AddItem(item.Clone(), 1, destinationPos.x, destinationPos.y);
         }
 
         private void RPC_RequestOwnership(long sender) {
