@@ -1,11 +1,11 @@
 {
 	"name": "ItemHopper",
 	"description": "Adds hoppers and pipes to transport items",
-	"version_number": "1.4.2",
+	"version_number": "1.5.0",
 	"website_url": "https://github.com/MSchmoecker/ValheimHopper",
 	"dependencies": [
-		"denikson-BepInExPack_Valheim-5.4.2200",
-		"ValheimModding-Jotunn-2.14.4",
-		"MSchmoecker-MultiUserChest-0.5.5"
+		"denikson-BepInExPack_Valheim-5.4.2202",
+		"ValheimModding-Jotunn-2.20.0",
+		"MSchmoecker-MultiUserChest-0.5.10"
 	]
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+1.5.0
+- Fixed smelter item push for Valheim 0.218.15 (Ashlands)
+- Added Portuguese Brazilian localization (thanks Zé Pikeno)
+
 1.4.2
 - Fixed hopper interaction with beehives
 
