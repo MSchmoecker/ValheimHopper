@@ -24,7 +24,7 @@ namespace ValheimHopper.Logic {
                 return;
             }
 
-            smelter.m_nview.InvokeRPC("AddFuel");
+            smelter.m_nview.InvokeRPC("RPC_AddFuel");
         }
 
         public bool InRange(Vector3 position) {
