@@ -40,6 +40,7 @@ namespace ValheimHopper {
             localization.AddJsonFile("English", AssetUtils.LoadTextFromResources("Localization.English.json"));
             localization.AddJsonFile("German", AssetUtils.LoadTextFromResources("Localization.German.json"));
             localization.AddJsonFile("Russian", AssetUtils.LoadTextFromResources("Localization.Russian.json"));
+            localization.AddJsonFile("Portuguese_Brazilian", AssetUtils.LoadTextFromResources("Localization.Portuguese_Brazilian.json"));
 
             AssetBundle = AssetUtils.LoadAssetBundleFromResources("ValheimHopper_AssetBundle");
 

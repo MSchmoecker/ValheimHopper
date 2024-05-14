@@ -179,6 +179,7 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include=".gitignore" />
+        <EmbeddedResource Include="Localization\Portuguese_Brazilian.json" />
         <EmbeddedResource Include="Localization\Russian.json" />
         <EmbeddedResource Include="Localization\German.json" />
         <EmbeddedResource Include="ValheimHopper_AssetBundle" />
