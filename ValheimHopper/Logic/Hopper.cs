@@ -21,6 +21,7 @@ namespace ValheimHopper.Logic {
         [SerializeField] private Vector3 outPos = new Vector3(0, -0.25f * 1.5f, 0);
         [SerializeField] private Vector3 inSize = new Vector3(1f, 1f, 1f);
         [SerializeField] private Vector3 outSize = new Vector3(1f, 1f, 1f);
+        [SerializeField] private Vector3 nearSize = new Vector3(1.5f, 1.5f, 1.5f);
 
         private List<IPushTarget> pushTo = new List<IPushTarget>();
         internal List<IPullTarget> pullFrom = new List<IPullTarget>();
@@ -232,7 +233,7 @@ namespace ValheimHopper.Logic {
             Quaternion rotation = transform.rotation;
             pullFrom = HopperHelper.FindTargets<IPullTarget>(transform.TransformPoint(inPos), inSize, rotation, i => i.PullPriority, this);
             pushTo = HopperHelper.FindTargets<IPushTarget>(transform.TransformPoint(outPos), outSize, rotation, i => i.PushPriority, this);
-            nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, Vector3.one * 1.5f, rotation, i => i.PullPriority, this);
+            nearHoppers = HopperHelper.FindTargets<Hopper>(transform.position, nearSize, rotation, i => i.PullPriority, this);
             pullFrom.RemoveAll(pull => pushTo.Exists(push => push.NetworkHashCode() == pull.NetworkHashCode()));
         }
 
@@ -241,8 +242,8 @@ namespace ValheimHopper.Logic {
             Gizmos.DrawWireCube(transform.TransformPoint(inPos), inSize);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.TransformPoint(outPos), outSize);
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(transform.position, Vector3.one * 1.5f);
+            Gizmos.color =  new Color(0.0f, 1f, 0.0f, 0.5f);
+            Gizmos.DrawWireCube(transform.position, nearSize);
 
             Gizmos.color = Color.cyan;
             foreach (Transform child in transform) {

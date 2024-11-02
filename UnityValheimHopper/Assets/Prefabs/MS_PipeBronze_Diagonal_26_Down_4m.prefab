@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 648688154925022372, guid: 75856e75e062fa0419a651dd480e8565,
@@ -47,6 +48,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_name
       value: $piece_pipe_bronze_diagonal_26_down_4m
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619491198629147239, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: inPos.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619491198629147239, guid: 75856e75e062fa0419a651dd480e8565,
+        type: 3}
+      propertyPath: inPos.z
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3619491198629147239, guid: 75856e75e062fa0419a651dd480e8565,
         type: 3}
@@ -119,4 +130,7 @@ PrefabInstance:
       value: MS_PipeBronze_Diagonal_26_Down_4m
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75856e75e062fa0419a651dd480e8565, type: 3}
