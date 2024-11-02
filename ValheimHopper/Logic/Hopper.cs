@@ -162,8 +162,7 @@ namespace ValheimHopper.Logic {
                 Vector3 randomPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * 0.2f;
                 Vector3 visualOffset = ItemHelper.GetVisualItemOffset(firstItem.m_dropPrefab.name);
                 Vector3 pos = transform.TransformPoint(outPos) + visualOffset + new Vector3(randomPos.x, 0, randomPos.z);
-                GameObject drop = Instantiate(firstItem.m_dropPrefab, pos, firstItem.m_dropPrefab.transform.rotation);
-                drop.GetComponent<ItemDrop>().m_itemData.m_stack = 1;
+                ItemDrop.DropItem(firstItem, 1, pos, firstItem.m_dropPrefab.transform.rotation);
             }
         }
 
