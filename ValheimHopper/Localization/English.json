@@ -16,9 +16,10 @@
   "toggle_leave_one_item": "Leave one item in every slot",
   "hopper_filter_description": "Filter Hopper",
   "piece_hopper_settings_edit": "Edit Hopper Settings",
-  "hopper_options_filter": "Filter Items",
-  "hopper_options_drop": "Enable Item Dropping",
-  "hopper_options_pickup_enabled": "Enable Item Pickup",
+  "hopper_options_filter": "Filter items",
+  "hopper_options_drop": "Enable item dropping",
+  "hopper_options_pickup_enabled": "Enable item pickup",
+  "hopper_options_leave_last_item": "Leave last item",
   "hopper_copy": "Copy",
   "hopper_paste": "Paste",
   "hopper_reset": "Reset"

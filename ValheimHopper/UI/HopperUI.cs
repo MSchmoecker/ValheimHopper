@@ -17,6 +17,8 @@ namespace ValheimHopper.UI {
         [SerializeField] private Toggle filterHopper;
         [SerializeField] private Toggle dropItems;
         [SerializeField] private Toggle pickupItems;
+        [SerializeField] private Toggle leaveLastItem;
+
         [SerializeField] private Button copyButton;
         [SerializeField] private Button pasteButton;
         [SerializeField] private Button resetButton;
@@ -31,6 +33,7 @@ namespace ValheimHopper.UI {
 
             dropItems.onValueChanged.AddListener(i => target.DropItemsOption.Set(i));
             pickupItems.onValueChanged.AddListener(i => target.PickupItemsOption.Set(i));
+            leaveLastItem.onValueChanged.AddListener(i => target.LeaveLastItemOption.Set(i));
 
             filterHopper.onValueChanged.AddListener(active => {
                 target.FilterItemsOption.Set(active);
@@ -100,6 +103,7 @@ namespace ValheimHopper.UI {
             filterHopper.SetIsOnWithoutNotify(target.FilterItemsOption.Get());
             dropItems.SetIsOnWithoutNotify(target.DropItemsOption.Get());
             pickupItems.SetIsOnWithoutNotify(target.PickupItemsOption.Get());
+            leaveLastItem.SetIsOnWithoutNotify(target.LeaveLastItemOption.Get());
         }
 
         private static void ApplyAllComponents(GameObject root) {

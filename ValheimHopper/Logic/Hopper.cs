@@ -42,6 +42,7 @@ namespace ValheimHopper.Logic {
         public ZBool FilterItemsOption { get; private set; }
         public ZBool DropItemsOption { get; private set; }
         public ZBool PickupItemsOption { get; private set; }
+        public ZBool LeaveLastItemOption { get; private set; }
 
         protected override void Awake() {
             base.Awake();
@@ -53,6 +54,7 @@ namespace ValheimHopper.Logic {
             FilterItemsOption = new ZBool("hopper_filter_items", false, zNetView);
             DropItemsOption = new ZBool("hopper_drop_items", false, zNetView);
             PickupItemsOption = new ZBool("hopper_pickup_items", true, zNetView);
+            LeaveLastItemOption = new ZBool("hopper_leave_last_item", false, zNetView);
 
             transferFrame = Mathf.RoundToInt((1f / Time.fixedDeltaTime) * TransferInterval);
             objectSearchFrame = Mathf.RoundToInt((1f / Time.fixedDeltaTime) * ObjectSearchInterval);
@@ -72,6 +74,7 @@ namespace ValheimHopper.Logic {
             FilterItemsOption.Set(copy.FilterItemsOption.Get());
             DropItemsOption.Set(copy.DropItemsOption.Get());
             PickupItemsOption.Set(copy.PickupItemsOption.Get());
+            LeaveLastItemOption.Set(copy.LeaveLastItemOption.Get());
             filter.Copy(copy.filter);
         }
 
@@ -79,6 +82,7 @@ namespace ValheimHopper.Logic {
             FilterItemsOption.Reset();
             DropItemsOption.Reset();
             PickupItemsOption.Reset();
+            LeaveLastItemOption.Reset();
             filter.Clear();
         }
 
@@ -226,7 +230,8 @@ namespace ValheimHopper.Logic {
         }
 
         private bool CanPushItem(ItemDrop.ItemData item) {
-            return !nearHoppers.Any(hopper => hopper != this && hopper.pullFrom.Contains(this) && hopper.CanAddItem(item));
+            return (!LeaveLastItemOption.Get() || container.GetInventory().CountItems(item.m_shared.m_name) > 1) &&
+                   !nearHoppers.Any(hopper => hopper != this && hopper.pullFrom.Contains(this) && hopper.CanAddItem(item));
         }
 
         private void FindIO() {

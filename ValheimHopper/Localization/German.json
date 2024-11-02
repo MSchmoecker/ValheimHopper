@@ -19,6 +19,7 @@
   "hopper_options_filter": "Filtere Gegenstände",
   "hopper_options_drop": "Aktiviere fallen lassen von Gegenständen",
   "hopper_options_pickup_enabled": "Aktiviere aufheben von Gegenständen",
+  "hopper_options_leave_last_item": "Lasse einen Gegenstand Übrig",
   "hopper_copy": "Kopieren",
   "hopper_paste": "Einfügen",
   "hopper_reset": "Zurücksetzten"
