@@ -17,7 +17,7 @@ namespace ValheimHopper.Logic {
         }
 
         public IEnumerable<ItemDrop.ItemData> GetItems() {
-            return container.GetInventory().GetItemInOrder();
+            return container.GetInventory().GetItemInReverseOrder();
         }
 
         public void AddItem(ItemDrop.ItemData item, Inventory source, ZDOID sender) {

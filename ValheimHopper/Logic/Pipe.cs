@@ -93,7 +93,7 @@ namespace ValheimHopper.Logic {
                 return;
             }
 
-            ItemDrop.ItemData item = container.GetInventory().FindFirstItem(i => to.CanAddItem(i) && CanPushItem(i));
+            ItemDrop.ItemData item = container.GetInventory().FindLastItem(i => to.CanAddItem(i) && CanPushItem(i));
 
             if (item != null) {
                 to.AddItem(item, container.GetInventory(), zNetView.m_zdo.m_uid);
