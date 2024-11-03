@@ -1,5 +1,12 @@
 # Changelog
 
+2.0.0
+- Changed pipes to behave like hoppers. They will now pull items from other inventories and can be configured in the same UI
+- Increased the inventory size of bronze hoppers to 3x1 and iron hoppers to 3x2
+- Changed the order in which items are pulled out of inventories, going from last to first slot
+- Added the option to leave the last item type in the chest and not push it to the next inventory. Other hoppers can still pull the last item out
+- Fixed items dropped into the world stripped the item quality
+
 1.5.0
 - Fixed smelter item push for Valheim 0.218.15 (Ashlands)
 - Added Portuguese Brazilian localization (thanks Zé Pikeno)
