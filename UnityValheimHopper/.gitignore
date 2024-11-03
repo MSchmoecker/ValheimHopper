@@ -10,6 +10,7 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /[Aa]ssets/Assemblies/*
+/[Uu]serSettings/
 
 /[Aa]ssetBundles/StandaloneWindows/*
 
