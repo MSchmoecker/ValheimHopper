@@ -33,10 +33,11 @@ Hoppers can pickup and move items, while pipes can only move items.
 
 ### Individual hopper settings
 Every hopper can have it's own setting. They appear in a custom UI when the hopper is opened.
-- Filter Items: this can be used for automate item routing.
+- Filter items: this can be used for automate item routing.
   The last item will be remembered with a "ghost" item and only this item type will be moved to the hopper.
-- Enable Item Dropping: if enabled and the hopper has no target inventory they will dropped like the smelter does for example.
-- Enable Item Pickup: if disabled the hopper will not pickup items from the ground.
+- Leave last item: whether to leave the last type of an item in the hopper and the chest
+- Enable item dropping: if enabled and the hopper has no target inventory they will dropped like the smelter does for example.
+- Enable item pickup: if disabled the hopper will not pickup items from the ground.
 
 
 ### Seamless multiplayer
