@@ -1,5 +1,8 @@
 # Changelog
 
+2.0.1
+- Updated for Valheim 1.0
+
 2.0.0
 - Changed pipes to behave like hoppers. They will now pull items from other inventories and can be configured in the same UI
 - Increased the inventory size of bronze hoppers to 3x1 and iron hoppers to 3x2
