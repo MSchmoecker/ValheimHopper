@@ -1,5 +1,8 @@
 # Changelog
 
+2.0.2
+- Fixed smelter error
+
 2.0.1
 - Updated for Valheim 1.0
 
