@@ -20,7 +20,7 @@ namespace ValheimHopper.Logic {
                 return;
             }
 
-            turret.m_nview.InvokeRPC("RPC_AddAmmo", item.m_dropPrefab.name);
+            turret.m_nview.InvokeRPC( nameof(Turret.RPC_AddAmmo), item.m_dropPrefab.name);
         }
 
         public bool CanAddItem(ItemDrop.ItemData item) {

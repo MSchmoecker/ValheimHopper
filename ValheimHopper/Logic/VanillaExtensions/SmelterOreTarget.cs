@@ -18,7 +18,7 @@ namespace ValheimHopper.Logic {
 
         public void AddItem(ItemDrop.ItemData item, Inventory source, ZDOID sender) {
             source.RemoveItem(item, 1);
-            smelter.m_nview.InvokeRPC("RPC_AddOre", item.m_dropPrefab.name);
+            smelter.m_nview.InvokeRPC(nameof(Smelter.RPC_AddOre), item.m_dropPrefab.name, item.m_cheated);
         }
 
         public bool InRange(Vector3 position) {
