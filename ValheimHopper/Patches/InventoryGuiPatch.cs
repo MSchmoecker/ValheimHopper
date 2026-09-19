@@ -17,12 +17,12 @@ namespace ValheimHopper.Patches {
         }
 
         private static void ShowContainerGridGhosts(Hopper hopper, InventoryGrid inventoryGrid) {
-            foreach (InventoryGrid.Element element in inventoryGrid.m_elements) {
+            foreach (InventoryElement element in inventoryGrid.m_elements) {
                 if (element.m_icon.enabled) {
                     continue;
                 }
 
-                int itemHash = hopper.filter.GetItemHash(element.m_pos);
+                int itemHash = hopper.filter.GetItemHash(element.Position);
                 GameObject itemGameObject = ObjectDB.instance.GetItemPrefab(itemHash);
 
                 if (!itemGameObject) {
